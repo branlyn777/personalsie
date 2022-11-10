@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class FunctionCargo extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['funcionDeCargo'];
 }

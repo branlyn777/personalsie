@@ -22,7 +22,7 @@ class CargoController extends Component
     private $pagination = 10;
 
     // Datos de  funciones
-    public $funcion, $selected_Funcion_id;
+    public $funcionDeCargo, $selected_Fun_id;
     public $pageTitleFuncion, $componentNameFunciones;
 
     public function mount(){
@@ -76,9 +76,9 @@ class CargoController extends Component
         }
 
         return view('livewire.cargo.component', [
-            'cargos' => $data,
-            'areas' => AreaTrabajo::orderBy('nameArea', 'asc')->get(),
-            ]) // se envia cargos
+                'cargos' => $data,  // se envia cargos
+                'areas' => AreaTrabajo::orderBy('nameArea', 'asc')->get(),
+            ])
         ->extends('layouts.theme.app')
         ->section('content');
     }
@@ -106,7 +106,27 @@ class CargoController extends Component
     {
         //$this->resetUI();
         $this->emit('modal-hide', 'show modal!');
-        $this->emit('show-modal-funcion', 'show modal!');
+        $this->emit('show-modal-Nfuncion', 'show modal!');
+    }
+
+    // crear y guardar
+    public function nuevaFuncionC(){
+        $rules = [
+            'funcionDeCargo' => 'required',
+        ];
+        $messages =  [
+            'funcionDeCargo.required' => 'Este espacio es requerida',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $functioncargo = FunctionCargo::create([
+            'funcionDeCargo' => $this->funcionDeCargo,
+        ]);
+
+        $this->resetUI();
+        $this->emit('fun-added', 'Funcion Registrado');
+        $this->emit('modal-hide-Nfuncion', 'show modal!');
     }
 
     // vista de modal funciones
@@ -116,67 +136,7 @@ class CargoController extends Component
         $this->emit('show-modal-Vfuncion', 'show modal!');
     }
 
-    // Registrar nueva funcion
-    /*public function RegFuncion(){
-        $rules = [
-            'name' => 'required|unique:function_areas|min:3',
-        ];
-        $messages =  [
-            'name.required' => 'Nombre de la funcion es requerida',
-            'name.unique' => 'ya existe el nombre de la funcion',
-            'name.min' => 'el nombre de la funcion debe tener al menos 3 caracteres',
-        ];
-
-        $this->validate($rules, $messages);
-
-        $functioncargo = FunctionCargo::create([
-            'name'=>$this->name,
-        ]);
-        $this->resetUIFuncion();
-        $this->emit('fun-added', 'Funcion Registrada');
-    }*/
-
-    // editar datos de funcion
-    /*public function Editar(FunctionCargo $functioncargo){
-        $this->selected_Funcion_id = $functioncargo->id;
-        $this->name = $functioncargo->name;
-
-        $this->emit('show-modal', 'show modal!');
-    }*/
-
-    // Actualizar datos funcion
-    /*public function UpdateFunction(){
-        $rules = [
-            'name' => "required|min:3|unique:function_areas,name,{$this->selected_id}",
-        ];
-        $messages =  [
-            'name.required' => 'Nombre de la funcion es requerida',
-            'name.unique' => 'ya existe el nombre de la funcion',
-            'name.min' => 'el nombre de la funcion debe tener al menos 3 caracteres',
-        ];
-        $this->validate($rules,$messages);
-
-        $functionarea = FunctionCargo::find($this->selected_id);
-        $functionarea -> update([
-            'name' => $this->name,
-        ]);
-
-        $this->resetUI();
-        $this->emit('fun-updated','Categoria Actualizar');
-    }*/
-
-
-    // editar 
-    public function Edit($id){
-        $record = Cargo::find($id, ['id', 'name', 'area_id', 'estado']);
-        $this->name = $record->name;
-        $this->areaid = $record->area_id;
-        $this->estado = $record->estado;
-        $this->selected_id = $record->id;
-
-        $this->emit('show-modal', 'show modal!');
-    }
-
+    // Registrar nuevo cargo
     public function Store(){
         $rules = [
             'name' => 'required|unique:cargos|min:5',
@@ -207,7 +167,18 @@ class CargoController extends Component
         $this->emit('cargo-added', 'Cargo Registrado');
     }
 
-    // actualizar
+    // editar cargo
+    public function Edit($id){
+        $record = Cargo::find($id, ['id', 'name', 'area_id', 'estado']);
+        $this->name = $record->name;
+        $this->areaid = $record->area_id;
+        $this->estado = $record->estado;
+        $this->selected_id = $record->id;
+
+        $this->emit('show-modal', 'show modal!');
+    }
+
+    // actualizar cargo
     public function Update(){
         $rules = [
             'name' => "required|min:5|unique:cargos,name,{$this->selected_id}",
@@ -246,20 +217,16 @@ class CargoController extends Component
         $this->estado = 'Elegir';
         $this->search='';
         $this->selected_id=0;
-    }
 
-    /*public function resetUIFuncion(){
-        $this->name='';
-        $this->search='';
-        $this->selected_id=0;
-        $this->resetValidation(); // resetValidation para quitar los smg Rojos
-    }*/
+        // reset funciones
+        $this->funcionDeCargo = '';
+    }
 
     protected $listeners = [
         'deleteRow' => 'Destroy'
     ];
 
-    // eliminar
+    // eliminar cargo
     public function Destroy($id)
     {
         $cargo = Cargo::find($id);

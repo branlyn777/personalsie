@@ -4,25 +4,23 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\FunctionCargo;
-//use Livewire\WithFileUploads;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-//use App\Models\AreaTrabajo;
 use Illuminate\Support\Facades\DB;
 
 class FunctionCargoController extends Component
 {
-    //use WithFileUploads;
+    use WithFileUploads;
     use WithPagination;
 
-    // Datos de Funciones
-    public $name, $selected_id;
+    public $funcionDeCargo, $selected_id;
     public $pageTitle, $componentName, $search;
-    //private $pagination = 10;
+    private $pagination = 5;
 
     public function mount(){
-        $this -> pageTitle = 'Listado';
-        $this -> componentName = 'Funciones';
+        $this -> pageTitle = 'Lista';
+        $this -> componentName = 'Lista de Funciones';
     }
 
     public function paginationView()
@@ -34,9 +32,10 @@ class FunctionCargoController extends Component
     {
         if(strlen($this->search) > 0)
         {
-            $data = FunctionCargo::select('function_cargo.*', 'function_cargo.id as idFuncion', DB::raw('0 as verificar'))
-            ->where('function_cargo.name', 'like', '%' . $this->search . '%')        
-            ->orderBy('function_cargo.name', 'asc')
+            $data = FunctionCargo::select('function_cargos.*', 'function_cargos.id as idFuncion',
+                DB::raw('0 as verificar'))
+            ->where('function_cargos.funcionDeCargo', 'like', '%' . $this->search . '%')         
+            ->orderBy('function_cargos.funcionDeCargo', 'asc')
             ->paginate($this->pagination);
 
             foreach ($data as $os)
@@ -46,8 +45,10 @@ class FunctionCargoController extends Component
             }
         }
         else
-            $data = FunctionCargo::select('function_cargo.*', 'function_cargo.id as idFuncion', DB::raw('0 as verificar'))
-            ->orderBy('function_cargo.name', 'asc')
+        
+            $data = FunctionCargo::select('function_cargos.*', 'function_cargos.id as idFuncion',
+                DB::raw('0 as verificar'))
+            ->orderBy('function_cargos.funcionDeCargo', 'asc')
             ->paginate($this->pagination);
 
             foreach ($data as $os)
@@ -55,10 +56,10 @@ class FunctionCargoController extends Component
                 //Obtener los servicios de la orden de servicio
                 $os->verificar = $this->verificar($os->idFuncion);
             }
+        
 
-
-        return view('livewire.cargo.VistaFunciones', [
-            'funciones' => $data,        // se envia functionarea
+        return view('livewire.cargo.vistaFunciones', [
+                'funciones' => $data
             ])
         ->extends('layouts.theme.app')
         ->section('content');
@@ -67,7 +68,7 @@ class FunctionCargoController extends Component
     // verificar 
     public function verificar($idFuncion)
     {
-        $consulta = FunctionCargo::where('function_cargo.id', $idFuncion);
+        $consulta = FunctionCargo::where('function_cargos.id', $idFuncion);
         
         if($consulta->count() > 0)
         {
@@ -79,31 +80,29 @@ class FunctionCargoController extends Component
         }
     }
 
-    // Registrar nueva funcion
+    // crear y guardar
     public function Store(){
         $rules = [
-            'name' => 'required|unique:function_areas|min:3',
+            'funcionDeCargo' => 'required',
         ];
         $messages =  [
-            'name.required' => 'Nombre de la funcion es requerida',
-            'name.unique' => 'ya existe el nombre de la funcion',
-            'name.min' => 'el nombre de la funcion debe tener al menos 3 caracteres',
+            'funcionDeCargo.required' => 'Este espacio es requerida',
         ];
 
         $this->validate($rules, $messages);
 
         $functioncargo = FunctionCargo::create([
-            'name'=>$this->name,
+            'funcionDeCargo' => $this->funcionDeCargo,
         ]);
-        $this->resetUIFuncion();
-        $this->emit('fun-added', 'Funcion Registrada');
-    }
 
+        $this->resetUI();
+        $this->emit('fun-added', 'Funcion Registrado');
+    }
 
     // editar datos
     public function Edit(FunctionCargo $functioncargo){
-        $this->selected_Funcion_id = $functioncargo->id;
-        $this->name = $functioncargo->name;
+        $this->selected_id = $functioncargo->id;
+        $this->funcionDeCargo = $functioncargo->funcionDeCargo;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -111,30 +110,28 @@ class FunctionCargoController extends Component
     // Actualizar datos
     public function Update(){
         $rules = [
-            'name' => "required|min:3|unique:function_areas,name,{$this->selected_id}",
+            'funcionDeCargo' => 'required',
         ];
         $messages =  [
-            'name.required' => 'Nombre de la funcion es requerida',
-            'name.unique' => 'ya existe el nombre de la funcion',
-            'name.min' => 'el nombre de la funcion debe tener al menos 3 caracteres',
+            'funcionDeCargo.required' => 'Este espacio es requerida',
         ];
         $this->validate($rules,$messages);
 
-        $functionarea = FunctionCargo::find($this->selected_id);
-        $functionarea -> update([
-            'name' => $this->name,
+        $functioncargo = FunctionCargo::find($this->selected_id);
+        $functioncargo -> update([
+            'funcionDeCargo' => $this->funcionDeCargo,
         ]);
 
         $this->resetUI();
-        $this->emit('fun-updated','Categoria Actualizar');
+        $this->emit('fun-updated','Funcion Actualizada');
     }
 
     // vaciar formulario
     public function resetUI(){
-        $this->name='';
+        $this->funcionDeCargo = '';
         $this->search='';
         $this->selected_id=0;
-         $this->resetValidation(); // resetValidation para quitar los smg Rojos
+        $this->resetValidation(); // resetValidation para quitar los smg Rojos
     }
 
     protected $listeners = [
@@ -142,9 +139,9 @@ class FunctionCargoController extends Component
     ];
 
     // eliminar
-    public function Destroy(FunctionCargo $functionarea){
-        $functionarea->delete();
+    public function Destroy(FunctionCargo $functioncargo){
+        $functioncargo->delete();
         $this->resetUI();
-        $this->emit('fun-deleted','Producto Eliminada');
+        $this->emit('fun-deleted','Funcion Eliminada');
     }
 }
