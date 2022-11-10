@@ -299,7 +299,7 @@ Route::middleware(['auth'])->group(function () {
     //RECURSOS HUMANOS
     Route::get('employees', EmployeeController::class);
     Route::get('areas_de_trabajos', AreaTrabajoController::class);
-    Route::get('function_cargo', FunctionCargoController::class);
+    Route::get('function_cargos', FunctionCargoController::class);
     Route::get('attendance', AttendancesController::class);
     Route::get('areaspermissions', AreasPermissionsController::class);
     Route::get('cargos', CargoController::class);

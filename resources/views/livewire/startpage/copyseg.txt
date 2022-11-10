@@ -2,7 +2,10 @@
     Correcciones
 
     relacion cargo funciones
+    http://personalsie.test/categories
 
+    cargo y funciones se registra en la misma tbl
+    relacion entre una tabla misma
     contrato -> seleccion multiple de funciones
     corregir delatalle de empleados
     

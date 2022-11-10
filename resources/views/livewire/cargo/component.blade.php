@@ -18,7 +18,7 @@
                     <table class="table table-bordered table striped mt-1" >
                         <thead class="text-white" style="background: #02b1ce">
                             <tr>
-                               {{-- <th class="table-th text-white">ID</th> --}}
+                               {{-- <th class="table-th text-white">ID</th> verificar category --}}
                                <th class="table-th text-white">CARGO</th>
                                <th class="table-th text-white text-center">AREA</th>
                                <th class="table-th text-white text-center">FUNCIONES</th>
@@ -33,13 +33,13 @@
                                 <td><h6>{{$cargo->name}}</h6></td>
                                 <td><h6 class="text-center">{{$cargo->area}}</h6></td>
 
-                                <td><h6 class="text-center">
+                                <td class="text-center">
                                     <a href="javascript:void(0)"
                                         wire:click="NuevaVFuncion()" 
                                         class="btn btn-warning close-btn text-info">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                </h6></td>
+                                </td>
 
                                 <td class="text-center">
                                     <span class="badge {{$cargo->estado == 'Disponible' ? 'badge-success' : 'badge-danger'}}
@@ -78,7 +78,7 @@
     </div>
     @include('livewire.cargo.form')
     @include('livewire.cargo.nuevaFuncion')
-    @include('livewire.cargo.VistaFunciones')
+    @include('livewire.cargo.vistaFunciones')
 </div>
 
 @section('javascript')
@@ -98,18 +98,13 @@
         });
 
         // Fomrmulario de nueva funcion
-        window.livewire.on('show-modal-funcion', Msg => {
-            $('#theModal-funcion').modal('show')
+        window.livewire.on('show-modal-Nfuncion', Msg => {
+            $('#theModal-nfuncion').modal('show')
         })
-        window.livewire.on('modal-hide', msg => {
-            $('#theModal').modal('hide')
-        });
-        window.livewire.on('modal-hide-funcion', Msg => {
-            $('#theModal-funcion').modal('hide')
+
+        window.livewire.on('modal-hide-Nfuncion', Msg => {
+            $('#theModal-nfuncion').modal('hide')
         })
-        window.livewire.on('hidden.bs.modal', msg => {
-            $('.er').css('display','none')
-        });
 
         // Formulario Vista de Funciones
         window.livewire.on('show-modal-Vfuncion', Msg => {
