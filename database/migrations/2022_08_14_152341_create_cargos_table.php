@@ -20,7 +20,9 @@ class CreateCargosTable extends Migration
 
             $table->unsignedBigInteger('area_id');
             $table->foreign('area_id')->references('id')->on('area_trabajos');
-            //$table->string('nrovacantes',255);
+
+            //$table->integer('parent_id')->nullable()->default('0');
+
             $table->enum('estado',['Disponible','No Disponible'])->default('Disponible');
 
             $table->timestamps();

@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    @if ($selected_id > 1)
+    @if ($selected_id >= 1)
         <div class="col-sm-12 col-md-5">
             <div class="form-group">
                 <label>Estado de Cargo</label>

@@ -97,7 +97,7 @@ use App\Http\Livewire\TransferirProductoController;
 use App\Http\Livewire\DestinoController;
 use App\Http\Livewire\DiscountsvController;
 use App\Http\Livewire\EmployeeController;
-use App\Http\Livewire\FunctionCargoController;
+use App\Http\Livewire\FuncionesController;
 use App\Http\Livewire\OrdenCompraController;
 use App\Http\Livewire\SalariesController;
 use App\Http\Livewire\SaleDailyMovementController;
@@ -299,7 +299,7 @@ Route::middleware(['auth'])->group(function () {
     //RECURSOS HUMANOS
     Route::get('employees', EmployeeController::class);
     Route::get('areas_de_trabajos', AreaTrabajoController::class);
-    Route::get('function_cargos', FunctionCargoController::class);
+    Route::get('funciones', FuncionesController::class);
     Route::get('attendance', AttendancesController::class);
     Route::get('areaspermissions', AreasPermissionsController::class);
     Route::get('cargos', CargoController::class);

@@ -10,11 +10,16 @@ class Cargo extends Model
     use HasFactory;
     protected $fillable = ['name','area_id','estado'];
 
-    public function employee(){
+    public function funcion()
+    {
+        return $this->hasMany(Funciones::class);
+    }
+
+    /*public function employee(){
         return $this->hasMany(Employee::class);
     }
 
     public function area(){
         return $this->belongsTo(Area::class);
-    }
+    }*/
 }

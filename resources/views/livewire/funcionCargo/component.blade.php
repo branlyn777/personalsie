@@ -5,13 +5,13 @@
                 <h4 class="card-title">
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
-                <ul class="tabs tab-pills">
+                {{-- <ul class="tabs tab-pills">
                     <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
                     data-target="#theModal">Agregar</a>
-                </ul>
+                </ul> --}}
             </div>
 
-            @include('common.searchbox')
+            {{-- @include('common.searchbox') --}}
 
             <div class="widget-content">
                 <div class="table-responsive">
@@ -19,23 +19,25 @@
                         <thead class="text-white" style="background: #02b1ce">
                             <tr>
                                <th class="table-th text-white">FUNCION</th>
+                               <th class="table-th text-withe text-center">CARGO</th>
                                <th class="table-th text-white text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($funciones as $funcion)
+                            @foreach($funciones as $fun)
                             <tr>
-                                <td><h6>{{$funcion->funcionDeCargo}}</h6></td>
+                                <td><h6>{{$fun->nameFuncion}}</h6></td>
+                                <td><h6 class="text-center">{{$fun->cargo}}</h6></td>
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
-                                        wire:click="Edit({{$funcion->idFuncion}})"
-                                        class="btn btn-dark mtmobile" title="Edit">
-                                        <i class="fas fa-edit"></i>
+                                    wire:click="Edit({{$fun->idFuncion}})"
+                                    class="btn btn-dark mtmobile" title="Edit">
+                                    <i class="fas fa-edit"></i>
                                     </a>
-                                    
+
                                     <a href="javascript:void(0)"
-                                        onclick="Confirmar1('{{$funcion->idFuncion}}','{{$funcion->verificar}}')"
+                                        onclick="Confirm({{$fun->idFuncion}},'{{$fun->verificar}}')"
                                         class="btn btn-dark mtmobile" title="Destroy">
                                         <i class="fas fa-trash"></i>
                                     </a>
@@ -49,34 +51,35 @@
             </div>
         </div>
     </div>
-    @include('livewire.functionCargo.form')
+    @include('livewire.funcionCargo.form')
 </div>
 
 @section('javascript')
 <script>
     document.addEventListener('DOMContentLoaded', function(){
-    
-        window.livewire.on('show-modal', msg=>{
-            $('#theModal').modal('show')
-        });
-
+        // Eventos
         window.livewire.on('fun-added', msg=>{
             $('#theModal').modal('hide')
         });
-
         window.livewire.on('fun-updated', msg=>{
             $('#theModal').modal('hide')
         });
+        window.livewire.on('fun-deleted', msg=>{
+            // mostrar notificacion de que el producto se a eliminado
+        });
+        window.livewire.on('show-modal', msg=>{
+            $('#theModal').modal('show')
+        });
+        window.livewire.on('modal-hide', msg=>{
+            $('#theModal').modal('hide')
+        });
+        window.livewire.on('hidden.bs.modal', msg=>{
+            $('.er').css('display','none')
+        });
     });
 
-    function Confirmar1(id, verificar)
-    {
-        if(verificar == 'no')
-        {
-            swal('no es posible eliminar porque tiene datos relacionados')
-            return;
-        }
-        else
+    function Confirm(id, verificar){
+        if(verificar == 'si')
         {
             swal({
                 title: 'CONFIRMAR',
@@ -92,9 +95,13 @@
                 }
             })
         }
+        else
+        {
+            swal('no es posible eliminar porque tiene datos relacionados')
+            return;
+        }
     }
 </script>
-
 <!-- Scripts para el mensaje de confirmacion arriba a la derecha Categoría Creada con Éxito y Alerta de Eliminacion -->
 <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>

@@ -117,8 +117,6 @@ class CategoriesController extends Component
         $this->emit('item-added', 'Categoría Registrada');
     }
 
-    
-
     public function Store_Subcategoria()
     {
         $this->selected_id=0;
@@ -139,7 +137,7 @@ class CategoriesController extends Component
 
         $category->save();
         $this->resetUI();
-        $this->selected_id=0;
+        $this->selected_id = 0;
         $this->emit('sub_added');
     }
 

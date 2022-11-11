@@ -18,7 +18,7 @@
                     <table class="table table-bordered table striped mt-1" >
                         <thead class="text-white" style="background: #02b1ce">
                             <tr>
-                               {{-- <th class="table-th text-white">ID</th> verificar category --}}
+                               {{-- <th class="table-th text-white">ID</th> --}}
                                <th class="table-th text-white">CARGO</th>
                                <th class="table-th text-white text-center">AREA</th>
                                <th class="table-th text-white text-center">FUNCIONES</th>
@@ -35,8 +35,8 @@
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
-                                        wire:click="NuevaVFuncion()" 
-                                        class="btn btn-warning close-btn text-info">
+                                        wire:click="VistaFuncion()"
+                                        class="btn btn-warning mtmobile" title="Neva Funcion">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
@@ -49,16 +49,16 @@
                                 </td>
 
                                 <td class="text-center">
+                                    <a href="javascript:void(0)"
+                                        wire:click="NuevoFuncion({{$cargo->idcargo}})" 
+                                        class="btn btn-warning close-btn text-info">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </a>
+
                                     <a href="javascript:void(0)" 
                                         wire:click="Edit({{$cargo->idcargo}})"
                                         class="btn btn-dark mtmobile" title="Edit">
                                         <i class="fas fa-edit"></i>
-                                    </a>
-
-                                    <a href="javascript:void(0)"
-                                        wire:click="NuevoFuncion()" 
-                                        class="btn btn-warning close-btn text-info">
-                                        <i class="fas fa-plus-circle"></i>
                                     </a>
 
                                     <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
@@ -99,17 +99,18 @@
 
         // Fomrmulario de nueva funcion
         window.livewire.on('show-modal-Nfuncion', Msg => {
-            $('#theModal-nfuncion').modal('show')
+            $('#theModal-Nfuncion').modal('show')
         })
 
-        window.livewire.on('modal-hide-Nfuncion', Msg => {
-            $('#theModal-nfuncion').modal('hide')
-        })
-
-        // Formulario Vista de Funciones
+        window.livewire.on('fun-added', msg=>{
+            $('#theModal').modal('hide')
+        });
+        
+        // formulario de vista funciones
         window.livewire.on('show-modal-Vfuncion', Msg => {
             $('#theModal-Vfuncion').modal('show')
         })
+
     });
 
     function Confirmar1(id, verificar)

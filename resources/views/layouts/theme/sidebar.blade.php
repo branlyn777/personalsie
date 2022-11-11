@@ -682,13 +682,11 @@
 											Cargos</a>
 									  </li>
 								  @endcan
-								  @can('Arqueos_Tigo_Index')
-									  <li>
-										<a href="{{ url('function_cargos') }}">
-											<i class="fa fas fa-minus"></i>
-											Funciones</a>
-									  </li>
-								  @endcan
+								  {{-- <li>
+									<a href="{{ url('funciones') }}">
+										<i class="fa fas fa-minus"></i>
+										Funciones de Cargo</a>
+								  </li> --}}
 
 								  <li>
 									<a href="{{ url('comisiones') }}">

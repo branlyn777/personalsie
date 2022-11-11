@@ -4,6 +4,8 @@
     relacion cargo funciones
     http://personalsie.test/categories
 
+    ORsE CLAVE
+
     cargo y funciones se registra en la misma tbl
     relacion entre una tabla misma
     contrato -> seleccion multiple de funciones
