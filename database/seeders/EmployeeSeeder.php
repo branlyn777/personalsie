@@ -432,9 +432,9 @@ class EmployeeSeeder extends Seeder
         $roscio = User::create([
             'name' => "Roscio",
             'phone' => 9399947,
-            'email' => 'roscio@mail.com',
+            'email' => 'roscio@gmail.com',
             'profile' => 'null',
-            'password' => '123'
+            'password' => bcrypt("123")
         ]);
         UserEmployee::create([
             'user_id' => $roscio->id,
@@ -462,9 +462,9 @@ class EmployeeSeeder extends Seeder
         $roscio = User::create([
             'name' => "Branlyn",
             'phone' => 9399947,
-            'email' => 'branlyn@mail.com',
+            'email' => 'branlyn@gmail.com',
             'profile' => 'null',
-            'password' => '123'
+            'password' => bcrypt("123")
         ]);
         UserEmployee::create([
             'user_id' => $roscio->id,
