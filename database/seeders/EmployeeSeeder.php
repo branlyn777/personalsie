@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
+use App\Models\User;
+use App\Models\UserEmployee;
 
 class EmployeeSeeder extends Seeder
 {
@@ -14,7 +16,7 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        Employee::create([
+        $clever = Employee::create([
             'id' => 9406795,
             'ci' => 9406795,
             'name' => 'Clever',
@@ -30,7 +32,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+
+        UserEmployee::create([
+            'user_id' => 25,
+            'employee_id' => $clever->id
+        ]);
+
+
+
+        $luis = Employee::create([
             'id' => 5173226,
             'ci' => 5173226,
             'name' => 'Luis',
@@ -46,7 +56,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+
+        UserEmployee::create([
+            'user_id' => 5,
+            'employee_id' => $luis->id
+        ]);
+
+
+
+        $edwin = Employee::create([
             'id' => 8037861,
             'ci' => 8037861,
             'name' => 'Edwin',
@@ -62,7 +80,14 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+
+        UserEmployee::create([
+            'user_id' => 24,
+            'employee_id' => $edwin->id
+        ]);
+
+
+        $rosa = Employee::create([
             'id' => 3,
             'ci' => 3,
             'name' => 'Rosa',
@@ -78,7 +103,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 26,
+            'employee_id' => $rosa->id
+        ]);
+
+
+
+
+        $mau = Employee::create([
             'id' => 9326584,
             'ci' => 9326584,
             'name' => 'Mauricio',
@@ -94,7 +127,13 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 21,
+            'employee_id' => $mau->id
+        ]);
+
+
+        $Andrews = Employee::create([
             'id' => 4,
             'ci' => 4,
             'name' => 'Jhonn',
@@ -110,7 +149,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 30,
+            'employee_id' => $Andrews->id
+        ]);
+
+
+
+
+        $gery = Employee::create([
             'id' => 7993972,
             'ci' => 7993972,
             'name' => 'Gery',
@@ -126,7 +173,17 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 15,
+            'employee_id' => $gery->id
+        ]);
+
+
+
+
+
+
+        $gustavo = Employee::create([
             'id' => 12552162,
             'ci' => 12552162,
             'name' => 'Gustavo',
@@ -142,7 +199,14 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 18,
+            'employee_id' => $gustavo->id
+        ]);
+
+
+
+        $enzo = Employee::create([
             'id' => 14263548,
             'ci' => 14263548,
             'name' => 'Enzo',
@@ -158,7 +222,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 16,
+            'employee_id' => $enzo->id
+        ]);
+
+
+
+
+        $angel = Employee::create([
             'id' => 8697768,
             'ci' => 8697768,
             'name' => 'Angel',
@@ -174,7 +246,14 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 36,
+            'employee_id' => $angel->id
+        ]);
+
+
+
+        $roger = Employee::create([
             'id' => 8770492,
             'ci' => 8770492,
             'name' => 'Roger',
@@ -190,7 +269,16 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 17,
+            'employee_id' => $roger->id
+        ]);
+
+
+
+
+
+        $ernesto = Employee::create([
             'id' => 11267379,
             'ci' => 11267379,
             'name' => 'Ernesto',
@@ -206,7 +294,17 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 17,
+            'employee_id' => $ernesto->id
+        ]);
+
+
+
+
+
+
+        $armando = Employee::create([
             'id' => 7046351,
             'ci' => 7046351,
             'name' => 'Armando',
@@ -222,7 +320,18 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 31,
+            'employee_id' => $armando->id
+        ]);
+
+
+
+
+
+
+
+        $garey = Employee::create([
             'id' => 7952877,
             'ci' => 7952877,
             'name' => 'Luis',
@@ -238,7 +347,17 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        // UserEmployee::create([
+        //     'user_id' => 31,
+        //     'employee_id' => $garey->id
+        // ]);
+
+
+
+
+
+
+        $yasmin = Employee::create([
             'id' => 5913978,
             'ci' => 5913978,
             'name' => 'Yazmin',
@@ -254,7 +373,16 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 27,
+            'employee_id' => $yasmin->id
+        ]);
+
+
+
+
+
+        $jose = Employee::create([
             'id' => 7928401,
             'ci' => 7928401,
             'name' => 'Jose',
@@ -270,7 +398,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        // UserEmployee::create([
+        //     'user_id' => 27,
+        //     'employee_id' => $jose->id
+        // ]);
+
+
+
+
+        $pablo = Employee::create([
             'id' => 5733161,
             'ci' => 5733161,
             'name' => 'Pablo',
@@ -286,7 +422,14 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        // UserEmployee::create([
+        //     'user_id' => 27,
+        //     'employee_id' => $pablo->id
+        // ]);
+
+
+
+        $roscio = Employee::create([
             'id' => 9399947,
             'ci' => 9399947,
             'name' => 'Roscio',
@@ -302,7 +445,23 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+
+        $roscio = User::create([
+            'name' => "Roscio",
+            'phone' => 9399947,
+            'email' => 'roscio@mail.com',
+            'profile' => 'null',
+            'password' => '123'
+        ]);
+        UserEmployee::create([
+            'user_id' => $roscio->id,
+            'employee_id' => $pablo->id
+        ]);
+
+
+
+
+        $Branlyn = Employee::create([
             'id' => 8693177,
             'ci' => 8693177,
             'name' => 'Branlyn',
@@ -318,7 +477,23 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        $roscio = User::create([
+            'name' => "Branlyn",
+            'phone' => 9399947,
+            'email' => 'branlyn@mail.com',
+            'profile' => 'null',
+            'password' => '123'
+        ]);
+        UserEmployee::create([
+            'user_id' => $roscio->id,
+            'employee_id' => $Branlyn->id
+        ]);
+
+
+
+
+
+        $fabio = Employee::create([
             'id' => 7861796,
             'ci' => 7861796,
             'name' => 'Fabio',
@@ -334,7 +509,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 10,
+            'employee_id' => $fabio->id
+        ]);
+
+
+
+
+        $samuel = Employee::create([
             'id' => 8710140,
             'ci' => 8710140,
             'name' => 'Samuel',
@@ -350,7 +533,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 23,
+            'employee_id' => $samuel->id
+        ]);
+
+
+
+
+        $isaias = Employee::create([
             'id' => 1,
             'ci' => 1,
             'name' => 'Isaias',
@@ -366,7 +557,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        UserEmployee::create([
+            'user_id' => 22,
+            'employee_id' => $isaias->id
+        ]);
+
+
+
+
+        $ruben = Employee::create([
             'id' => 7861830,
             'ci' => 7861830,
             'name' => 'Ruben',
@@ -382,6 +581,14 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        UserEmployee::create([
+            'user_id' => 28,
+            'employee_id' => $ruben->id
+        ]);
+
+
+
+
         Employee::create([
             'id' => 11066520,
             'ci' => 11066520,
@@ -398,6 +605,12 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+
+
+
+
+
+
         Employee::create([
             'id' => 7979938,
             'ci' => 7979938,
@@ -414,6 +627,11 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        
+
+
+
+
         Employee::create([
             'id' => 13750109,
             'ci' => 13750109,
@@ -430,6 +648,10 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+
+
+
+
         Employee::create([
             'id' => 7964268,
             'ci' => 7964268,
@@ -462,7 +684,7 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        $vania = Employee::create([
             'id' => 12681711,
             'ci' => 12681711,
             'name' => 'Vania',
@@ -478,6 +700,15 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        
+        UserEmployee::create([
+            'user_id' => 19,
+            'employee_id' => $vania->id
+        ]);
+
+
+
+
         Employee::create([
             'id' => 13749839,
             'ci' => 13749839,
@@ -494,6 +725,10 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        
+
+
+
         Employee::create([
             'id' => 8848153,
             'ci' => 8848153,
@@ -510,6 +745,7 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+
         Employee::create([
             'id' => 7603856,
             'ci' => 7603856,
@@ -542,7 +778,7 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        $luis = Employee::create([
             'id' => 14419459,
             'ci' => 14419459,
             'name' => 'Luis F',
@@ -558,6 +794,14 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        UserEmployee::create([
+            'user_id' => 14,
+            'employee_id' => $luis->id
+        ]);
+
+
+
+
         Employee::create([
             'id' => 7962772,
             'ci' => 7962772,
@@ -622,7 +866,7 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        $andres = Employee::create([
             'id' => 7936142,
             'ci' => 7936142,
             'name' => 'Andres',
@@ -638,6 +882,11 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        UserEmployee::create([
+            'user_id' => 7,
+            'employee_id' => $andres->id
+        ]);
+
         Employee::create([
             'id' => 7330292,
             'ci' => 7330292,
@@ -654,6 +903,7 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+       
         Employee::create([
             'id' => 4386719,
             'ci' => 4386719,
@@ -702,7 +952,7 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
-        Employee::create([
+        $nadir = Employee::create([
             'id' => 2,
             'ci' => 2,
             'name' => 'Nadir',
@@ -718,5 +968,12 @@ class EmployeeSeeder extends Seeder
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
         ]);
+        
+        UserEmployee::create([
+            'user_id' => 11,
+            'employee_id' => $nadir->id
+        ]);
+
+        
     }
 }
