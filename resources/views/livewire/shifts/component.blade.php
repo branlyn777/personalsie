@@ -1,84 +1,73 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="tabs tab-pills">
-
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="Agregar()">Agregar</a>
-
-                </ul>
-            </div>
-            @include('common.searchbox')
-
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #ee761c">
-                            <tr>
-                                <th class="table-th text-withe">ID</th>
-                                <th class="table-th text-withe">Nombre</th>
-                                <th class="table-th text-withe text-center">Lunes</th>
-                                <th class="table-th text-withe text-center">Martes</th>
-                                <th class="table-th text-withe text-center">Miercoles</th>
-                                <th class="table-th text-withe text-center">Jueves</th>
-                                <th class="table-th text-withe text-center">Viernes</th>
-                                <th class="table-th text-withe text-center">Sabado</th>
-                                <th class="table-th text-withe text-center">Domingo</th>
-                                <th class="table-th text-withe text-center">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $shift)
-                                <tr>
-                                    <td>
-                                        <h6 class="text-center">{{ $loop->iteration }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->name }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->monday }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->tuesday }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->wednesday }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->thursday }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->friday }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->saturday }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $shift->sunday }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $shift->id }})"
-                                            class="btn btn-warning mtmobile" title="Editar registro">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            onclick="Confirm('{{ $shift->id }}','{{ $shift->name }}','{{ $shift->usuarios }}')"
-                                            class="btn btn-warning" title="Eliminar registro">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
-                </div>
-            </div>
+<div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
+    </div>
+    
+    <div class="row">
+    
+        <div class="col-12 col-sm-6 col-md-4">
+            @include('common.searchbox')
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 text-center">
+            
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+            <button wire:click="Agregar()" type="button" class="boton-azul-g">Agregar</button>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="table-5">
+        <table>
+            <thead> 
+                <tr class="text-center">
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miercoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>Sabado</th>
+                    <th>Domingo</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $shift)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $shift->name }}</td>
+                    <td>{{ $shift->monday }}</td>
+                    <td>{{ $shift->tuesday }}</td>
+                    <td>{{ $shift->wednesday }}</td>
+                    <td>{{ $shift->thursday }}</td>
+                    <td>{{ $shift->friday }}</td>
+                    <td>{{ $shift->saturday }}</td>
+                    <td>{{ $shift->sunday }}</td>
+    
+                    <td class="text-center">
+                        <a href="javascript:void(0)" wire:click="Edit({{ $shift->id }})"
+                            class="btn btn-warning mtmobile" title="Editar registro">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="javascript:void(0)"
+                            onclick="Confirm('{{ $shift->id }}','{{ $shift->name }}','{{ $shift->usuarios }}')"
+                            class="btn btn-warning" title="Eliminar registro">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $data->links() }}
     </div>
     @include('livewire.shifts.form')
 </div>
