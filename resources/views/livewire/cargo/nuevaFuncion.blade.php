@@ -1,47 +1,53 @@
-<div wire:ignore.self class="modal fade" id="theModal-Nfuncion" tabindex="-1" role="dialog">
+<div wire:ignore.self class="modal fade" id="theModal-NFuncion" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary" style="background: #414141">
                 <h5 class="modal-title text-white">
-                    <b>Nueva funcion</b>
+                    <b>{{$componentNameF}}</b> | {{$selected_id > 0 ? 'EDITAR':'CREAR'}}
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
             <div class="modal-body">
 
                 <div class="row">
-
+                    
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Cargo</label>
-                            <select wire:model="cargoid" class="form-control">
-                                <option value="Elegir" disabled>Elegir</option>
+                            {{-- <input type="text" wire:model.lazy="name" class="form-control"> --}}
+                            <h4>{{$name}}</h4>
+                            {{-- <select wire:model="cargoid" class="form-control">
+                                <option value="">Elegir</option>
                                 @foreach($cargosx as $cs)
                                     <option value="{{$cs->id}}">{{$cs->name}}</option>
                                 @endforeach
                             </select>
-                            @error('cargoid') <span class="text-danger er"> {{ $message }}</span> @enderror
+                            @error('cargoid') <span class="text-danger er"> {{ $message }}</span> @enderror --}}
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <h6>Funcion</h6>
-                            <textarea type="text" wire:model.lazy="nameFuncion" class="form-control"></textarea>
-                            @error('nameFuncion')<span class="text-danger er">{{ $message }}</span>@enderror
+                            <textarea type="text" wire:model.lazy="nameFuncion1" class="form-control"></textarea>
+                            @error('nameFuncion1')<span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
                     </div>
-
+                    
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning"
                     data-dismiss="modal" style="background: #3b3f5c">Cancelar</button>
-                
-                <button type="button" wire:click.prevent="Store_NFuncion()"
-                    class="btn btn-warning">Guardar</button>
-                
+                    
+                @if ($selected_id < 1)
+                    <button type="button" wire:click.prevent="NuevaFuncion({{$idcargo}})"
+                        class="btn btn-warning">Guardar</button>
+                @else
+                    <button type="button" wire:click.prevent="ActualizarFuncion({{$idcargo}})"
+                        class="btn btn-warning">Actualizar</button>
+                @endif
             </div>
         </div>
     </div>

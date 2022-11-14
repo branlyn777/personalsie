@@ -40,8 +40,8 @@
 					<ul class="nav nav-primary">
 						@can('Admin_Views')
 						<li class="nav-item active">
-							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false" style="background-color: #02b1ce!important;">
-								<svg width="25" height="35"><defs><style>.cls-1{fill:#02b1ce!important;}</style></svg>
+							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false" style="background-color: #ee761c!important;">
+								<svg width="25" height="35"><defs><style>.cls-1{fill:#ee761c!important;}</style></svg>
 									<i class="fas icon-chart"></i>
 									<p>Movimiento Diario</p>
 								<span class="caret"></span>
@@ -600,6 +600,26 @@
 											<i class="fas fa-chart-pie"></i>
 											Reporte Ventas Usuarios</a>
 									</li>
+									<li>
+										<a data-toggle="collapse" href="#subnav1">
+											<span class="sub-item">Reportes</span>
+											<span class="caret"></span>
+										</a>
+										<div class="collapse" id="subnav1">
+											<ul class="nav nav-collapse subnav">
+												<li>
+													<a href="{{ url('productosvendidos') }}">
+														<span class="sub-item">Productos Mas Vendidos</span>
+													</a>
+												</li>
+												<li>
+													<a href="#">
+														<span class="sub-item">Productos Menos Vendidos</span>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</li> 
 									@endcan
 
 
@@ -652,7 +672,7 @@
 
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#Employees">
-								<i style="color: #02b1ce;" class="fas fa-user-friends"></i>
+								<i style="color: #ee761c;" class="fas fa-user-friends"></i>
 								<p>Empleados</p>
 								<span class="caret"></span>
 							</a>
@@ -682,11 +702,11 @@
 											Cargos</a>
 									  </li>
 								  @endcan
-								  {{-- <li>
+								  <li>
 									<a href="{{ url('funciones') }}">
 										<i class="fa fas fa-minus"></i>
 										Funciones de Cargo</a>
-								  </li> --}}
+								  </li>
 
 								  <li>
 									<a href="{{ url('comisiones') }}">
@@ -706,7 +726,7 @@
 
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#Asistencia">
-								<i style="color: #02b1ce;" class="fas fa-user-clock"></i>
+								<i style="color: #ee761c;" class="fas fa-user-clock"></i>
 								<p>Asistencia</p>
 								<span class="caret"></span>
 							</a>
@@ -750,7 +770,7 @@
 
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#Descuentos">
-								<i style="color: #02b1ce;" class="fas fa-user-lock"></i>
+								<i style="color: #ee761c;" class="fas fa-user-lock"></i>
 								<p>Descs/Adelantos</p>
 								<span class="caret"></span>
 							</a>
@@ -780,7 +800,7 @@
 
 
 						<li class="mx-4 mt-2">
-								<a style="background-color: #02b1ce!important;" class="btn btn-primary btn-block" href="{{ route('logout') }}"
+								<a style="background-color: #ee761c!important;" class="btn btn-primary btn-block" href="{{ route('logout') }}"
 									onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
 									<span class="btn-label mr-2">
 										<i class="fa icon-logout"></i> 
