@@ -925,7 +925,6 @@ class InicioController extends Component
         ->select("su.sucursal_id as id","users.name as n")
         ->where("users.id",Auth()->user()->id)
         ->where("su.estado","ACTIVO")
-        ->get()
         ->first();
         return $idsucursal->id;
     }
