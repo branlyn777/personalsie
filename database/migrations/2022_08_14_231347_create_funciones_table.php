@@ -16,7 +16,7 @@ class CreateFuncionesTable extends Migration
         Schema::create('funciones', function (Blueprint $table) {
             $table->id();
 
-            $table->string('nameFuncion',255);
+            $table->string('nameFuncion',255)->nullable();
             
             $table->unsignedBigInteger('cargo_id');
             $table->foreign('cargo_id')->references('id')->on('cargos');
