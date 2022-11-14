@@ -1,3 +1,8 @@
+@section('css')
+<style>
+    .modal .modal-content { width: 80%; }
+</style>
+@endsection
 <div>
     <div class="row">
         <div class="col-12 text-center">
