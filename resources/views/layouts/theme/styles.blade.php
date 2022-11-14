@@ -37,8 +37,8 @@ overflow: auto;
 .table-1 table {
     border-collapse: separate;
     border-spacing: 0;
-    border-left: 0.1px solid #02b1ce;
-    border-bottom: 0.1px solid #02b1ce;
+    border-left: 0.1px solid #ee761c;
+    border-bottom: 0.1px solid #ee761c;
     width: 100%;
 }
 .table-1 table thead {
@@ -47,17 +47,17 @@ overflow: auto;
     z-index: 10;
 }
 .table-1 table thead tr {
-background: #02b1ce;
+background: #ee761c;
 color: white;
 }
 .table-1 table tbody tr:hover {
     background-color: #bbf7ffa4;
 }
 .table-1 table td {
-    border-top: 0.1px solid #02b1ce;
+    border-top: 0.1px solid #ee761c;
     padding-left: 8px;
     padding-right: 8px;
-    border-right: 0.1px solid #02b1ce;
+    border-right: 0.1px solid #ee761c;
 }
 
 
@@ -73,8 +73,8 @@ overflow: auto;
 .table-5 table {
     border-collapse: separate;
     border-spacing: 0;
-    border-left: 0.3px solid #02b1ce;
-    border-bottom: 0.3px solid #02b1ce;
+    border-left: 0.3px solid #ee761c;
+    border-bottom: 0.3px solid #ee761c;
     width: 100%;
 }
 .table-5 table thead {
@@ -83,23 +83,23 @@ overflow: auto;
     z-index: 10;
 }
 .table-5 table thead tr {
-background: #02b1ce;
+background: #ee761c;
 color: white;
 }
 .table-5 table tbody tr:hover {
     background-color: #9df4ffa4;
 }
 .table-5 table td {
-    border-top: 0.3px solid #02b1ce;
+    border-top: 0.3px solid #ee761c;
     padding-left: 8px;
     padding-right: 8px;
-    border-right: 0.3px solid #02b1ce;
+    border-right: 0.3px solid #ee761c;
 }
 
 
 /*Tabla Sin Hover ni colores*/
 .cabeza{
-    background: #02b1ce;
+    background: #ee761c;
     color: white;
 }
 .fila{
@@ -116,8 +116,8 @@ overflow: auto;
 .table-null table {
     border-collapse: separate;
     border-spacing: 0;
-    border-left: 0.3px solid #02b1ce;
-    border-bottom: 0.3px solid #02b1ce;
+    border-left: 0.3px solid #ee761c;
+    border-bottom: 0.3px solid #ee761c;
     width: 100%;
 }
 .table-null table thead {
@@ -126,16 +126,16 @@ overflow: auto;
     z-index: 10;
 }
 .table-null table td {
-    border-top: 0.3px solid #02b1ce;
+    border-top: 0.3px solid #ee761c;
     padding-left: 8px;
     padding-right: 8px;
-    border-right: 0.3px solid #02b1ce;
+    border-right: 0.3px solid #ee761c;
 }
 .table-null table th {
-    /* border-top: 0.3px solid #02b1ce;
+    /* border-top: 0.3px solid #ee761c;
     padding-left: 8px;
     padding-right: 8px; */
-    border-right: 0.3px solid #02b1ce;
+    border-right: 0.3px solid #ee761c;
 }
 
 
@@ -392,10 +392,10 @@ overflow: auto;
 
 .boton-celeste {
     text-decoration: none !important; 
-    background-color: #02b1ce;
+    background-color: #ee761c;
     cursor: pointer;
     color: white;
-    border-color: #02b1ce;
+    border-color: #ee761c;
     border-radius: 7px;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -408,9 +408,9 @@ overflow: auto;
 }
 .boton-celeste:hover {
     background-color: rgb(255, 255, 255);
-    color: #02b1ce;
+    color: #ee761c;
     transition: all 0.4s ease-out;
-    border-color: #02b1ce;
+    border-color: #ee761c;
     text-decoration: underline;
     -webkit-transform: scale(1.05);
     -moz-transform: scale(1.05);
@@ -420,10 +420,10 @@ overflow: auto;
 
 .boton-celeste-g {
     text-decoration: none !important; 
-    background-color: #02b1ce;
+    background-color: #ee761c;
     cursor: pointer;
     color: white;
-    border-color: #02b1ce;
+    border-color: #ee761c;
     border-radius: 7px;
     padding-top: 7px;
     padding-bottom: 7px;
@@ -436,9 +436,9 @@ overflow: auto;
 }
 .boton-celeste-g:hover {
     background-color: rgb(255, 255, 255);
-    color: #02b1ce;
+    color: #ee761c;
     transition: all 0.4s ease-out;
-    border-color: #02b1ce;
+    border-color: #ee761c;
     text-decoration: underline;
     -webkit-transform: scale(1.05);
     -moz-transform: scale(1.05);

@@ -105,6 +105,7 @@ use App\Http\Livewire\SaleDevolutionController;
 use App\Http\Livewire\SaleEditController;
 use App\Http\Livewire\SaleStatisticController;
 use App\Http\Livewire\SaleReporteCantidadController;
+use App\Http\Livewire\SaleReportProductController;
 use App\Http\Livewire\ServCotizacionController;
 use App\Http\Livewire\ShiftsController;
 use App\Http\Livewire\SolicitudRepuestosController;
@@ -243,6 +244,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cashout', CashoutController::class)->name('cashout')->middleware('permission:Cashout_Index');
     Route::get('reports', ReportsController::class)->name('reportes')->middleware('permission:Reportes_Index');
     Route::get('ventasreportecantidad', SaleReporteCantidadController::class)->name('ventasreportecantidad')->middleware('permission:Reportes_Sale_Index');
+    Route::get('productosvendidos', SaleReportProductController::class)->name('productosvendidos');
     Route::group(['middleware' => ['permission:Report_Sales_Export']], function () {
     Route::get('report/pdf/{user}/{type}/{f1}/{f2}', [ExportController::class, 'reportPDF']);
     Route::get('report/pdf/{user}/{type}', [ExportController::class, 'reportPDF']);

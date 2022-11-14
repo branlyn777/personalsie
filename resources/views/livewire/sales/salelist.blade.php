@@ -10,8 +10,8 @@
     .table-wrapper table {
         border-collapse: separate;
         border-spacing: 0;
-        border-left: 0.3px solid #02b1ce;
-        border-bottom: 0.3px solid #02b1ce;
+        border-left: 0.3px solid #ee761c;
+        border-bottom: 0.3px solid #ee761c;
         width: 100%;
     }
     .table-wrapper table thead {
@@ -20,16 +20,16 @@
         z-index: 10;
     }
     .table-wrapper table thead tr {
-    background: #02b1ce;
+    background: #ee761c;
     color: white;
     }
     .table-wrapper table tbody tr:hover {
         background-color: #bbf7ffa4;
     }
     .table-wrapper table td {
-        border-top: 0.3px solid #02b1ce;
+        border-top: 0.3px solid #ee761c;
         padding-left: 10px;
-        border-right: 0.3px solid #02b1ce;
+        border-right: 0.3px solid #ee761c;
     }
 
 
@@ -54,7 +54,7 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #02b1ce;
+        background: #ee761c;
         margin: -4px 0 0 -4px;
         }
         .lds-roller div:nth-child(1) {
@@ -366,7 +366,7 @@
                                     {{ ($listaventas->currentpage()-1) * $listaventas->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td class="text-center">
-                                    <span class="stamp stamp" style="background-color: #02b1ce">
+                                    <span class="stamp stamp" style="background-color: #ee761c">
                                         {{$lv->codigo}}
                                     </span>
                                 </td>
