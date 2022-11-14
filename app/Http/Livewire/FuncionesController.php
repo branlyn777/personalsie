@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Funciones;
 use App\Models\Cargo;
 use Livewire\WithPagination;
-//use Session;
 
 use Illuminate\Support\Facades\DB;
 
@@ -14,9 +13,10 @@ class FuncionesController extends Component
 {
     use WithPagination;
 
-    public $nameFuncion, $cargoid, $selected_id; //, 
+    public $nameFuncion, $selected_id; //, $cargoid
     public $pageTitle, $componentName, $search;
-    private $pagination = 15;
+    private $pagination = 5;
+
 
     public function mount(){
         $this -> pageTitle = 'Lista';
@@ -32,21 +32,12 @@ class FuncionesController extends Component
 
     public function render()
     {
-        //if(!empty(Session::get('cargo_id'))){
-            /*$funciones = Funciones::whereCargo_id(Session::get('cargo_id'))->get();
-            return view('livewire.funcionCargo.component',[
-                'funciones' => $funciones,
-                //'cargos' => Cargo::orderBy('name', 'asc')->get(),
-            ])
-            ->extends('layouts.theme.app')
-            ->section('content');*/
-
             if(strlen($this->search) > 0)
             {
                 $data = Funciones::join('cargos as cs', 'cs.id', 'funciones.cargo_id')
                 ->select('funciones.*', 'cs.name as cargo', 'funciones.id as idFuncion',
                     DB::raw('0 as verificar'))
-                ->where('cs.name', 'like', '%' . $this->search . '%')      
+                ->where('funciones.nameFuncion', 'like', '%' . $this->search . '%')    
                 ->orderBy('cs.name', 'asc')
                 ->paginate($this->pagination);
 
@@ -57,7 +48,10 @@ class FuncionesController extends Component
                 }
             }else{
                 $data = Funciones::join('cargos as cs', 'cs.id', 'funciones.cargo_id')
-                ->select('funciones.*','cs.name as cargo','funciones.id as idFuncion',
+                ->select(
+                    'funciones.*',
+                    'cs.name as cargo',
+                    'funciones.id as idFuncion',
                     DB::raw('0 as verificar')
                 )
                 ->orderBy('cs.name', 'asc')
@@ -75,7 +69,6 @@ class FuncionesController extends Component
             ])
             ->extends('layouts.theme.app')
             ->section('content');
-        //}
     }
 
     // verificar 
@@ -100,7 +93,7 @@ class FuncionesController extends Component
             'cargoid' => 'required|not_in:Elegir',
         ];
         $messages =  [
-            'nameFuncion.required' => 'Este espacio es requerida',
+            'nameFuncion.required' => 'Este espacio es requerido',
             'cargoid.required' => 'Elija un Cargo',
             'cargoid.not_in' => 'Elije un nombre de Cargo diferente de elegir',
         ];
@@ -109,7 +102,7 @@ class FuncionesController extends Component
 
         $funciones = Funciones::create([
             'nameFuncion'=>$this->nameFuncion,
-            'cargo_id' => $this->cargoid, //= Session::get('cargo_id')
+            'cargo_id' => $this->cargoid// = Session::get('cargo_id'),
         ]);
 
         $this->resetUI();

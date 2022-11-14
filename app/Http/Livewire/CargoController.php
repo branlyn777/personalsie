@@ -8,7 +8,6 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use App\Models\AreaTrabajo;
 use App\Models\Funciones;
-//use Session;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,8 +21,9 @@ class CargoController extends Component
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
 
-    // Datos de Funciones
-    public $nameFuncion, $cargoid, $selected_fun_id;
+    // Datos de Funcion
+    public $idFuncion, $nameFuncion1, $cargoid, $selected_fun_id , $detalle; //,
+    public $pageTitleF, $componentNameF, $pageTitleMod;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
@@ -32,6 +32,12 @@ class CargoController extends Component
         $this->areaid = 'Elegir';
         $this->estado = 'Elegir';
         $this->idcargo = 0;
+
+        // Funciones
+        $this -> pageTitleF = 'Lista de Funciones';
+        $this -> componentNameF = 'Nueva Funcion';
+        $this-> pageTitleMod = 'Editar Funcion';
+        //$this->cargoid = 'Elegir';
     }
 
     public function paginationView()
@@ -41,11 +47,12 @@ class CargoController extends Component
 
     public function render()
     {
+        //dd($this-> detalle);
         if(strlen($this->search) > 0)
         {
             $data = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
             ->select('cargos.id as idcargo','cargos.name as name','at.nameArea as area','cargos.estado as estado',
-            DB::raw('0 as verificar'))
+                DB::raw('0 as verificar'))
             ->orderBy('at.id','desc')
             ->where('cargos.name', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
@@ -60,7 +67,7 @@ class CargoController extends Component
         {
             $data = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
             ->select('cargos.id as idcargo','cargos.name as name','at.nameArea as area','cargos.estado as estado',
-            DB::raw('0 as verificar'))
+                DB::raw('0 as verificar'))
             ->orderBy('at.id','desc')
             ->paginate($this->pagination);
 
@@ -74,16 +81,16 @@ class CargoController extends Component
         return view('livewire.cargo.component', [
             'cargos' => $data, // se envia cargos
             'areas' => AreaTrabajo::orderBy('nameArea', 'asc')->get(),
-            'cargosx' => Cargo::orderBy('name', 'asc')->get(),
+            //'cargosx' => Cargo::orderBy('name', 'asc')->get(),
             ])
         ->extends('layouts.theme.app')
         ->section('content');
     }
 
-    // verificar
+    // verificar dato para eliminar
     public function verificar($idcargo)
     {
-        $consulta = Cargo::join('employees as e', 'e.cargo_id', 'cargos.id')
+        $consulta = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
         ->select('cargos.*')
         ->where('cargos.id', $idcargo)
         ->get();
@@ -98,93 +105,101 @@ class CargoController extends Component
         }
     }
 
-    // Abre el modal de Nueva Funcion
-    public function NuevoFuncion($idcargo)
+    // Registrar Nueva Funcion
+    public function NuevaFuncion($idcargo)
     {
-        //$cargo = Cargo::find($this->selected_id);
-        // $seleccion = Cargo::select('cargos.id as idcargo')
-        // ->where('cargos.id', $idcargo)    // selecciona al empleado
-        // ->get()
-        // ->first();
+        //$this->emit('fun-added', 'Funcion Registrada');
+        $detalle = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
+        ->select('cargos.id as idcargo', 'cargos.name')
+        ->where('cargos.id', $idcargo) // selecciona el Cargo
+        ->get()
+        ->first();
 
-        //$this->idEmpleado = $detalle->idEmpleado;
-        //$this->Store_NFuncion($idcargo);
-        $this->emit('modal-hide', 'show modal!');
-        $this->emit('show-modal-Nfuncion', 'show modal!');
-    }
+        $this->name = $detalle->name;
 
-    public function Store_NFuncion()
-    {
-        // $seleccion = Cargo::select('cargos.id as idcargo')
-        // ->where('cargos.id', $idcargo)    // selecciona al empleado
-        // ->get()
-        // ->first();
-        // $this->idcargo = $seleccion->idcargo;
+        //dd($this->idcargo = $detalle->idcargo);
+        //$this->emit('modal-hide', 'show modal!');
+        $this->emit('show-modal-NFuncion', 'show modal!');
 
-        $prod = new FuncionesController;
-        $prod->selected_fun_id=$this->selected_fun_id;
-        $prod->nameFuncion= $this->nameFuncion;
-        $prod->cargoid=$this->cargoid;
-        $prod->Store();
+        $funcion = new FuncionesController;
+        $funcion->selected_fun_id=$this->selected_fun_id;
+        $funcion->nameFuncion= $this->nameFuncion1;
+        $funcion->cargoid = $this->idcargo = $detalle->idcargo;
+        $funcion->Store();
         $this->resetFUN();
+
         $this->emit('fun-added', 'Funcion Registrada');
     }
 
     public function resetFUN()
     {
-        $this->nameFuncion= '';
-        $this->cargoid = 'Elegir';
+        $this->nameFuncion1= '';
+        //$this->cargoid = 'Elegir';
         $this->resetValidation(); // resetValidation para quitar los smg Rojos
     }
-    // public function ServicioDetalle($idcargo)
-    // {
-    //     $detalle = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
-    //     ->select('cargos.id as idcargo',
-    //         'cargos.name')
-    //     ->where('cargos.id', $idcargo)    // selecciona al empleado
-    //     ->get()
-    //     ->first();
 
-    //     //dd($detalle->name);
-    //     $this->idcargo = $detalle->idcargo;
-    //     $this->name = $detalle->name;
-    // }
-
-    // vista de modal funciones
-    public function VistaFuncion()
+    // Ver Funciones de cargo
+    public function VistaFuncion($idcargo)
     {
-        //Session::put('cargo_id',$idcargo);
+        $this-> detalle = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
+        ->select('cargos.id as idcargo', 'cargos.name', 'fun.cargo_id', 'fun.nameFuncion')
+        ->where('cargos.id', $idcargo)    // selecciona al empleado
+        ->get();
+        //->first();
 
-         $this->emit('modal-hide', 'show modal!');
-         $this->emit('show-modal-Vfuncion', 'show modal!');
-        //return redirect('funciones');
+        $this->emit('show-modal-VFuncion', 'show modal!');
     }
 
-    public function vistaFuciones($idcargo)
+    // Ver Datos a Editar de la Funcion
+    public function EditarF($idcargo)
     {
-        $detalle = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
-        ->select('cargos.id as idcargo',
-            'cargos.name')
+        $this->selected_id = $idcargo;
+
+        $this->emit('modal-hide-VFuncion', 'show modal!');
+        //$this->emit('show-modal-EditFuncion', 'show modal!');
+        $this->emit('show-modal-NFuncion', 'show modal!');
+        //dd('Prueba de ediccion');
+        $detalle = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
+        ->select('cargos.id as idcargo', 'cargos.name', 'fun.cargo_id', 'fun.nameFuncion')
         ->where('cargos.id', $idcargo)    // selecciona al empleado
         ->get()
         ->first();
 
-        //dd($detalle->name);
-        $this->idcargo = $detalle->idcargo;
+        //dd($this->idcargo = $detalle->idcargo);
         $this->name = $detalle->name;
+        //$this->idcargo = $detalle->idcargo;
+        //$this->nameFuncion = $detalle->nameFuncion;
+
+        // $funcion = new FuncionesController;
+        // $funcion->selected_fun_id=$this->selected_fun_id;
+        // $funcion->nameFuncion= $this->nameFuncion;
+        // $funcion->cargoid = $this->idcargo = $detalle->idcargo;
+        // $funcion->Edit($idFuncion);
+        //$this->resetFUN();
+
     }
 
-    // editar
-    public function Edit($id){
-        $record = Cargo::find($id, ['id', 'name', 'area_id', 'estado']);
-        $this->name = $record->name;
-        $this->areaid = $record->area_id;
-        $this->estado = $record->estado;
-        $this->selected_id = $record->id;
+    // Actualizar Funciones seleccionada
+    public function ActualizarFuncion()
+    {
+        $this->emit('modal-hide-EditFuncion', 'show modal!');
+        $this->emit('show-modal-VFuncion', 'show modal!');
 
-        $this->emit('show-modal', 'show modal!');
+        $funcion = new FuncionesController;
+        $funcion->selected_fun_id=$this->selected_fun_id;
+        $funcion->nameFuncion= $this->nameFuncion;
+        $funcion->cargoid = $this->cargoid;
+        $funcion->Update();
+        // // //$this->resetFUN();
+        $this->emit('fun-updated', 'Funcion Actualizada');
     }
 
+    public function EliminarF()
+    {
+        dd('Prueba de Eliminacion');
+    }
+
+    // Registrar nuevo cargo
     public function Store(){
         $rules = [
             'name' => 'required|unique:cargos|min:5',
@@ -215,7 +230,18 @@ class CargoController extends Component
         $this->emit('cargo-added', 'Cargo Registrado');
     }
 
-    // actualizar
+    // editar cargo
+    public function Edit($id){
+        $record = Cargo::find($id, ['id', 'name', 'area_id', 'estado']);
+        $this->name = $record->name;
+        $this->areaid = $record->area_id;
+        $this->estado = $record->estado;
+        $this->selected_id = $record->id;
+
+        $this->emit('show-modal', 'show modal!');
+    }
+
+    // actualizar datos de cargo
     public function Update(){
         $rules = [
             'name' => "required|min:5|unique:cargos,name,{$this->selected_id}",
@@ -248,6 +274,7 @@ class CargoController extends Component
         $this->emit('cargo-updated','Cargo Actualizada');
     }
 
+    // Limpiar Formulario de Registro
     public function resetUI(){
         $this->name='';
         $this->areaid = 'Elegir';
@@ -256,11 +283,11 @@ class CargoController extends Component
         $this->selected_id=0;
     }
 
+    // Eliminar datos de cargo
     protected $listeners = [
         'deleteRow' => 'Destroy'
     ];
 
-    // eliminar
     public function Destroy($id)
     {
         $cargo = Cargo::find($id);

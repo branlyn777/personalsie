@@ -35,8 +35,8 @@
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
-                                        wire:click="VistaFuncion()"
-                                        class="btn btn-warning mtmobile" title="Neva Funcion">
+                                        wire:click="VistaFuncion({{$cargo->idcargo}})" 
+                                        class="btn btn-warning mtmobile" title="Ver">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
@@ -50,19 +50,19 @@
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
-                                        wire:click="NuevoFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-warning close-btn text-info">
+                                        wire:click="NuevaFuncion({{$cargo->idcargo}})" 
+                                        class="btn btn-warning close-btn text-info" title="Agregar">
                                         <i class="fas fa-plus-circle"></i>
                                     </a>
 
                                     <a href="javascript:void(0)" 
                                         wire:click="Edit({{$cargo->idcargo}})"
-                                        class="btn btn-dark mtmobile" title="Edit">
+                                        class="btn btn-dark mtmobile" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
 
                                     <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
-                                        class="btn btn-dark mtmobile" title="Destroy">
+                                        class="btn btn-dark mtmobile" title="Eliminar">
                                         <i class="fas fa-trash"></i>
                                     </a>
 
@@ -78,6 +78,7 @@
     </div>
     @include('livewire.cargo.form')
     @include('livewire.cargo.nuevaFuncion')
+    @include('livewire.cargo.nuevaFuncionEdit')
     @include('livewire.cargo.vistaFunciones')
 </div>
 
@@ -98,8 +99,8 @@
         });
 
         // Fomrmulario de nueva funcion
-        window.livewire.on('show-modal-Nfuncion', Msg => {
-            $('#theModal-Nfuncion').modal('show')
+        window.livewire.on('show-modal-NFuncion', Msg => {
+            $('#theModal-NFuncion').modal('show')
         })
 
         window.livewire.on('fun-added', msg=>{
@@ -107,10 +108,27 @@
         });
         
         // formulario de vista funciones
-        window.livewire.on('show-modal-Vfuncion', Msg => {
-            $('#theModal-Vfuncion').modal('show')
+        window.livewire.on('show-modal-VFuncion', Msg => {
+            $('#theModal-VFuncion').modal('show')
         })
 
+        window.livewire.on('modal-hide-VFuncion', Msg => {
+            $('#theModal-VFuncion').modal('hide')
+        })
+
+        // formulario editar funciones
+        window.livewire.on('show-modal-EditFuncion', Msg => {
+            $('#theModal-EditFuncion').modal('show')
+        })
+
+        window.livewire.on('modal-hide-EditFuncion', Msg => {
+            $('#theModal-EditFuncion').modal('hide')
+        })
+
+        window.livewire.on('fun-updated', msg=>{
+            $('#theModal').modal('hide')
+        });
+        
     });
 
     function Confirmar1(id, verificar)

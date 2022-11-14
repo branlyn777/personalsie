@@ -1,24 +1,48 @@
-<div wire:ignore.self class="modal fade" id="theModal-Vfuncion" tabindex="-1" role="dialog">
+<div wire:ignore.self class="modal fade" id="theModal-VFuncion" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary" style="background: #414141">
-                {{-- <h5 class="modal-title text-white">
-                    <b>Lista de Funciones</b>
+                <h5 class="modal-title text-white">
+                    <b>{{$pageTitleF}} </b>
                 </h5>
-                <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6> --}}
+                <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
             <div class="modal-body">
 
                 <div class="widget-content">
                     <div class="table-responsive">
-                        <table class="table table-bordered table striped mt-1" >
+                        <table class="table table-bordered table-bordered-bd-ligth striped mt-1" >
                             <thead class="text-white" style="background: #02b1ce">
                                 <tr>
-                                    <th class="table-th text-white">Nombre de Funcion</th>
-                                    <th class="table-th text-white text-center">Acciones</th> 
+                                    <th style="width: 50%;">FUNCION</th>
+                                    <th style="width: 2%; text-align: center;">ACTIONS</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($detalle != null)
+                                    @foreach($detalle as $det)
+                                    <tr>
+                                        <td><h6>{{$det->nameFuncion}}</h6></td>
+        
+                                        <td class="text-center">
+
+                                            <a href="javascript:void(0)"
+                                                wire:click="EditarF({{$det->idcargo}})"
+                                                class="btn btn-dark p-2" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <a href="javascript:void(0)"
+                                                wire:click="EliminarF()"
+                                                class="btn btn-dark p-2" title="Destroy">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @else
+                                    <h4>Sin funciones</h4>
+                                @endif
                                 
                             </tbody>
                         </table>

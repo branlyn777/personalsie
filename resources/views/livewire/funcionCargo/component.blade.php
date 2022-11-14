@@ -5,17 +5,17 @@
                 <h4 class="card-title">
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
-                {{-- <ul class="tabs tab-pills">
+                <ul class="tabs tab-pills">
                     <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
                     data-target="#theModal">Agregar</a>
-                </ul> --}}
+                </ul>
             </div>
 
-            {{-- @include('common.searchbox') --}}
+            @include('common.searchbox')
 
             <div class="widget-content">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-bordered-bd-warning striped mt-1" >
+                    <table class="table table-bordered table-bordered-bd-ligth striped mt-1" >
                         <thead class="text-white" style="background: #02b1ce">
                             <tr>
                                <th class="table-th text-white">FUNCION</th>
