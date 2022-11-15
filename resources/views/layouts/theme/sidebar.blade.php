@@ -702,11 +702,11 @@
 											Cargos</a>
 									  </li>
 								  @endcan
-								  <li>
+								  {{-- <li>
 									<a href="{{ url('funciones') }}">
 										<i class="fa fas fa-minus"></i>
 										Funciones de Cargo</a>
-								  </li>
+								  </li> --}}
 
 								  <li>
 									<a href="{{ url('comisiones') }}">

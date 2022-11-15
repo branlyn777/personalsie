@@ -98,7 +98,7 @@
             $('#theModal').modal('hide')
         });
 
-        // Fomrmulario de nueva funcion
+        // Formulario de nueva funcion
         window.livewire.on('show-modal-NFuncion', Msg => {
             $('#theModal-NFuncion').modal('show')
         })
@@ -106,6 +106,10 @@
         window.livewire.on('fun-added', msg=>{
             $('#theModal').modal('hide')
         });
+
+        window.livewire.on('modal-hide-NFuncion', Msg => {
+            $('#theModal-NFuncion').modal('hide')
+        })
         
         // formulario de vista funciones
         window.livewire.on('show-modal-VFuncion', Msg => {
@@ -128,7 +132,8 @@
         window.livewire.on('fun-updated', msg=>{
             $('#theModal').modal('hide')
         });
-        
+
+        // Eliminar funcion seleccionado
     });
 
     function Confirmar1(id, verificar)

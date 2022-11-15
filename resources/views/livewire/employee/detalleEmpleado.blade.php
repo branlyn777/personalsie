@@ -8,7 +8,7 @@
         </h5>
         <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
       </div>
-      
+
       <div class="row">
           <div class="col-md-12">
             <div class="card card-profile">
@@ -20,7 +20,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="card-body">
                 <div class="user-profile" style="text-align: center">
                   <br>
@@ -38,10 +38,10 @@
                         {{$this->mouthEmployee}} meses
                       @endif
                       @if($dayEmployee != 0)
-                        {{$this->dayEmployee}} dias 
+                        {{$this->dayEmployee}} dias
                       @endif
                       <br>
-                       Tiempo Restante: 
+                       Tiempo Restante:
                       @if($anioRestante != 0)
                         {{$this->anioRestante}} años
                       @endif
@@ -101,14 +101,16 @@
 
       <div class="row">
 
-       
           <div class="col-md-8">
-          <div class="card card-pricing card-pricing-focus card-primary">
-            
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+          <div class="card card-pricing card-pricing-focus card-light">
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+              {{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle>
-              <line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-            
+              <line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> --}}
+
             <div class="card-header">
               {{-- <h4 class="card-title">Professional</h4> --}}
               <div class="card-price">
@@ -165,25 +167,21 @@
             </div> --}}
           </div>
         </div>
-        
-
-
-
 
         {{-- <div class="col-md-3 pl-md-0 pr-md-0"></div>
         <div class="col-md-6 pl-md-0 pr-md-0">
           <div class="card-pricing2 card-warning">
-           
+
             <div class="pricing-header">
               <h3 class="fw-bold">Informacion de Empleado # {{$idEmpleado }}</h3>
-              
+
             </div>
             <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
-              
-                
+
+
                     <img src="{{ asset('storage/employees/' .$image)}}"
                     alt="Sin Imagen" height="90" width="100" class="img-fluid rounded-start">
-                  
+
                 <ul class="pricing-content">
                   <li>CI: {{ $ci }}</li>
                   <li>NOMBRE: {{ $name }}</li>
@@ -197,10 +195,10 @@
                   <li>CARGO: {{ $cargoid }}</li>
                 </ul>
             <a wire:click.prevent="resetUI()" data-dismiss="modal" class="btn btn-warning btn-border btn-lg w-75 fw-bold mb-3">Cerrar</a>
-            
+
           </div>
         </div> --}}
-      </div>   
+      </div>
     </div>
   </div>
 </div>

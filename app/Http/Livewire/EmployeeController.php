@@ -182,40 +182,6 @@ class EmployeeController extends Component
         $this->image = $detalle->image;
     }
 
-    // Registro de nuevo Contrato
-    /*public function RegNuevoContrato(){
-        $rules = [
-            'salario' => 'required',
-            //'estado' => 'required|not_in:Elegir',
-            'funcionid' => 'required|not_in:Elegir'
-        ];
-        $messages =  [
-            'salario.required' => 'El salario es requerido',
-            //'estado.required' => 'seleccione estado de contrato',
-            //'estado.not_in' => 'selecciona estado de contrato',
-            'funcionid.not_in' => 'elije un nombre de funcion diferente de elegir',
-        ];
-
-        $this->validate($rules, $messages);
-       
-        $contrato = Contrato::create([
-            'fechaInicio'=>$this->fechaInicio,
-            'fechaFin'=>$this->fechaFin,
-            'descripcion'=>$this->descripcion,
-            'nota'=>$this->nota,
-            'funcion_area_id' => $this->funcionid,
-            'salario'=>$this->salario,
-            'estado'=>'Activo'
-        ]);
-
-        //$contrato->save();
-
-        $this->emit('tcontrato-added','Area Registrada');
-        //$this->resetUI();
-        $this->emit('modal-hide-contrato', 'show modal!');
-        $this->emit('modal-show', 'show modal!');
-    }*/
-
     // Registro de empleado nuevo
     public function Store(){
         $rules = [
@@ -328,10 +294,8 @@ class EmployeeController extends Component
         $this->address = $employee->address;
         $this->phone = $employee->phone;
         $this->estadoCivil = $employee->estadoCivil;
+        $this->areaid = $employee->area_trabajo_id;
         $this->cargoid = $employee->cargo_id;
-        //$this->areaid = $employee->area_trabajo_id;
-        //$this->contratoid = $employee->contrato_id;
-        //$this->fechaInicio = \Carbon\Carbon::parse($employee->fechaInicio)->format('Y-m-d') ;
         $this->image = $employee->null;
         $this->selected_id = $employee->id;
 
@@ -452,13 +416,6 @@ class EmployeeController extends Component
         $this->search = '';
         $this->selected_id = 0;
 
-        // Datos de contrato
-        /*$this->fechaFin='';
-        $this->descripcion='';
-        $this->nota='';
-        $this->salario='';
-        $this->estado = 'Elegir';
-        $this->select_contrato_id = 0;*/
         $this->resetValidation(); // resetValidation para quitar los smg Rojos
     }
     //

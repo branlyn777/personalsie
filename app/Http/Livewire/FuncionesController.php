@@ -115,7 +115,7 @@ class FuncionesController extends Component
     public function Edit(Funciones $funciones){
         $this->selected_id = $funciones->id;
         $this->nameFuncion = $funciones->nameFuncion;
-        $this->cargoid = $funciones->cargo_id;
+        //$this->cargoid = $funciones->cargo_id;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -124,19 +124,19 @@ class FuncionesController extends Component
     public function Update(){
         $rules = [
             'nameFuncion' => 'required',
-            'cargoid' => 'required|not_in:Elegir',
+            //'cargoid' => 'required|not_in:Elegir',
         ];
         $messages =  [
             'nameFuncion.required' => 'Este espacio es requerida',
-            'cargoid.required' => 'Elija un Cargo',
-            'cargoid.not_in' => 'Elije un nombre de Cargo diferente de elegir',
+            //'cargoid.required' => 'Elija un Cargo',
+            //'cargoid.not_in' => 'Elije un nombre de Cargo diferente de elegir',
         ];
         $this->validate($rules,$messages);
 
         $funciones = Funciones::find($this->selected_id);
         $funciones -> update([
             'nameFuncion'=>$this->nameFuncion,
-            'cargo_id' => $this->cargoid,
+            //'cargo_id' => $this->cargoid,
         ]);
 
         $this->resetUI();
@@ -158,6 +158,7 @@ class FuncionesController extends Component
     ];
 
     public function Destroy(Funciones $funciones){
+        //dd($funciones);
         $funciones->delete();
         $this->resetUI();
         $this->emit('fun-deleted','Funcion Eliminada');
