@@ -575,6 +575,11 @@
 											Lista de Ventas </a>
 									</li>
 									<li>
+										<a href="{{ url('ventalistaproductos') }}">
+											<i class="fas fa-clipboard-list"></i>
+											Productos Vendidos</a>
+									</li>
+									<li>
 										<a href="{{ url('estadisticas') }}">
 											<i class="fas fa-chart-line"></i>
 											Estadísticas </a>
