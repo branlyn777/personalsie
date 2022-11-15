@@ -1,16 +1,22 @@
+
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content" >
             <div class="modal-header bg-dark">
                 <h5 class="modal-title text-white">
                     <b>{{ $componentName }}</b> | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
+
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <div class="form-group">
+                    <div class="col-sm-12 col-md-4">
+                        
+                    </div>
+
+                    <div class="col-sm-12 col-md-4">
+                        <div class="text-center">
                             <label>Empleados</label>
                             <select wire:model="empleadoid" class="form-control">
                                 <option value="Elegir" selected>Elegir</option>
@@ -21,28 +27,27 @@
                             @error('empleadoid') <span class="text-danger er"> {{ $message }}</span> @enderror
                         </div>
                     </div>
-
+                    <div class="col-sm-12 col-md-4">
+                        
+                    </div>
                 </div>
-                <br>
-                <div class="row justify-content-center">
-                    <h2>Horarios</h2>
+     
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2> Horarios de entrada</h2>
+                    </div>
                 </div>
-               
-                
-                  
-                
+    
             </div>
-
               <!-- Lunes -->
-              <div class="col-sm-12 bg-light p-3 border">
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Lunes Entrada :</h3>                            
-                                        <input style="width: 50%" type="time" wire:model.lazy="horalunes" class="form-control">
+                                    <h3>Lunes  :</h3>                            
+                                        <input style="width: 30%" type="time" wire:model.lazy="horalunes" class="form-control">
                         
                                     @error('horalunes') <span class="text-danger er"> {{ $message }}</span> @enderror
                                 </div>
@@ -62,17 +67,15 @@
                        
                         </div>
                     </div>
-                </div>
 
                 <!-- Martes -->
-                <div class="col-sm-12 bg-light p-3 border">
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Martes Entrada :</h3>                            
+                                    <h3>Martes  :</h3>                            
                                         <input style="width: 30%" type="time" wire:model.lazy="horamartes" class="form-control">
                         
                                     @error('horamartes') <span class="text-danger er"> {{ $message }}</span> @enderror
@@ -90,17 +93,15 @@
 
                         </div>
                     </div>
-                </div>
 
-                 <!-- Miercoles -->
-                <div class="col-sm-12 bg-light p-3 border">
+                 <!-- Miercoles -->             
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Miercoles Entrada :</h3>                            
+                                    <h3>Miercoles  :</h3>                            
                                         <input style="width: 30%" type="time" wire:model.lazy="horamiercoles" class="form-control">
                         
                                     @error('horamiercoles') <span class="text-danger er"> {{ $message }}</span> @enderror
@@ -118,17 +119,15 @@
 
                         </div>
                     </div>
-                </div>
 
                  <!-- Jueves -->
-                <div class="col-sm-12 bg-light p-3 border">
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Jueves Entrada :</h3>                            
+                                    <h3>Jueves  :</h3>                            
                                         <input style="width: 30%" type="time" wire:model.lazy="horajueves" class="form-control">
                         
                                     @error('horajueves') <span class="text-danger er"> {{ $message }}</span> @enderror
@@ -145,18 +144,16 @@
                             </div> --}}
 
                         </div>
-                    </div>
-                </div>
+                    </div>               
 
                  <!-- Viernes -->
-                <div class="col-sm-12 bg-light p-3 border">
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Viernes Entrada :</h3>                            
+                                    <h3>Viernes  :</h3>                            
                                         <input style="width: 30%" type="time" wire:model.lazy="horaviernes" class="form-control">
                         
                                     @error('horaviernes') <span class="text-danger er"> {{ $message }}</span> @enderror
@@ -174,17 +171,15 @@
 
                         </div>
                     </div>
-                </div>
 
-                 <!-- Sabado -->
-                <div class="col-sm-12 bg-light p-3 border">
+                 <!-- Sabado -->             
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Sabado Entrada :</h3>                            
+                                    <h3>Sabado  :</h3>                            
                                         <input style="width: 30%" type="time" wire:model.lazy="horasabado" class="form-control">
                         
                                     @error('horasabado') <span class="text-danger er"> {{ $message }}</span> @enderror
@@ -202,17 +197,15 @@
 
                         </div>
                     </div>
-                </div>
 
                  <!-- Domingo -->
-                <div class="col-sm-12 bg-light p-3 border">
                     <div class="row justify-content-center" style="font-size: 20px;" >
                     
-                        <div class="form-control col-sm-9 p-2 bd-highligh d-flex flex-row" >
+                        <div class="form-control col-sm-8 p-2 bd-highligh d-flex flex-row" >
 
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-7" >
                                 <div class="input-group">
-                                    <h3>Domingo Entrada :</h3>                            
+                                    <h3>Domingo  :</h3>                            
                                         <input style="width: 30%" type="time" wire:model.lazy="horadomingo" class="form-control">
                         
                                     @error('horadomingo') <span class="text-danger er"> {{ $message }}</span> @enderror
@@ -230,7 +223,6 @@
 
                         </div>
                     </div>
-                </div>
 
                 <div class="modal-footer">
                     <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning close-btn text-info"
