@@ -31,6 +31,98 @@
 			padding-right: 8px;
 			border-right: 0.1px solid #ee761c;
 		}
+
+
+
+
+
+
+
+         /* Estilos para el loading */
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        }
+        .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+        }
+        .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ee761c;
+        margin: -4px 0 0 -4px;
+        }
+        .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+        }
+        .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+        }
+        .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+        }
+        .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+        }
+        .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+        }
+        .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+        }
+        .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+        }
+        .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+        }
+        .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+        }
+        .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+        }
+        .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+        }
+        .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+        }
+        .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+        }
+        .lds-roller div:nth-child(7):after {
+        top: 63px;
+        left: 17px;
+        }
+        .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+        }
+        .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12px;
+        }
+        @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
     </style>
 @endsection
 <div>
@@ -40,7 +132,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Seleccionar Sucursal</b>
             <div class="form-group">
                 <select wire:model="sucursal_id" class="form-control">
@@ -51,7 +143,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Seleccionar Usuario</b>
             <div class="form-group">
                 <select wire:model="user_id" class="form-control">
@@ -62,26 +154,54 @@
                 </select>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Categoria</b>
+            <div class="form-group">
+                <select wire:model="categoria_id" class="form-control">
+                    <option value="Todos" selected>Todos</option>
+                    @foreach ($this->lista_categoria as $c)
+                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->name)) }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Fecha Inicio</b>
             <div class="form-group">
                 <input type="date" wire:model="dateFrom" class="form-control" >
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Fecha Fin</b>
             <div class="form-group">
                 <input type="date" wire:model="dateTo" class="form-control" >
             </div>
         </div>
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Utilidad | Precio</b>
+            <div class="form-group">
+                <div class="form-control" style="font-size: 17px;">
+                    <b>{{$this->total_utilidad}}Bs | {{$this->total_precio}}Bs </b> 
+                </div>
+            </div>
+        </div>
     </div>
+
+    <center><div id="preloader_3" wire:loading.delay.longest>
+                
+            
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+    
+    </div></center>
+
+
 
     <div class="table-1">
         <table>
             <thead>
                 <tr class="text-center">
-                    <th>No</th>
                     <th>Codigo</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
@@ -94,9 +214,6 @@
             <tbody>
                 @foreach($listaproductos as $l)
                 <tr>
-                    <td class="text-center">
-
-                    </td>
                     <td class="text-center">
                         <span class="stamp stamp" style="background-color: #ee761c">
                             {{$l->codigo}}
@@ -125,5 +242,6 @@
             </tbody>
         </table>
     </div>
+    
 
 </div>
