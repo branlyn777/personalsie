@@ -6,7 +6,7 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" 
+                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal" 
                     data-target="#theModal">Agregar</a>
                 </ul>
             </div>
@@ -16,9 +16,9 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-bordered table striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                               {{-- <th class="table-th text-white">ID</th> --}}
+                               <th class="table-th text-white">#</th>
                                <th class="table-th text-white">CARGO</th>
                                <th class="table-th text-white text-center">AREA</th>
                                <th class="table-th text-white text-center">FUNCIONES</th>
@@ -29,14 +29,14 @@
                         <tbody>
                             @foreach($cargos as $cargo)
                             <tr>
-                                {{-- <td><h6>{{$cargo->idcargo}}</h6></td> --}}
+                                <td><h6>{{($cargos->currentpage()-1) * $cargos->perpage() + $loop->index + 1}}</h6></td>
                                 <td><h6>{{$cargo->name}}</h6></td>
                                 <td><h6 class="text-center">{{$cargo->area}}</h6></td>
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
                                         wire:click="VistaFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-warning mtmobile" title="Ver">
+                                        class="btn btn-primary mtmobile" title="Ver">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
@@ -51,7 +51,7 @@
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
                                         wire:click="NuevaFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-warning close-btn text-info" title="Agregar">
+                                        class="btn btn-primary close-btn" title="Agregar">
                                         <i class="fas fa-plus-circle"></i>
                                     </a>
 

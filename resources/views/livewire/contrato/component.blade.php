@@ -6,7 +6,7 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
+                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
                         data-target="#theModal">Agregar</a>
                 </ul>
             </div>
@@ -16,8 +16,9 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-bordered table striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
+                                <th class="table-th text-withe">#</th>
                                 <th class="table-th text-white">EMPLEADO</th>
                                 <th class="table-th text-white">FECHA INICIO</th>
                                 <th class="table-th text-white">FECHA FINAL</th>
@@ -32,6 +33,7 @@
                         <tbody>
                             @foreach($contratos as $datos)
                             <tr>
+                                <td><h6>{{ ($contratos->currentpage()-1) * $contratos->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6>{{$datos->name}}</h6></td>
                                 <td><h6>{{\Carbon\Carbon::parse($datos->fechaInicio)->format('Y-m-d')}}</h6></td>
                                 <td><h6>{{\Carbon\Carbon::parse($datos->fechaFin)->format('Y-m-d')}}</h6></td>

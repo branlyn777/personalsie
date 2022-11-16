@@ -27,7 +27,7 @@ class EmployeeController extends Component
     use withFileUploads;
 
     // Datos de Empleados
-    public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $selected_id; /* $contratoid, $fechaInicio,*/
+    public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $estado, $selected_id; /* $contratoid, $fechaInicio,*/
     public $cargoid = null, $areaid = null, $cargos = null;
     public $pageTitle, $componentName, $search; /*, $componentNuevoContrato*/
     private $pagination = 12;
@@ -45,7 +45,7 @@ class EmployeeController extends Component
         $this->genero = 'Seleccionar';
         $this->estadoCivil = 'Seleccionar';
 
-        //$this->estado = 'Elegir';
+        $this->estado = 'Elegir';
         
         $this->idEmpleado = 0;
     }
@@ -93,6 +93,7 @@ class EmployeeController extends Component
         ->section('content');
     }
 
+    // ver selecion de cargos
     public function updatedareaid($area_id)
     {
         $this->cargos = Cargo::where('area_id',$area_id)->get();
@@ -232,6 +233,7 @@ class EmployeeController extends Component
             'estadoCivil'=>$this->estadoCivil,
             'area_trabajo_id' => $this->areaid,
             'cargo_id' => $this->cargoid,
+            'estado' => 'Activo'
             //'contrato_id' => $this->contratoid,
             //'fechaInicio'=>$this->fechaInicio,
             //'image'=>  $customFileName,
@@ -297,6 +299,7 @@ class EmployeeController extends Component
         $this->areaid = $employee->area_trabajo_id;
         $this->cargoid = $employee->cargo_id;
         $this->image = $employee->null;
+        $this->estado = $employee->estado;
         $this->selected_id = $employee->id;
 
         $this->emit('modal-show', 'Show modal!');
@@ -360,6 +363,7 @@ class EmployeeController extends Component
             'estadoCivil'=>$this->estadoCivil,
             'area_trabajo_id' => $this->areaid,
             'cargo_id' => $this->cargoid,
+            'estado'=>$this->estado
             //'contrato_id' => $this->contratoid,
             //'fechaInicio' => $this->fechaInicio,
         ]);
@@ -413,6 +417,7 @@ class EmployeeController extends Component
         //$this->contratoid = 'Elegir';
         //$this->fechaInicio = '';
         $this->image=null;
+        $this->estado = 'Elegir';
         $this->search = '';
         $this->selected_id = 0;
 

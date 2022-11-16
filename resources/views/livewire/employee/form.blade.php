@@ -1,7 +1,7 @@
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog" style="overflow-y: scroll;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
                     <b>{{ $componentName }}</b> | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
                 </h5>
@@ -140,6 +140,20 @@
                         @endif
                     @endif
 
+                    @if ($selected_id >= 1)
+                        <div class="col-sm-12 col-md-5">
+                            <div class="form-group">
+                                <label>Estado de Empleado</label>
+                                <select id="seleccion" wire:model="estado" class="form-control">
+                                    <option value="Elegir" disabled>Elegir</option>
+                                    <option value="Activo" selected>Activo</option>
+                                    <option value="Inactivo" selected>Inactivo</option>
+                                </select>
+                                @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="col-sm-12 mt-3">
                         <div class="form-group custom-file">
                             <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model="image" accept="image/x-png, image/gif, image/jpeg">
@@ -152,18 +166,19 @@
             </div>
            
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning close-btn text-info" data-dismiss="modal" style="background: #02b1ce">CANCELAR</button>
-                    @if ($selected_id < 1)
-                        <button type="button" wire:click.prevent="Store()" class="btn btn-warning close-btn text-info">
-                            <span wire:loading.remove>GUARDAR</span>
-                            <span wire:loading style="color: blue">CARGANDO</span>
-                        </button>
-                    @else
-                        <button type="button" wire:click.prevent="Update()" class="btn btn-warning close-btn text-info">
-                                <span wire:loading.remove>ACTUALIZAR</span>
-                                <span wire:loading style="color: blue">CARGANDO</span>
-                        </button>
-                    @endif
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary close-btn" 
+                    data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
+                @if ($selected_id < 1)
+                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                        <span wire:loading.remove>GUARDAR</span>
+                        <span wire:loading style="color: white">CARGANDO</span>
+                    </button>
+                @else
+                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary close-btn">
+                        <span wire:loading.remove>ACTUALIZAR</span>
+                        <span wire:loading style="color: white">CARGANDO</span>
+                    </button>
+                @endif
             </div>
         </div>
     </div>

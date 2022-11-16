@@ -18,14 +18,16 @@
                     <table class="table table-bordered table-bordered-bd-ligth striped mt-1" >
                         <thead class="text-white" style="background: #02b1ce">
                             <tr>
-                               <th class="table-th text-white">FUNCION</th>
-                               <th class="table-th text-withe text-center">CARGO</th>
-                               <th class="table-th text-white text-center">ACTIONS</th>
+                                <th class="table-th">#</th>
+                                <th class="table-th text-white">FUNCION</th>
+                                <th class="table-th text-withe text-center">CARGO</th>
+                                <th class="table-th text-white text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($funciones as $fun)
                             <tr>
+                                <td><h6>{{ ($funciones->currentpage()-1) * $funciones->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6>{{$fun->nameFuncion}}</h6></td>
                                 <td><h6 class="text-center">{{$fun->cargo}}</h6></td>
 

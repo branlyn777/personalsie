@@ -19,9 +19,8 @@ class Employee extends Model
         'estadoCivil',
         'area_trabajo_id',
         'cargo_id',
-        /*'contrato_id',
-        'fechaInicio',*/
-        'image'
+        'image',
+        'estado'
     ];
     
     public function getImagenAttribute(){

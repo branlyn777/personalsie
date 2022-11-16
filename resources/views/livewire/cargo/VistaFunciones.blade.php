@@ -12,7 +12,7 @@
                 <div class="widget-content">
                     <div class="table-responsive">
                         <table class="table table-bordered table-bordered-bd-ligth striped mt-1" >
-                            <thead class="text-white" style="background: #02b1ce">
+                            <thead class="text-white" style="background: #ee761c">
                                 <tr>
                                     <th style="width: 50%;">FUNCION</th>
                                     <th style="width: 2%; text-align: center;">ACTIONS</th>
@@ -50,7 +50,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning"
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary"
                     data-dismiss="modal" style="background: #3b3f5c">Cerrar</button>
             </div>
         </div>

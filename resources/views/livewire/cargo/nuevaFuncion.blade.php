@@ -50,12 +50,12 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning"
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary"
                     data-dismiss="modal" style="background: #3b3f5c">Cancelar</button>
                     
                 {{-- @if ($selected_id < 1) --}}
                     <button type="button" wire:click.prevent="NuevaFuncion({{$idcargo}})"
-                        class="btn btn-warning">Guardar</button>
+                        class="btn btn-primary">Guardar</button>
                 {{-- @else
                     <button type="button" wire:click.prevent="ActualizarFuncion({{$idcargo}})"
                         class="btn btn-warning">Actualizar</button>

@@ -6,7 +6,7 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
+                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
                     data-target="#theModal">Agregar</a>
                 </ul>
             </div>
@@ -16,20 +16,22 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-bordered table-bordered-bd-warning striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                               <th class="table-th text-white">EMPLEADO</th>
-                               {{-- <th class="table-th text-white text-center">CONTRATO</th> --}}
-                               <th class="table-th text-withe text-center">ADELANTO</th>
-                               {{-- <th class="table-th text-white text-center">NUEVO SALARIO</th> --}}
-                               <th class="table-th text-withe text-center">FECHA</th>
-                               <th class="table-th text-withe text-center">MOTIVO</th>
-                               <th class="table-th text-white text-center">ACTIONS</th>
+                                <th class="table-th">#</th>
+                                <th class="table-th text-white">EMPLEADO</th>
+                                {{-- <th class="table-th text-white text-center">CONTRATO</th> --}}
+                                <th class="table-th text-withe text-center">ADELANTO</th>
+                                {{-- <th class="table-th text-white text-center">NUEVO SALARIO</th> --}}
+                                <th class="table-th text-withe text-center">FECHA</th>
+                                <th class="table-th text-withe text-center">MOTIVO</th>
+                                <th class="table-th text-white text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($anticipos as $a)
                             <tr>
+                                <td><h6>{{ ($anticipos->currentpage()-1) * $anticipos->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6>{{$a->empleado}}</h6></td>
                                 {{-- <td><h6 class="text-center">{{$a->salario}}</h6></td> --}}
                                 <td><h6 class="text-center">{{$a->anticipo}} Bs</h6></td>

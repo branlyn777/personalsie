@@ -6,7 +6,7 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
+                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
                     data-target="#theModal">Agregar</a>
                 </ul>
             </div>
@@ -16,16 +16,18 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-bordered table-bordered-bd-warning striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                               <th class="table-th text-white">EMPLEADO</th>
-                               <th class="table-th text-white text-center">USUSRIO</th>
-                               <th class="table-th text-white text-center">ACTIONS</th>
+                                <th class="table-th text-white">#</th>
+                                <th class="table-th text-white">EMPLEADO</th>
+                                <th class="table-th text-white text-center">USUSRIO</th>
+                                <th class="table-th text-white text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($datos as $dat)
                             <tr>
+                                <td><h6>{{ ($areas->currentpage()-1) * $areas->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6>{{$dat->name}}</h6></td>
                                 <td><h6 class="text-center">{{$dat->email}}</h6></td>
 

@@ -6,7 +6,7 @@
                     <b>{{ $componentName }} | {{ $pageTitle }}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="NuevoEmpleado()">Agregar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" wire:click="NuevoEmpleado()">Agregar</a>
                 </ul>
                {{-- <h6>{{ date('Y-m-d H:i:s') }}</h6>   muestra hora de sistema--}}
             </div>
@@ -15,15 +15,17 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                                <th class="table-th text-withe">NOMBRE</th>
+                                <th class="table-th text-withe">#</th>
+                                <th class="table-th text-withe text-center">NOMBRE</th>
                                 <th class="table-th text-withe text-center">APELLIDOS</th>
                                 <th class="table-th text-withe text-center">CI</th>
                                 <th class="table-th text-withe text-center">TELEFONO</th>
                                 <th class="table-th text-withe text-center">AREA</th>
                                 <th class="table-th text-withe text-center">CARGO</th>
                                 <th class="table-th text-white text-center">IMAGEN</th>
+                                <th class="table-th text-withe text-center">ESTADO</th>
                                 <th class="table-th text-withe text-center">FECHA DE REGISTRO</th>
                                 <th class="table-th text-withe text-center">ACCIONES</th>
                             </tr>
@@ -31,6 +33,7 @@
                         <tbody>
                             @foreach ($data as $employee)
                                 <tr>
+                                    <td><h6>{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</h6></td>
                                     <td><h6 class="text-center">{{ $employee->name }}</h6></td>
                                     <td><h6 class="text-center">{{ $employee->lastname }}</h6></td>
                                     <td><h6 class="text-center">{{ $employee->ci }}</h6></td>
@@ -66,6 +69,12 @@
                                         <span>
                                             <img src="{{ asset('storage/employees/' .$employee->image)}}"
                                              alt="Sin Imagen" height="70" width="80" class="rounded">
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span class="badge {{$employee->estado == 'Activo' ? 'badge-success' : 'badge-danger'}} 
+                                            text-uppercase"> {{$employee->estado}}
                                         </span>
                                     </td>
 

@@ -6,7 +6,7 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
+                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
                     data-target="#theModal">Agregar</a>
                 </ul>
             </div>
@@ -16,21 +16,28 @@
 
             <div class="widget-content">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-bordered-bd-warning striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                    <table class="table table-bordered table-bordered-bd striped mt-1" >
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                                {{-- <th class="table-th">CARGO</th> --}}
-                                <th class="table-th text-white">NOMBRE</th>
+                                <th class="table-th">#</th>
+                                <th class="table-th text-white text-center">NOMBRE</th>
                                 <th class="table-th text-white text-center">DESCRIPCION</th>
+                                <th class="table-th text-white text-center">ESTADO</th>
                                 <th class="table-th text-white text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($areas as $area)
                             <tr>
-                                {{-- <td><h6>{{$area->cargo}}</h6></td> --}}
+                                <td><h6>{{ ($areas->currentpage()-1) * $areas->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6 class="text-center">{{$area->name}}</h6></td>
                                 <td><h6 class="text-center">{{$area->description}}</h6></td>
+
+                                <td class="text-center">
+                                    <span class="badge {{$area->estado == 'Activo' ? 'badge-success' : 'badge-danger'}} 
+                                        text-uppercase"> {{$area->estado}}
+                                    </span>
+                                </td>
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"

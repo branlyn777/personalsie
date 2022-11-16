@@ -15,13 +15,14 @@ class AreaTrabajoController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $nameArea, $descriptionArea, $selected_id; // $cargoid, 
+    public $nameArea, $descriptionArea, $estado, $selected_id; // $cargoid, 
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
         $this -> componentName = 'Areas de Trabajo';
+        $this->estado = 'Elegir';
 
         $this->cargoid = 'Elegir';
     }
@@ -98,10 +99,11 @@ class AreaTrabajoController extends Component
 
     // editar 
     public function Edit($id){
-        $record = AreaTrabajo::find($id, ['id', 'nameArea', 'descriptionArea']); // ,'cargo_id'
+        $record = AreaTrabajo::find($id, ['id', 'nameArea', 'descriptionArea', 'estado']); // ,'cargo_id'
         //$this->cargoid = $record->cargo_id;
         $this->nameArea = $record->nameArea;
         $this->descriptionArea = $record->descriptionArea;
+        $this->estado = $record->estado;
         $this->selected_id = $record->id;
 
         $this->emit('show-modal', 'show modal!');
@@ -126,7 +128,8 @@ class AreaTrabajoController extends Component
         $area = AreaTrabajo::create([
             //'cargo_id' => $this->cargoid,
             'nameArea'=>$this->nameArea, 
-            'descriptionArea'=>$this->descriptionArea
+            'descriptionArea'=>$this->descriptionArea,
+            'estado'=>'Activo'
         ]);
 
         $this->resetUI();
@@ -155,6 +158,7 @@ class AreaTrabajoController extends Component
             //'cargo_id' => $this->cargoid,
             'nameArea' => $this->nameArea,
             'descriptionArea' => $this->descriptionArea,
+            'estado'=>$this->estado
         ]);
 
         $this->resetUI();
@@ -165,6 +169,7 @@ class AreaTrabajoController extends Component
         //$this->cargoid = 'Elegir';
         $this->nameArea='';
         $this->descriptionArea='';
+        $this->estado = 'Elegir';
         $this->search='';
         $this->selected_id=0;
     }
