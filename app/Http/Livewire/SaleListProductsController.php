@@ -38,15 +38,13 @@ class SaleListProductsController extends Component
     }
     public function mount()
     {
-        $this->paginacion = 30;
+        $this->paginacion = 20;
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->dateTo = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->sucursal_id = $this->idsucursal();
         $this->user_id = "Todos";
         $this->categoria_id = "Todos";
         $this->lista_categoria = Category::all();
-
-
     }
 
     public function render()
@@ -72,7 +70,7 @@ class SaleListProductsController extends Component
                     ->where("s.user_id",$this->user_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
                 else
                 {
@@ -88,7 +86,7 @@ class SaleListProductsController extends Component
                     ->where("cj.sucursal_id",$this->sucursal_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
             }
             else
@@ -107,7 +105,7 @@ class SaleListProductsController extends Component
                     ->where("s.user_id",$this->user_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
                 else
                 {
@@ -122,7 +120,7 @@ class SaleListProductsController extends Component
                     DB::raw('0 as ventareciente'))->where("s.status","PAID")
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
             }
         }
@@ -146,7 +144,7 @@ class SaleListProductsController extends Component
                     ->where("products.category_id",$this->categoria_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
                 else
                 {
@@ -163,7 +161,7 @@ class SaleListProductsController extends Component
                     ->where("products.category_id",$this->categoria_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
             }
             else
@@ -183,7 +181,7 @@ class SaleListProductsController extends Component
                     ->where("products.category_id",$this->categoria_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
                 else
                 {
@@ -199,7 +197,7 @@ class SaleListProductsController extends Component
                     ->where("products.category_id",$this->categoria_id)
                     ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                     ->orderBy("s.created_at","desc")
-                    ->get();
+                    ->paginate($this->paginacion);
                 }
             }
         }
@@ -207,23 +205,26 @@ class SaleListProductsController extends Component
 
 
 
-        $this->total_precio = 0;
-        $this->total_utilidad = 0;
+        
 
-
+        // $this->total_precio = 0;
+        // $this->total_utilidad = 0;
 
 
 
         //Llenando las columnas adicionales a la lsita de ventas
         foreach ($listaproductos as $l)
         {
-            $this->total_utilidad = $this->total_utilidad + $this->utilidad_producto($l->idproducto,  $l->cantidad_vendida, $l->precio_venta);
+            // $this->total_utilidad = $this->total_utilidad + $this->utilidad_producto($l->idproducto,  $l->cantidad_vendida, $l->precio_venta);
 
-            $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
+            // $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
 
             //Obtener el nombre de la sucursal de una venta
-            // $l->nombresucursal = $this->nombresucursal($l->codigo);
+            $l->nombresucursal = $this->nombresucursal($l->codigo);
+            //Obtener el tiempo de una venta reciente
+            $l->ventareciente = $this->ventareciente($l->codigo);
         }
+
 
         return view('livewire..sales.salelistproducts', [
             'listaproductos' => $listaproductos,
@@ -233,6 +234,158 @@ class SaleListProductsController extends Component
         ->extends('layouts.theme.app')
         ->section('content');
     }
+
+    //Obtiene la utilidad y precio de la tabla en la vista
+    public function utilidad_precio()
+    {
+        if($this->categoria_id == "Todos")
+        {
+            if($this->sucursal_id != "Todos")
+            {
+                if($this->user_id != "Todos")
+                {
+                    
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("cj.sucursal_id",$this->sucursal_id)
+                    ->where("s.user_id",$this->user_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+                else
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("cj.sucursal_id",$this->sucursal_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+            }
+            else
+            {
+                if($this->user_id != "Todos")
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("s.user_id",$this->user_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+                else
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+            }
+        }
+        else
+        {
+            if($this->sucursal_id != "Todos")
+            {
+                if($this->user_id != "Todos")
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("cj.sucursal_id",$this->sucursal_id)
+                    ->where("s.user_id",$this->user_id)
+                    ->where("products.category_id",$this->categoria_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+                else
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("cj.sucursal_id",$this->sucursal_id)
+                    ->where("products.category_id",$this->categoria_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+            }
+            else
+            {
+                if($this->user_id != "Todos")
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("s.user_id",$this->user_id)
+                    ->where("products.category_id",$this->categoria_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+                else
+                {
+                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                    ->join("sales as s","s.id","sd.sale_id")
+                    ->join("users as u","u.id","s.user_id")
+                    ->join("carteras as c","c.id","s.cartera_id")
+                    ->join("cajas as cj","cj.id","c.caja_id")
+                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                    ->where("s.status","PAID")
+                    ->where("products.category_id",$this->categoria_id)
+                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                    ->get();
+                }
+            }
+        }
+
+
+
+
+
+
+        $this->total_precio = 0;
+        $this->total_utilidad = 0;
+
+
+        foreach ($listaproductos as $l)
+        {
+            $this->total_utilidad = $this->total_utilidad + (($l->precio_venta - $l->costo_producto) * $l->cantidad_vendida);
+
+            $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
+
+        }
+
+    }
+
+
     //Devuelve el total utilidad de un producto
     public function utilidad_producto($idproducto, $cantidad, $precio_venta)
     {
@@ -241,6 +394,26 @@ class SaleListProductsController extends Component
         $utilidad = $precio_venta - $costo_producto;
 
         $utilidad = $utilidad * $cantidad;
+
+        return $utilidad;
+    }
+
+
+    //Buscar la utilidad de una venta mediante el idventa
+    public function buscarutilidad($idventa)
+    {
+        $utilidadventa = Sale::join('sale_details as sd', 'sd.sale_id', 'sales.id')
+        ->join('products as p', 'p.id', 'sd.product_id')
+        ->select('sd.quantity as cantidad','sd.price as precio','p.costo as costoproducto')
+        ->where('sales.id', $idventa)
+        ->get();
+
+        $utilidad = 0;
+
+        foreach ($utilidadventa as $item)
+        {
+            $utilidad = $utilidad + ($item->cantidad * $item->precio) - ($item->cantidad * $item->costoproducto);
+        }
 
         return $utilidad;
     }
@@ -326,13 +499,12 @@ class SaleListProductsController extends Component
     //Devuelve el nombre de la sucursal de una venta
     public function nombresucursal($idventa)
     {
-        $venta = Sale::find($idventa);
-
-        $cartera = Cartera::find($venta->cartera_id);
-
-        $sucursal_id = Caja::find($cartera->caja_id)->sucursal_id;
-
-        $nombresucursal = Sucursal::find($sucursal_id)->name;
+        $nombresucursal = Sucursal::join("cajas as c","c.sucursal_id","sucursals.id")
+        ->join("carteras as car","car.caja_id","c.id")
+        ->join("sales as s","s.cartera_id","car.id")
+        ->select("sucursals.name as nombre_sucursal")
+        ->where("s.id",$idventa)
+        ->first()->nombre_sucursal;
 
         return $nombresucursal;
     }

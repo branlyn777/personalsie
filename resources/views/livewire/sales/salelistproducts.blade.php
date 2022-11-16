@@ -123,6 +123,39 @@
             transform: rotate(360deg);
         }
     }
+
+
+
+        .boton-azul {
+			text-decoration: none !important; 
+			background-color: #4894ef;
+			cursor: pointer;
+			color: white;
+			border-color: #4894ef;
+			border-radius: 7px;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			padding-left: 5px;
+			padding-right: 5px;
+			box-shadow: none;
+			border-width: 2px;
+			border-style: solid;
+			display: inline-block;
+		}
+		.boton-azul:hover {
+			background-color: rgb(255, 255, 255);
+			color: #4894ef;
+			transition: all 0.4s ease-out;
+			border-color: #4894ef;
+			text-decoration: underline;
+			-webkit-transform: scale(1.05);
+			-moz-transform: scale(1.05);
+			-ms-transform: scale(1.05);
+			transform: scale(1.05);
+		}
+
+
+
     </style>
 @endsection
 <div>
@@ -179,10 +212,14 @@
             </div>
         </div>
         <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b>Utilidad | Precio</b>
+            <b>
+                <button wire:click.prevent="utilidad_precio()" class="boton-azul">
+                    Utilidad | Precio
+                </button>
+            </b>
             <div class="form-group">
-                <div class="form-control" style="font-size: 17px;">
-                    <b>{{$this->total_utilidad}}Bs | {{$this->total_precio}}Bs </b> 
+                <div class="form-control" style="font-size: 12px;">
+                    {{ number_format($this->total_utilidad, 2, ",", ".")}} Bs | {{ number_format($this->total_precio, 2, ",", ".")}} Bs
                 </div>
             </div>
         </div>
@@ -235,12 +272,24 @@
                         {{$l->nombresucursal}}
                     </td>
                     <td class="text-center">
+                        @if($l->ventareciente > -1)
+                            @if($l->ventareciente == 1)
+                            <div style="color: rgb(0, 201, 33);">
+                                <b>Hace {{$l->ventareciente}} Minuto</b>
+                            </div>
+                            @else
+                            <div style="color: rgb(0, 201, 33);">
+                                <b>Hace {{$l->ventareciente}} Minutos</b>
+                            </div>
+                            @endif
+                        @endif
                         {{ \Carbon\Carbon::parse($l->fecha_creacion)->format('d/m/Y H:i') }}
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        {{ $listaproductos->links() }}
     </div>
     
 
