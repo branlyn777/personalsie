@@ -4,7 +4,6 @@
     /* Estilos para las tablas */
     .table-wrapper {
     width: 100%;/* Anchura de ejemplo */
-    height: 600px;  /*Altura de ejemplo*/
     overflow: auto;
     }
 
@@ -38,29 +37,63 @@
 <div>
 
     <div class="row">
-        <div class="col-12 text-center">
-            <p class="h1"><b>REPORTE DE VENTAS POR PRODUCTOS</b></p>
+        <div class="col-12 col-sm-12 col-md-12 text-center">
+            <p class="h1"><b>PRODUCTOS MAS VENDIDOS</b></p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Buscar</b>
-            <input class="form-control" type="text" placeholder="Buscar Producto...">
+            <div class="form-group">
+                <input wire:model="search" type="text" class="form-control" placeholder="Ingrese Nombre o código">
+            </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            <b>Usuario</b>
-            <select class="form-control">
-                <option value=""></option>
-            </select>
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Seleccionar Sucursal</b>
+            <div class="form-group">
+                <select wire:model="sucursal_id" class="form-control">
+                    @foreach($this->listasucursales as $sucursal)
+                    <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                    @endforeach
+                    <option value="Todos">Todas las Sucursales</option>
+                </select>
+            </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            <b>Inicio</b>
-            <input wire:model="dateFrom" class="form-control" type="date">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Seleccionar Usuario</b>
+            <div class="form-group">
+                <select wire:model="user_id" class="form-control">
+                    <option value="Todos" selected>Todos</option>
+                    @foreach ($this->listausuarios as $u)
+                        <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            <b>Fin</b>
-            <input wire:model="dateTo" class="form-control" type="date">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Categoria</b>
+            <div class="form-group">
+                <select wire:model="categoria_id" class="form-control">
+                    <option value="Todos" selected>Todos</option>
+                    @foreach ($this->lista_categoria as $c)
+                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->name)) }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Fecha Inicio</b>
+            <div class="form-group">
+                <input type="date" wire:model="dateFrom" class="form-control" >
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Fecha Fin</b>
+            <div class="form-group">
+                <input type="date" wire:model="dateTo" class="form-control" >
+            </div>
         </div>
     </div>
 
@@ -72,6 +105,7 @@
                 <tr class="text-center">
                     <th>No</th>
                     <th>Nombre Producto</th>
+                    <th>Código Producto</th>
                     <th>Cantidad</th>
                 </tr>
             </thead>
@@ -83,6 +117,9 @@
                     </td>
                     <td>
                         {{$t->nombre_producto}}
+                    </td>
+                    <td class="text-center">
+                        {{$t->codigo_producto}}
                     </td>
                     <td class="text-center">
                         {{$t->cantidad_vendida}}

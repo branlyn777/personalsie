@@ -171,6 +171,12 @@
 
     <div class="row">
         <div class="col-12 col-sm-6 col-md-2 text-center">
+            <b>Buscar</b>
+            <div class="form-group">
+                <input wire:model="search" type="text" class="form-control" placeholder="Ingrese Nombre o código">
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Seleccionar Sucursal</b>
             <div class="form-group">
                 <select wire:model="sucursal_id" class="form-control">
@@ -203,14 +209,14 @@
                 </select>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Fecha Inicio</b>
             <div class="form-group">
                 <input type="date" wire:model="dateFrom" class="form-control" >
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Fecha Fin</b>
             <div class="form-group">
                 <input type="date" wire:model="dateTo" class="form-control" >
@@ -255,6 +261,7 @@
                 <tr class="text-center">
                     <th>Codigo</th>
                     <th>Producto</th>
+                    <th>Código Producto</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
                     <th>Usuario</th>
@@ -272,6 +279,9 @@
                     </td>
                     <td>
                         {{$l->nombre_producto}}
+                    </td>
+                    <td class="text-center">
+                        {{$l->codigo_producto}}
                     </td>
                     <td class="text-center">
                         {{$l->cantidad_vendida}}

@@ -29,6 +29,8 @@ class SaleListProductsController extends Component
     public $paginacion;
     //Guarda el total Bs u el total Utilidad
     public $total_precio, $total_utilidad;
+    //Guarda la busqueda de productos
+    public $search;
 
     use WithPagination;
 
@@ -38,7 +40,7 @@ class SaleListProductsController extends Component
     }
     public function mount()
     {
-        $this->paginacion = 20;
+        $this->paginacion = 200;
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->dateTo = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->sucursal_id = $this->idsucursal();
@@ -49,267 +51,640 @@ class SaleListProductsController extends Component
 
     public function render()
     {
-
-        if($this->categoria_id == "Todos")
+        if (strlen($this->search) == 0)
         {
-            if($this->sucursal_id != "Todos")
+            if($this->categoria_id == "Todos")
             {
-                if($this->user_id != "Todos")
+                if($this->sucursal_id != "Todos")
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))
-                    ->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->where("s.user_id",$this->user_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
-
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->where("s.user_id",$this->user_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
                 else
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
-
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
             }
             else
             {
-                if($this->user_id != "Todos")
+                if($this->sucursal_id != "Todos")
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->where("s.user_id",$this->user_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
-
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("s.user_id",$this->user_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
                 else
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
-
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("products.category_id",$this->categoria_id)
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
             }
         }
         else
         {
-            if($this->sucursal_id != "Todos")
+            if($this->categoria_id == "Todos")
             {
-                if($this->user_id != "Todos")
+                if($this->sucursal_id != "Todos")
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->where("s.user_id",$this->user_id)
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
 
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->where("s.user_id",$this->user_id)
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
                 else
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
 
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("cj.sucursal_id",$this->sucursal_id)
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
             }
             else
             {
-                if($this->user_id != "Todos")
+                if($this->sucursal_id != "Todos")
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->where("s.user_id",$this->user_id)
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
 
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("s.user_id",$this->user_id)
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("products.category_id",$this->categoria_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("products.category_id",$this->categoria_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
                 else
                 {
-                    //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
-                    $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
-                    "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto",
-                    DB::raw('0 as nombresucursal'),
-                    DB::raw('0 as ventareciente'))->where("s.status","PAID")
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->orderBy("s.created_at","desc")
-                    ->paginate($this->paginacion);
+                    if($this->user_id != "Todos")
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
 
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
-                    ->join("sales as s","s.id","sd.sale_id")
-                    ->join("users as u","u.id","s.user_id")
-                    ->join("carteras as c","c.id","s.cartera_id")
-                    ->join("cajas as cj","cj.id","c.caja_id")
-                    ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    ->where("s.status","PAID")
-                    ->where("products.category_id",$this->categoria_id)
-                    ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    ->get();
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("s.user_id",$this->user_id)
+                        ->where("products.category_id",$this->categoria_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
+                    else
+                    {
+                        //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
+                        $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("s.id as codigo","products.nombre as nombre_producto","sd.quantity as cantidad_vendida","s.created_at as fecha_creacion",
+                        "u.name as nombre_vendedor","sd.price as precio_venta", "products.id as idproducto", "products.codigo as codigo_producto",
+                        DB::raw('0 as nombresucursal'),
+                        DB::raw('0 as ventareciente'))->where("s.status","PAID")
+                        ->where("products.category_id",$this->categoria_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->orderBy("s.created_at","desc")
+                        ->paginate($this->paginacion);
+    
+                        //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
+                        $lista_productos_total = Product::join("sale_details as sd","sd.product_id","products.id")
+                        ->join("sales as s","s.id","sd.sale_id")
+                        ->join("users as u","u.id","s.user_id")
+                        ->join("carteras as c","c.id","s.cartera_id")
+                        ->join("cajas as cj","cj.id","c.caja_id")
+                        ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
+                        ->where("s.status","PAID")
+                        ->where("products.category_id",$this->categoria_id)
+
+                        ->where(function($query){
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                  ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+                        })
+
+                        
+                        ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
+                        ->get();
+                    }
                 }
             }
         }
-
         //Llenando las columnas adicionales a la lista de ventas ($listaproductos)
         foreach ($listaproductos as $l)
         {
@@ -318,11 +693,6 @@ class SaleListProductsController extends Component
             //Obtener el tiempo de una venta reciente
             $l->ventareciente = $this->ventareciente($l->codigo);
         }
-
-
-
-
-        
         $this->total_precio = 0;
         $this->total_utilidad = 0;
         //Calculando el total utilidad y el total precio ($lista_productos_total)
@@ -333,9 +703,6 @@ class SaleListProductsController extends Component
             $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
 
         }
-
-
-
         return view('livewire..sales.salelistproducts', [
             'listaproductos' => $listaproductos,
             'listasucursales' => Sucursal::all(),
@@ -344,165 +711,6 @@ class SaleListProductsController extends Component
         ->extends('layouts.theme.app')
         ->section('content');
     }
-
-    //Obtiene la utilidad y precio de la tabla en la vista
-    public function utilidad_precio()
-    {
-        if($this->categoria_id == "Todos")
-        {
-            if($this->sucursal_id != "Todos")
-            {
-                if($this->user_id != "Todos")
-                {
-                    
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("cj.sucursal_id",$this->sucursal_id)
-                    // ->where("s.user_id",$this->user_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-                else
-                {
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("cj.sucursal_id",$this->sucursal_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-            }
-            else
-            {
-                if($this->user_id != "Todos")
-                {
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("s.user_id",$this->user_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-                else
-                {
-                    //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-            }
-        }
-        else
-        {
-            if($this->sucursal_id != "Todos")
-            {
-                if($this->user_id != "Todos")
-                {
-                    // //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("cj.sucursal_id",$this->sucursal_id)
-                    // ->where("s.user_id",$this->user_id)
-                    // ->where("products.category_id",$this->categoria_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-                else
-                {
-                    // //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("cj.sucursal_id",$this->sucursal_id)
-                    // ->where("products.category_id",$this->categoria_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-            }
-            else
-            {
-                if($this->user_id != "Todos")
-                {
-                    // //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("s.user_id",$this->user_id)
-                    // ->where("products.category_id",$this->categoria_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-                else
-                {
-                    // //Consulta para obtener el total utilidad y total precio de los productos vendidos (sin paginacion)
-                    // $listaproductos = Product::join("sale_details as sd","sd.product_id","products.id")
-                    // ->join("sales as s","s.id","sd.sale_id")
-                    // ->join("users as u","u.id","s.user_id")
-                    // ->join("carteras as c","c.id","s.cartera_id")
-                    // ->join("cajas as cj","cj.id","c.caja_id")
-                    // ->select("sd.quantity as cantidad_vendida","sd.price as precio_venta", "products.costo as costo_producto")
-                    // ->where("s.status","PAID")
-                    // ->where("products.category_id",$this->categoria_id)
-                    // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                    // ->get();
-                }
-            }
-        }
-
-
-
-
-
-
-        $this->total_precio = 0;
-        $this->total_utilidad = 0;
-
-
-        foreach ($listaproductos as $l)
-        {
-            $this->total_utilidad = $this->total_utilidad + (($l->precio_venta - $l->costo_producto) * $l->cantidad_vendida);
-
-            $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
-
-        }
-
-    }
-
-
     //Devuelve el total utilidad de un producto
     public function utilidad_producto($idproducto, $cantidad, $precio_venta)
     {
@@ -514,8 +722,6 @@ class SaleListProductsController extends Component
 
         return $utilidad;
     }
-
-
     //Buscar la utilidad de una venta mediante el idventa
     public function buscarutilidad($idventa)
     {
@@ -534,8 +740,6 @@ class SaleListProductsController extends Component
 
         return $utilidad;
     }
-
-
     //Devuelve el tiempo en minutos de una venta reciente
     public function ventareciente($idventa)
     {
@@ -589,7 +793,6 @@ class SaleListProductsController extends Component
         
         return $minutos;
     }
-
     //Listar a todos los usuarios que hayan realizado ventas en las fechas y sucursales seleccionadas
     public function listausuarios()
     {
