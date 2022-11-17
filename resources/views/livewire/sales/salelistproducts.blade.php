@@ -159,11 +159,16 @@
     </style>
 @endsection
 <div>
+
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 text-center">
             <p class="h1"><b>PRODUCTOS VENDIDOS</b></p>
         </div>
     </div>
+
+    
+
+
     <div class="row">
         <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Seleccionar Sucursal</b>
@@ -198,28 +203,37 @@
                 </select>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-2 text-center">
+        <div class="col-12 col-sm-6 col-md-3 text-center">
             <b>Fecha Inicio</b>
             <div class="form-group">
                 <input type="date" wire:model="dateFrom" class="form-control" >
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-2 text-center">
+        <div class="col-12 col-sm-6 col-md-3 text-center">
             <b>Fecha Fin</b>
             <div class="form-group">
                 <input type="date" wire:model="dateTo" class="form-control" >
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b>
-                <button wire:click.prevent="utilidad_precio()" class="boton-azul">
-                    Utilidad | Precio
-                </button>
-            </b>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 text-center">
+            <b>Total Utilidad</b>
             <div class="form-group">
-                <div class="form-control" style="font-size: 12px;">
-                    {{ number_format($this->total_utilidad, 2, ",", ".")}} Bs | {{ number_format($this->total_precio, 2, ",", ".")}} Bs
+                <div class="">
+                    <p class="h2"><b>{{ number_format($this->total_utilidad, 2, ",", ".")}} Bs</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 text-center">
+            <b>Total Precio</b>
+            <div class="form-group">
+                <div class="">
+                    <p class="h2"><b>{{ number_format($this->total_precio, 2, ",", ".")}} Bs</b></p>
                 </div>
             </div>
         </div>
