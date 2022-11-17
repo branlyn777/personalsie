@@ -24,8 +24,9 @@
                                 <th class="table-th text-white">FECHA FINAL</th>
                                 <th class="table-th text-white">DESCRIPCION</th>
                                 <th class="table-th text-white">SALARIO</th>
-                                {{-- <th class="table-th text-white">FUNCIONES</th> --}}
+                                {{-- <th class="table-th text-white text-center">FUNCIONES</th> --}}
                                 <th class="table-th text-white text-center">ESTADO</th>
+                                <th class="table-th text-white text-center">VIGENCIA DE CONTRATO</th>
                                 <th class="table-th text-withe text-center">TIEMPO TRANCURRIDO</th>
                                 <th class="table-th text-white text-center">ACCION</th>
                             </tr>
@@ -42,9 +43,16 @@
                                 {{-- <td><h6>{{$datos->funcion}}</h6></td> --}}
 
                                 <td class="text-center">
-                                    <span class="badge {{$datos->estado == 'Activo' ? 'badge-success' : 'badge-danger'}}
+                                    <span class="badge {{$datos->estadoC == 'Activo' ? 'badge-success' : 'badge-danger'}}
                                         text-uppercase">
-                                        {{$datos->estado}}
+                                        {{$datos->estadoC}}
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <span class="badge {{$datos->estadoV == 'Vigente' ? 'badge-info' : 'badge-danger'}}
+                                        text-uppercase">
+                                        {{$datos->estadoV}}
                                     </span>
                                 </td>
 
@@ -64,6 +72,21 @@
                                     </h6>
                                 </td>
                                
+                                {{-- @if($datos->estado == 'Finalizado')
+                                    <td class="text-center" hidden>
+                                        <a href="javascript:void(0)" 
+                                            wire:click="Edit({{$datos->idContrato}})"
+                                            class="btn btn-dark mtmobile" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <a href="javascript:void(0)"
+                                        onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
+                                        class="btn btn-dark" title="Destroy">
+                                        <i class="far fa-times-circle"></i>
+                                        </a>
+                                    </td>
+                                @else --}}
                                 <td class="text-center">
                                     <a href="javascript:void(0)" 
                                         wire:click="Edit({{$datos->idContrato}})"
@@ -71,12 +94,13 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
 
-                                    <a href="javascript:void(0)"
+                                    {{-- <a href="javascript:void(0)"
                                     onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
                                     class="btn btn-dark" title="Destroy">
-                                    <i class="fas fa-trash"></i>
-                                    </a>
+                                    <i class="far fa-times-circle"></i>
+                                    </a> --}}
                                 </td>
+                                {{-- @endif --}}
                             </tr>
                             @endforeach
                         </tbody>
@@ -111,14 +135,18 @@
     {
         if(verificar == 'no')
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
             return;
         }
         else
         {
             swal({
                 title: 'CONFIRMAR',
-                text: "¿CONFIRMAS ELIMINAR  EL REGISTRO?",
+                text: "¿FINALIZAR CONTRATO?",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',

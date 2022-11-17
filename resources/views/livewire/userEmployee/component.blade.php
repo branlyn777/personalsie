@@ -27,7 +27,7 @@
                         <tbody>
                             @foreach($datos as $dat)
                             <tr>
-                                <td><h6>{{ ($areas->currentpage()-1) * $areas->perpage() + $loop->index + 1 }}</h6></td>
+                                <td><h6>{{ ($datos->currentpage()-1) * $datos->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6>{{$dat->name}}</h6></td>
                                 <td><h6 class="text-center">{{$dat->email}}</h6></td>
 
@@ -99,7 +99,11 @@
         }
         else
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
             return;
         }
         

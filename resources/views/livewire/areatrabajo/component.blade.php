@@ -34,8 +34,8 @@
                                 <td><h6 class="text-center">{{$area->description}}</h6></td>
 
                                 <td class="text-center">
-                                    <span class="badge {{$area->estado == 'Activo' ? 'badge-success' : 'badge-danger'}} 
-                                        text-uppercase"> {{$area->estado}}
+                                    <span class="badge {{$area->estadoA == 'Activo' ? 'badge-success' : 'badge-danger'}} 
+                                        text-uppercase"> {{$area->estadoA}}
                                     </span>
                                 </td>
 
@@ -84,7 +84,11 @@
     {
         if(verificar == 'no')
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
             return;
         }
         else

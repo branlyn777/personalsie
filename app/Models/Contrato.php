@@ -16,6 +16,7 @@ class Contrato extends Model
         /*'nota',*/
         'salario',
         //'funcion_id',
-        'estado'
+        'estadoC',   // estado de contrato
+        'estadoV'   // estado de vigencia de contrato
     ];
 }

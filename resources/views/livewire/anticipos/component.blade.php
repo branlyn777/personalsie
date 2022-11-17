@@ -115,7 +115,11 @@
         }
         else
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
             return;
         }
         

@@ -71,12 +71,24 @@
         <div class="col-sm-12 col-md-5">
             <div class="form-group">
                 <label>Estado de Contrato</label>
-                <select id="seleccion" wire:model="estado" class="form-control">
+                <select id="seleccion" wire:model="estadoC" class="form-control">
                     <option value="Elegir" disabled>Elegir</option>
                     <option value="Activo" selected>Activo</option>
-                    <option value="Finalizado" selected>Finalizado</option>
+                    <option value="Inactivo" selected>Inactivo</option>
                 </select>
-                @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
+                @error('estadoC') <span class="text-danger er">{{ $message }}</span> @enderror
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-5">
+            <div class="form-group">
+                <label>Estado de Vigencia</label>
+                <select id="seleccion" wire:model="estadoV" class="form-control">
+                    <option value="Elegir" disabled>Elegir</option>
+                    <option value="Vigente" selected>Vigente</option>
+                    <option value="No Vigente" selected>No Vigente</option>
+                </select>
+                @error('estadoV') <span class="text-danger er">{{ $message }}</span> @enderror
             </div>
         </div>
     @endif

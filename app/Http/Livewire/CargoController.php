@@ -90,7 +90,7 @@ class CargoController extends Component
     // verificar dato para eliminar
     public function verificar($idcargo)
     {
-        $consulta = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
+        $consulta = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
         ->select('cargos.*')
         ->where('cargos.id', $idcargo)
         ->get();

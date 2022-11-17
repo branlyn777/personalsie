@@ -7,9 +7,14 @@
                 </h4>
                 <ul class="tabs tab-pills">
                     <a href="javascript:void(0)" class="btn btn-primary" wire:click="NuevoEmpleado()">Agregar</a>
+                    <div class="col-12 col-sm-12 col-md-4 text-right">
+                        <button href="javascript:void(0)" type="button" class="btn btn-primary" wire:click="ImprimirListaEmpleados()">Exportar</button>
+                    </div>
                 </ul>
+
                {{-- <h6>{{ date('Y-m-d H:i:s') }}</h6>   muestra hora de sistema--}}
             </div>
+            
             @include('common.searchbox')
 
             <div class="widget-content">
@@ -153,7 +158,12 @@
     function Confirm(id, verificar) {
         if(verificar == 'no')
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
+            // swal('no es posible eliminar porque tiene datos relacionados')
             return;
         }else
         {
