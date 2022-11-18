@@ -6,8 +6,10 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
-                    data-target="#theModal">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
+                    data-target="#theModal">Agregar</a> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                        data-target="#theModal"">Agregar</a>
                 </ul>
             </div>
 

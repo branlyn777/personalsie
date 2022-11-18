@@ -6,8 +6,10 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal" 
-                    data-target="#theModal">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal" 
+                    data-target="#theModal">Agregar</a> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                    data-target="#theModal"">Agregar</a>
                 </ul>
             </div>
 
@@ -62,7 +64,7 @@
                                     </a>
 
                                     <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
-                                        class="btn btn-dark mtmobile" title="Eliminar">
+                                        class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
                                         <i class="fas fa-trash"></i>
                                     </a>
 

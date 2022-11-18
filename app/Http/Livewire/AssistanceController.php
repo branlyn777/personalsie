@@ -96,12 +96,14 @@ class AssistanceController extends Component
             'fecha' => 'required',
             'empleadoid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
+            'comprobante' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             //'estado.required' => 'seleccione estado de asistencia',
             //'estado.not_in' => 'selecciona estado de asistencia diferente a elegir',
+            'comprobante.mimes' => 'Solo se permite imagen'
         ];
 
         $this->validate($rules, $messages);
@@ -159,12 +161,14 @@ class AssistanceController extends Component
             'fecha' => "required",
             'empleadoid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
+            'comprobante' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             //'estado.required' => 'seleccione estado de asistencia',
             //'estado.not_in' => 'selecciona estado de asistencia diferente a elegir',
+            'comprobante.mimes' => 'Solo se permite imagen'
         ];
         $this->validate($rules,$messages);
 

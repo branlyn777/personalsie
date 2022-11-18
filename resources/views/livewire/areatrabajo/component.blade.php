@@ -6,8 +6,11 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
-                    data-target="#theModal">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
+                    data-target="#theModal">Agregar</a> --}}
+
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                    data-target="#theModal"">Agregar</a>
                 </ul>
             </div>
             {{-- http://talentoreciclaje.blogspot.com/2010/11/areas-y-cargos_18.html --}}
@@ -47,7 +50,7 @@
                                     </a>
                                     
                                     <a onclick="Confirmar1({{$area->idarea}},'{{$area->verificar}}')" 
-                                        class="btn btn-dark" title="Destroy">
+                                        class="btn btn-dark" style="color:#fff" title="Destroy">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>

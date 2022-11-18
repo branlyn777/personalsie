@@ -175,6 +175,11 @@ class ContratoController extends Component
         $this->emit('show-modal', 'show modal!');
     }
 
+    public function NuevoContrato($idContrato)
+    {
+        $this->emit('show-modal-contrato', 'show modal!');
+    }
+
     public function Store(){
         $rules = [
             'employeeid' => 'required|not_in:Elegir',

@@ -115,6 +115,8 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\ExportListaEmpleadosController; // Exportar lista de empleados
+
 // prueba de notificaciones
     use App\Mail\TestMail;
     use Illuminate\Support\Facades\Mail;
@@ -338,7 +340,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
+    // exportar Lista de empleados
+    // Route::get('ListaEmpleados/pdf/{employeeid}', [ExportListaEmpleadosController::class, 'PrintEmpleadosPDF']);
 
 });
 

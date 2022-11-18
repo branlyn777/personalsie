@@ -6,8 +6,10 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
-                        data-target="#theModal">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
+                        data-target="#theModal">Agregar</a> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                        data-target="#theModal"">Agregar</a>
                 </ul>
             </div>
             
@@ -27,7 +29,7 @@
                                 {{-- <th class="table-th text-white text-center">FUNCIONES</th> --}}
                                 <th class="table-th text-white text-center">ESTADO</th>
                                 <th class="table-th text-white text-center">VIGENCIA DE CONTRATO</th>
-                                <th class="table-th text-withe text-center">TIEMPO TRANCURRIDO</th>
+                                {{-- <th class="table-th text-withe text-center">TIEMPO TRANCURRIDO</th> --}}
                                 <th class="table-th text-white text-center">ACCION</th>
                             </tr>
                         </thead>
@@ -56,7 +58,7 @@
                                     </span>
                                 </td>
 
-                                <td>
+                                {{-- <td>
                                     <h6 class="text-center">
                                         @if($datos->year != 0)
                                             {{$datos->year}} años
@@ -70,7 +72,7 @@
                                             {{$datos->day}} dias
                                         @endif
                                     </h6>
-                                </td>
+                                </td> --}}
                                
                                 {{-- @if($datos->estado == 'Finalizado')
                                     <td class="text-center" hidden>
@@ -94,6 +96,19 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
 
+                                    {{-- <a href="{{ url('Compras/pdf' . '/' . $data->compra_id)}}" 
+                                        class="btn btn-dark mtmobile" style="color: #fff" title="Imprimir Contrato">
+                                        <i class="fas fa-print"></i>
+                                    </a> --}}
+                                    <a href="javascript:void(0)"
+                                        wire:click="NuevoContrato({{$datos->idContrato}})" 
+                                            class="btn btn-dark mtmobile">
+                                        <i class="fas fa-print"></i>
+                                    </a>
+
+                                    {{-- <a class=" btn btn-dark mtmobile" style="color: #fff" wire:click="NuevoContrato()">
+                                        <i class="fas fa-print"></i>
+                                    </a> --}}
                                     {{-- <a href="javascript:void(0)"
                                     onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
                                     class="btn btn-dark" title="Destroy">
@@ -111,6 +126,7 @@
         </div>
     </div>
     @include('livewire.contrato.form')
+    @include('livewire.contrato.vistaPreviaContrato')
 </div>
 
 @section('javascript')
@@ -128,6 +144,11 @@
 
         window.livewire.on('tcontrato-updated', msg=>{
             $('#theModal').modal('hide')
+        });
+
+        // Vista Previa de contrato
+        window.livewire.on('show-modal-contrato', msg=>{
+            $('#theModal-contrato').modal('show')
         });
     });
 

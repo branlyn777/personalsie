@@ -187,37 +187,38 @@ class EmployeeController extends Component
     public function Store(){
         $rules = [
             'ci' => 'required|unique:employees',
-            'name' => 'required',
-            'lastname' => 'required',
+            'name' => 'required|alpha', //'name' => 'required|alpha', validacion de solo letras
+            'lastname' => 'required|alpha',
             'genero' => 'required|not_in:Seleccionar',
             'dateNac' => 'required',
             //'address' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits_between:8,8',
             //'estadoCivil' => 'required|not_in:Seleccionar',
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
-            //'contratoid' => 'required|not_in:Elegir',
-            //'fechaInicio' => 'required',
             //'image' => 'required', //'max:2048'
+            'image' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',
             'ci.unique' => 'ya existe el numero de documento en el sistema',
             'name.required' => 'el nombre de empleado es requerida',
+            'name.alpha' => 'Solo se permite letras no numeros',
             'lastname.required' => 'los apellidos del empleado son requerida',
+            'lastname.alpha' => 'Solo se permite letras no numeros',
             'genero.required' => 'seleccione el genero del empleado',
             'genero.not_in' => 'selecciona genero',
             'dateNac.required' => 'la fecha de nacimiento es requerido',
             //'address.required' => 'la direccion es requerida',
             'phone.required' => 'el numero de telefono es requerido',
+            'phone.digits_between' => 'Solo se permite 8 numeros',
             //'estadoCivil.required' => 'seleccione estado civil del empleado',
             //'estadoCivil.not_in' => 'selecciona estado civil',
             'areaid.not_in' => 'elije un nombre de area diferente de elegir',
             'cargoid.not_in' => 'elije un nombre del cargo diferente de elegir',
-            //'contratoid.not_in' => 'seleccione un contrato',
-            //'fechaInicio.required' => 'la fecha de Inicio es requerido',
             //'image.required' => 'la image es requerida seleccione una'
             //'image.max' => 'La imagen no debe ser superior a 2048 kilobytes.',
+            'image.mimes' => 'Solo se permite imagen'
         ];
 
         $this->validate($rules, $messages);
@@ -319,13 +320,12 @@ class EmployeeController extends Component
             'genero' => 'required|not_in:Seleccionar',
             'dateNac' => 'required',
             //'address' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits_between:8,8',
             //'estadoCivil' => 'required|not_in:Seleccionar',
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
-            //'contratoid' => 'required|not_in:Elegir',
-            //'fechaInicio' => 'required',
             //'image' => 'max:2048',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',
@@ -341,6 +341,7 @@ class EmployeeController extends Component
 
             //'address.required' => 'la direccion es requerida',
             'phone.required' => 'el numero de telefono es requerido',
+            'phone.digits_between' => 'Solo se permite 8 numeros',
 
             //'estadoCivil.required' => 'seleccione estado civil del empleado',
             //'estadoCivil.not_in' => 'selecciona estado civil',
@@ -348,10 +349,9 @@ class EmployeeController extends Component
             'areaid.not_in' => 'elije un nombre de area diferente de elegir',
 
             'cargoid.not_in' => 'elije un nombre del cargo diferente de elegir',
-            //'contratoid.not_in' => 'elije contrato de elegir',
-            //'fechaInicio.required' => 'la fecha de Inicio es requerido',
             //'image.required' => 'Seleccione una imagen no superior a 2048 kilobytes',
             //'image.max' => 'La imagen no debe ser superior a 2048 kilobytes.',
+            'image.mimes' => 'Solo se permite imagen'
         ];
 
         $this->validate($rules, $messages);
