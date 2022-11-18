@@ -207,7 +207,7 @@
             <thead>
                 <tr class="text-center">
                     <th>No</th>
-                    <th>Nombre Producto</th>
+                    <th>Producto</th>
                     <th>Código Producto</th>
                     <th>Cantidad</th>
                 </tr>
@@ -216,7 +216,7 @@
                 @foreach($tabla_productos->sortByDesc('cantidad_vendida') as $t)
                 <tr>
                     <td class="text-center">
-                        {{-- {{ ($tabla_productos->currentpage()-1) * $tabla_productos->perpage() + $loop->index + 1 }} --}}
+                        {{ $loop->iteration }}
                     </td>
                     <td>
                         {{$t->nombre_producto}}

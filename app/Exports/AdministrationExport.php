@@ -143,22 +143,19 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
         //$date = Carbon::parse($this->dateFrom)->format('F');
         $date = new Carbon('today');
         $date = $date->format('F');
-        //dd($date);
         $this->mes=$this->Mes($date);
-        //dd($this->mes);
 
 
         $num=1;
 
         //obtener todos los empleados del area administrativa
         $reporte = Employee::join('area_trabajos as at', 'at.id', 'employees.area_trabajo_id')
-        ->join('contratos as ct', 'ct.id', 'employees.contrato_id')
+        ->join('contratos as ct', 'ct.employee_id', 'employees.id')
         ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
         ->select('employees.id', DB::raw("CONCAT(employees.name,' ',employees.lastname) AS Nombre"), 'pt.name as cargo', DB::raw('0 as Horas') , 'ct.salario', DB::raw('0 as Adelanto' ) ,DB::raw('0 as Descuento'), DB::raw('0 as Bonificaciones'),DB::raw('0 as Total_pagado'),DB::raw('0 as retrasos'))
         ->where('at.id',1)
         ->get();
 
-        //dd($reporte);
         //calcular las horas totateles, retrasdos, dias de cada empleado
         foreach ($reporte as $h) {
 
@@ -174,9 +171,7 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                  //validar el horario conformado y enviarlo a unfuncion para calcular
                  //if($os->turno=='medio turno TARDE' || $os->permiso =='tarde')
                  if($os->entrada>'14:00:00') {
-                     //dd('hola');
                  $timestamp = $this->strtotime($os->entrada,"14:00:00");
-                 //dd($timestamp);
                  $os->retraso = $timestamp;
                  }
                  //if($os->turno=='medio turno mañana' || $os->permiso =='mañana')
@@ -184,7 +179,6 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                      {
                          
                          $timestamp = $this->restar_horas($os->entrada,"08:05:00");
-                         //dd($timestamp);
                          $os->retraso = $timestamp;
                      }   else{
                              if($os->salida=='00:00:00')
@@ -208,7 +202,6 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                  
              }
              //sumar horas, minutos de retraso y dias
-            //dd($data3);
             $horasum='00:00:00';
             $retrasomin = '00:00:00';
             $dias = 0;
@@ -230,17 +223,13 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                 //dump($e);
                 //dump($s);
 
-                //dd($diferencia);
                 $horasum=$this->suma_horas($horasum,$diferencia);
                 if($x->retraso != "Ninguno" && $x->retraso != "No marco entrada")
                 {
-                    //dd($x->retraso);
                     $retrasomin=$this->suma_horas($retrasomin,$x->retraso);
                 }
                 
                 $dias++;
-                //dd($retrasomin);
-                //dd($horasum);
             }
             //$h->retrasos=$retrasomin;
             $h->Horas=$horasum;
@@ -251,8 +240,7 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                 $descuento = Discountsv::select('discountsvs.*')
                 ->where('discountsvs.ci',$h->id)
                 ->whereBetween('discountsvs.fecha', [$fecfrom,'2022-09-30'])
-                ->get(); 
-                //dd($descuento);
+                ->get();
                 $desctotal=0;
                 foreach ($descuento as $d) {
                     $desctotal=$desctotal+$d->descuento;
@@ -263,7 +251,6 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                 $adelantos = Anticipo::select('anticipos.*')
                 ->where('anticipos.empleado_id',$h->id)
                 ->get();
-                //dd($adelantos);
                 $adelantototal=0;
                 foreach ($adelantos as $d) {
                     $adelantototal=$adelantototal+$d->anticipo;
@@ -275,13 +262,13 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
             //agregar comissiones
 
             $mescom = substr($fecfrom,6,1);
-            //dd($mescom);
             $comisiones=CommissionsEmployees::join('employees as e', 'e.id', 'commissions_employees.user_id') // se unio ambas tablas
-            ->join('contratos as ct', 'ct.id', 'e.contrato_id')
+            ->join('contratos as ct', 'ct.employee_id', 'e.id')
             ->select('commissions_employees.*','e.name as empleado', 'ct.salario', db::raw('0 as Ventas'))
             ->where('commissions_employees.user_id', $h->id)
             ->where('mes', substr($fecfrom,6,1))
             ->get();
+            
             
            /* if($h->id==4)
             {
@@ -311,7 +298,6 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                     $date = Carbon::parse($this->dateFrom)->format('F');
                     dd($date);
                     dd($data);
-                //dd($fecfrom.' '.$fecto);
                 $sales=UserEmployee::join('users as u', 'u.id', 'user_employees.user_id')
                 ->join('employees as e', 'e.id', 'user_employees.employee_id')
                 ->join('sales as s', 's.user_id', 'u.id')
@@ -861,7 +847,6 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
              $timestamp='0'.$horaretraso.':'.$minutoretraso.':'.$segundosretraso;
          }
          
-         //dd($retraso);
          return $timestamp;
          
      }

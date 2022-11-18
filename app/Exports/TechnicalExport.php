@@ -156,7 +156,7 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
         $num=1;
         //obtener todos los empleados del area administrativa
         $reporte = Employee::join('area_trabajos as at', 'at.id', 'employees.area_trabajo_id')
-        ->join('contratos as ct', 'ct.id', 'employees.contrato_id')
+        ->join('contratos as ct', 'ct.employee_id', 'employees.id')
         ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
         ->select('employees.id', DB::raw("CONCAT(employees.name,' ',employees.lastname) AS Nombre"), 'pt.name as cargo', DB::raw('0 as Horas') , 'ct.salario', DB::raw('0 as Dias_trabajados' ), 'ct.salario as Total_ganado', DB::raw('0 as comisiones'),DB::raw('0 as Adelantos') ,DB::raw('0 as Faltas_Licencias')  ,DB::raw('0 as Descuento') ,DB::raw('0 as Total_pagado') ,DB::raw('0 as no_marco_entrada'),DB::raw('0 as no_marco_salida'),DB::raw('0 as Faltast'),DB::raw('0 as retrasos'),'employees.ci')
         ->where('at.id',2)
@@ -171,7 +171,6 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
             ->whereBetween('attendances.fecha', [$from,$to])
             ->where('employee_id', $h->id)
             ->get();
-            dd($reporte);
             if($h->id == 14419461)
             {
                 dd($data3);
@@ -328,7 +327,7 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
             $mescom = Carbon::parse($this->dateFrom)->format('m');
             //dd($mescom);
             $comisiones=CommissionsEmployees::join('employees as e', 'e.id', 'commissions_employees.user_id') // se unio ambas tablas
-            ->join('contratos as ct', 'ct.id', 'e.contrato_id')
+            ->join('contratos as ct', 'ct.employee_id', 'e.id')
             ->select('commissions_employees.*','e.name as empleado', 'ct.salario', db::raw('0 as Ventas'))
             ->where('commissions_employees.user_id', $h->id)
             ->where('mes', substr($fecfrom,6,1))

@@ -575,11 +575,6 @@
 											Lista de Ventas </a>
 									</li>
 									<li>
-										<a href="{{ url('ventalistaproductos') }}">
-											<i class="fas fa-clipboard-list"></i>
-											Lista Productos</a>
-									</li>
-									<li>
 										<a href="{{ url('estadisticas') }}">
 											<i class="fas fa-chart-line"></i>
 											Estadísticas </a>
@@ -601,11 +596,6 @@
 											Movimiento Diario Ventas</a>
 									</li>
 									<li>
-										<a href="{{ url('ventasreportecantidad') }}">
-											<i class="fas fa-chart-pie"></i>
-											Reporte Ventas Usuarios</a>
-									</li>
-									<li>
 										<a data-toggle="collapse" href="#subnav1">
 											<span class="sub-item">Reportes</span>
 											<span class="caret"></span>
@@ -618,9 +608,14 @@
 													</a>
 												</li>
 												<li>
-													<a href="#">
-														<span class="sub-item">Productos Menos Vendidos</span>
-													</a>
+													<a href="{{ url('ventalistaproductos') }}">
+														<i class="fas fa-clipboard-list"></i>
+														Lista Productos</a>
+												</li>
+												<li>
+													<a href="{{ url('ventasreportecantidad') }}">
+														<i class="fas fa-chart-pie"></i>
+														Reporte Ventas Usuarios</a>
 												</li>
 											</ul>
 										</div>
