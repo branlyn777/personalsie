@@ -29,19 +29,7 @@ class AttendancesController extends Component
     }
 
 
-    //paginador de collections
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
-    {
-        //dd('hola');
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
 
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        
-        $pg= new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-        //dd($this->data);
-        //retornamos lo obtenido en el pg que manda los datos para el paginador
-        return $pg;
-    }
     //propiedades de las vistas
     public function mount(){
     
@@ -55,12 +43,30 @@ class AttendancesController extends Component
         
       // 
     }
+    //paginador de collections
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        //dd('hola');
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        
+        $pg= new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        //dd($this->data);
+        //retornamos lo obtenido en el pg que manda los datos para el paginador
+        return $pg;
+    }
 
     public function render()
     {
         //hacemos el llamando a la funcion SalesByDate y luego usamos la funcion paginate para obtener 
         //el total de paginas para la vista
-        $paginador=$this->paginate($this->SalesByDate());
+
+
+        $paginador = $this->paginate($this->SalesByDate());
+
+
+
         return view('livewire.attendances.component',[
             'employees' => Employee::orderBy('name','asc')->get(),
             'datos' => $paginador,
@@ -99,7 +105,9 @@ class AttendancesController extends Component
         
        
         //validar si seleccionamos algun usuario
-        if($this->userId == 0){
+        if($this->userId == 0)
+        
+        {
             $emplo=Employee::orderBy('name','asc')->get();
             //dd($emplo);
             //consulta
@@ -107,11 +115,16 @@ class AttendancesController extends Component
             //dd($xd);
             $this->data = Attendance::join('employees as e','e.id','attendances.employee_id')
             ->join('shifts as s', 's.ci', 'attendances.employee_id')
-            ->select('attendances.*','e.name as employee',DB::raw('0 as retraso'), DB::raw('0 as hcumplida'),'s.monday','s.tuesday','s.wednesday','s.thursday','s.friday','s.saturday', DB::raw('0 as Salida_Normal'), DB::raw('0 as dia') )
+            ->select('attendances.*','e.name as employee',
+            DB::raw('0 as retraso'), DB::raw('0 as hcumplida'),
+            's.monday','s.tuesday','s.wednesday','s.thursday',
+            's.friday','s.saturday', DB::raw('0 as Salida_Normal'),
+             DB::raw('0 as dia') )
             ->whereBetween('attendances.fecha', [$from,$to])
             //->groupBy("e.id")
             ->orderBy('attendances.fecha','asc')
             ->get();
+
             
            
             //agregar el tiempo de retrasa del empleado

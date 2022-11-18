@@ -24,12 +24,16 @@ class AttendancesImport implements ToCollection, WithHeadingRow, WithBatchInsert
         
         
         $importfecha=$rows->first();
+
+
+
        // dd(substr($importfecha['tiempo'],5,2));
        
         //dd($rows);
         //validar fechas repetidas
         $valifecha=Attendance::select('attendances.*')
-        ->whereMonth('fecha', substr($importfecha['tiempo'],5,2))->first();
+        ->whereMonth('fecha', \Carbon\Carbon::parse($importfecha['tiempo'])->format('m'))
+        ->first();
         
         if($valifecha != null)
         {
@@ -50,20 +54,31 @@ class AttendancesImport implements ToCollection, WithHeadingRow, WithBatchInsert
         //nuevo registro donde si tengo una entrada busco si tiene una salida y si no marco no tiene salida
         //si no tiene una entrar y solo salida la dejo como no tiene entrada
         //si tengo una persona que tiene 2 entradas y salidas por dia guardarlas juntosa
-        foreach ($rows as $row){
-            
+        foreach ($rows as $row)
+        {
             if($row['estado_de_trabajo'] == "Entrada" )
             {
-                
                 //agregamos los datos
-                $this->entrada->push(['id_entrada'=> $e,'id' => $row['id_de_usuario'], 'name' => $row['nombre'], 'fecha' => substr($row['tiempo'],0,10), 'entrada' =>substr( $row['tiempo'], 11, 9), 'salida' => 'no marco salida']);
+                $this->entrada->push([
+                    'id_entrada'=> $e,
+                    'id' => $row['id_de_usuario'],
+                    'name' => $row['nombre'],
+                    'fecha' =>   \Carbon\Carbon::parse($row['tiempo'])->format('Y-m-d'),
+                    'entrada' =>substr( $row['tiempo'], 11, 9),
+                    'salida' => 'no marco salida']);
                 $e++;   
             }
 
             
             if($row['estado_de_trabajo']=="Salida")
             {
-                $this->salida->push(['id_salida'=> $s,'id' => $row['id_de_usuario'], 'name' => $row['nombre'], 'fecha' => substr($row['tiempo'],0,10), 'entrada' => 'no marco entrada', 'salida' =>substr( $row['tiempo'], 11, 9)]);
+                $this->salida->push([
+                    'id_salida'=> $s,
+                    'id' => $row['id_de_usuario'],
+                    'name' => $row['nombre'],
+                    'fecha' =>   \Carbon\Carbon::parse($row['tiempo'])->format('Y-m-d'),
+                    'entrada' => 'no marco entrada',
+                    'salida' =>substr( $row['tiempo'], 11, 9)]);
                 $s++;
             }
         }
@@ -71,13 +86,20 @@ class AttendancesImport implements ToCollection, WithHeadingRow, WithBatchInsert
         //dd($this->salida);
         $s=0;
         //agrupar las entradas con las salidas de las misma fecha y eliminarlas
-        foreach ($this->entrada as $row){
+        foreach ($this->entrada as $row)
+        {
             $result=$this->salida->where('id',$row['id'])->where('fecha',$row['fecha'])->first();
             //dd($result);
             if($result)
             {
                 $shora=$result['salida'];
-                $this->empleado->push(['id_salida'=> $s,'id' => $row['id'], 'name' => $row['name'], 'fecha' => $row['fecha'], 'entrada' => $row['entrada'], 'salida' => $shora]);
+                $this->empleado->push([
+                    'id_salida'=> $s,
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'fecha' => $row['fecha'],
+                    'entrada' => $row['entrada'],
+                    'salida' => $shora]);
                 $s++;
                 //removemos las salidas utilizadas
                 $this->salida->pull($result['id_salida']);
@@ -87,7 +109,12 @@ class AttendancesImport implements ToCollection, WithHeadingRow, WithBatchInsert
                
             }else{
                 $shora='no marco salida';
-                $this->empleado->push(['id_salida'=> $s,'id' => $row['id'], 'name' => $row['name'], 'fecha' => $row['fecha'], 'entrada' => $row['entrada'], 'salida' => $shora]);
+                $this->empleado->push(['id_salida'=> $s,
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'fecha' => $row['fecha'],
+                'entrada' => $row['entrada'],
+                'salida' => $shora]);
                 $s++;
                 //dd($this->empleado);
             }
@@ -99,7 +126,8 @@ class AttendancesImport implements ToCollection, WithHeadingRow, WithBatchInsert
         $this->uniqueE=$this->empleado->merge($this->salida);
         //dd($this->uniqueE);
         //sacar valores duplicados
-        $this->empleadoAll = $this->uniqueE->unique(function ($item) {
+        $this->empleadoAll = $this->uniqueE->unique(function ($item)
+        {
             $jc;
 
             /*$jc=Shift::join('employees as e', 'e.id', 'shifts.employee_id')
@@ -110,8 +138,8 @@ class AttendancesImport implements ToCollection, WithHeadingRow, WithBatchInsert
             //if($item['name']=='Yazmin')
             //si el usuario es del turno completo o jornada completa por definir aun
 
-            if(($item['entrada']>'08:00:00' && $item['salida']<'12:50:00')){
-                
+            if(($item['entrada']>'08:00:00' && $item['salida']<'12:50:00'))
+            {
                 return $item['id'].$item['fecha'].$item['entrada'];
             }
             return $item['id'].$item['fecha'];
