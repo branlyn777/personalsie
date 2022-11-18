@@ -22,8 +22,7 @@
 
                 <div class="widget-content">
                     <div class="row" >
-
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <h6>Elige el Empleado</h6>
                             <div class="form-group">
                                 <select wire:model="userId" class="form-control">
@@ -35,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        {{-- <div class="col-sm-2">
                             <h6>Entradas de la fecha</h6>
                             <div class="form-group">
                                 <select wire:model="reportType" class="form-control">
@@ -43,33 +42,36 @@
                                     <option value="1">Entradas por Fecha</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
     
-                        <div class="col-sm-2 ">
+                        <div class="col-sm-3">
                             <h6>Fecha Desde</h6>
                             <div class="form-group" >
-                                <input @if ($reportType != 1) disabled @endif type="date" wire:model="dateFrom"
+                                <input @if ($reportType != 1) {{-- disabled --}}  @endif type="date" wire:model="dateFrom"
                                     class="form-control flatpickr" placeholder="Click para elegir">
                             </div>
                         </div>
-                        <div class="col-sm-2 ">
+                        <div class="col-sm-3 ">
                             <h6>Fecha Hasta</h6>
                             <div class="form-group">
-                                <input @if ($reportType != 1) disabled @endif type="date" wire:model="dateTo"
+                                <input @if ($reportType != 1)  {{-- disabled --}} @endif type="date" wire:model="dateTo"
                                     class="form-control flatpickr" placeholder="Click para elegir">
                             </div>
                         </div>
                         
-                       
-
-                        <div class="col-sm-4 mt-4">
+                        <div class="col-sm-3">
+                            <h2 style = "visibility: hidden">A</h2>
+                            
                                 <a class="btn btn-primary {{count($data) < 1? 'disabled' : ''}}"
                                 href="{{ url('report/excel' . '/' . $userId . '/' . $reportType. '/' . $dateFrom. '/' . $dateTo) }}"
                                 target="_blank">Exportar a Excel Salarios</a>
 
                         </div>
+                    </div>
+                </div>
 
-                        
+                <div class="widget-content">
+                    <div class="row" >
 
                         <div class="col-sm-5 mt-2" >
                             <div class="card-body">
@@ -91,7 +93,6 @@
                                     @endif
                                 </form>
                             </div>
-                            
                          </div>
     
                     </div>

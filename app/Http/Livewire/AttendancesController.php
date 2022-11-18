@@ -52,6 +52,7 @@ class AttendancesController extends Component
         $this->componentName = "Fallo de Sistema";
         $this->title = "algo";
         $this->fechahoy = Carbon::parse(Carbon::now())->format('Y-m-d');
+        
       // 
     }
 
@@ -81,12 +82,12 @@ class AttendancesController extends Component
         $date = $date->format('l jS \\of F Y h:i:s A');
         dd($date);*/
         //obtener las entradas del dia
-        if($this->reportType == 0)// entradas del dia
-        {
+        /* if($this->reportType == 0)// entradas del dia
+        { */
             //obtener fecha de hoy
             $from = Carbon::parse(Carbon::now())->format('Y-m-d');
             $to = Carbon::parse(Carbon::now())->format('Y-m-d');
-        } else {
+        /* } else { */
             //obtener fechas especificadas por el usuario
             $from = Carbon::parse($this->dateFrom)->format('Y-m-d');
             $to = Carbon::parse($this->dateTo)->format('Y-m-d');
@@ -94,7 +95,7 @@ class AttendancesController extends Component
             //$file = $this->archivo->file('import_file');
             //dd($this->file);
             
-        }   
+        /* }  */  
         
        
         //validar si seleccionamos algun usuario
