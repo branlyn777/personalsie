@@ -103,6 +103,7 @@ use App\Http\Livewire\SalariesController;
 use App\Http\Livewire\SaleDailyMovementController;
 use App\Http\Livewire\SaleDevolutionController;
 use App\Http\Livewire\SaleEditController;
+use App\Http\Livewire\SaleListProductsController;
 use App\Http\Livewire\SaleStatisticController;
 use App\Http\Livewire\SaleReporteCantidadController;
 use App\Http\Livewire\SaleReportProductController;
@@ -113,6 +114,8 @@ use App\Http\Livewire\UserEmployeeController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\ExportListaEmpleadosController; // Exportar lista de empleados
 
 // prueba de notificaciones
     use App\Mail\TestMail;
@@ -238,19 +241,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('almacen/export/', [DestinoProductoController::class, 'export']);
         });
     
-    /* VENTAS */
-    Route::get('coins', CoinsController::class)->name('monedas')->middleware('permission:Coins_Index');
-    Route::get('pos', PosController::class)->name('ventas')->middleware('permission:Sales_Index');
-    Route::get('cashout', CashoutController::class)->name('cashout')->middleware('permission:Cashout_Index');
-    Route::get('reports', ReportsController::class)->name('reportes')->middleware('permission:Reportes_Index');
-    Route::get('ventasreportecantidad', SaleReporteCantidadController::class)->name('ventasreportecantidad')->middleware('permission:Reportes_Sale_Index');
-    Route::get('productosvendidos', SaleReportProductController::class)->name('productosvendidos');
-    Route::group(['middleware' => ['permission:Report_Sales_Export']], function () {
-    Route::get('report/pdf/{user}/{type}/{f1}/{f2}', [ExportController::class, 'reportPDF']);
-    Route::get('report/pdf/{user}/{type}', [ExportController::class, 'reportPDF']);
-    Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
-    Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
-    });
+        /* VENTAS */
+        Route::get('coins', CoinsController::class)->name('monedas')->middleware('permission:Coins_Index');
+        Route::get('pos', PosController::class)->name('ventas')->middleware('permission:Sales_Index');
+        Route::get('cashout', CashoutController::class)->name('cashout')->middleware('permission:Cashout_Index');
+        Route::get('reports', ReportsController::class)->name('reportes')->middleware('permission:Reportes_Index');
+        Route::get('ventasreportecantidad', SaleReporteCantidadController::class)->name('ventasreportecantidad')->middleware('permission:Reportes_Sale_Index');
+        Route::get('productosvendidos', SaleReportProductController::class)->name('productosvendidos');
+        Route::group(['middleware' => ['permission:Report_Sales_Export']], function () {
+        Route::get('report/pdf/{user}/{type}/{f1}/{f2}', [ExportController::class, 'reportPDF']);
+        Route::get('report/pdf/{user}/{type}', [ExportController::class, 'reportPDF']);
+        Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
+        Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
+        });
 
 
 
@@ -281,6 +284,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reporteServicEntreg/pdf/{type}/{sucursal}', [ExportServicioEntregPdfController::class,'reporteServPDF']);
     //Lista de Ventas
     Route::get('salelist', SaleListController::class)->name('salelist')->middleware('permission:VentasLista_Index');
+    Route::get('ventalistaproductos', SaleListProductsController::class)->name('ventalistaproductos');
     Route::get('estadisticas', SaleStatisticController::class)->name('estadisticas');
     Route::get('editarventa', SaleEditController::class)->name('editarventa');
     Route::get('devolucionventa', SaleDevolutionController::class)->name('devolucionventa');
@@ -336,7 +340,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
+    // exportar Lista de empleados
+    // Route::get('ListaEmpleados/pdf/{employeeid}', [ExportListaEmpleadosController::class, 'PrintEmpleadosPDF']);
 
 });
 

@@ -17,7 +17,7 @@ class ContratoController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $employeeid, $fechaInicio, $fechaFin, $descripcion, $salario, $estado, $selected_id;  /*$nota, $funcionid, */
+    public $employeeid, $fechaInicio, $fechaFin, $descripcion, $salario, $estadoC, $estadoV, $selected_id;  /*$nota, $funcionid, */
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
 
@@ -25,7 +25,8 @@ class ContratoController extends Component
         $this -> pageTitle = 'Listado';
         $this -> componentName = 'Contrato';
         $this->employeeid = 'Elegir';
-        $this->estado = 'Elegir';
+        $this->estadoC = 'Elegir';
+        $this->estadoV = 'Elegir';
         //$this->funcionid = 'Elegir';
 
         //$this->fechaFin=Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -158,20 +159,25 @@ class ContratoController extends Component
 
     // editar 
     public function Edit($id){
-        $record = Contrato::find($id, ['id', 'employee_id', 'fechaInicio', 'fechaFin', 'descripcion', /*'nota',*/ 'salario', /*'funcion_id',*/'estado']);
+        $record = Contrato::find($id, ['id', 'employee_id', 'fechaInicio', 'fechaFin', 'descripcion', 'salario', 'estadoC', 'estadoV']);
         //dd(\Carbon\Carbon::parse($record->fechaFin)->format('Y-m-d'));
         $this->employeeid = $record->employee_id;
         $this->fechaInicio = \Carbon\Carbon::parse($record->fechaInicio)->format('Y-m-d');
         $this->fechaFin = \Carbon\Carbon::parse($record->fechaFin)->format('Y-m-d');
         //Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->descripcion = $record->descripcion;
-        //$this->nota = $record->nota;
         $this->salario = $record->salario;
         //$this->funcionid = $record->funcion_id;
-        $this->estado = $record->estado;
+        $this->estadoC = $record->estadoC;
+        $this->estadoV = $record->estadoV;
         $this->selected_id = $record->id;
 
         $this->emit('show-modal', 'show modal!');
+    }
+
+    public function NuevoContrato($idContrato)
+    {
+        $this->emit('show-modal-contrato', 'show modal!');
     }
 
     public function Store(){
@@ -198,10 +204,10 @@ class ContratoController extends Component
             'fechaInicio'=>$this->fechaInicio,
             'fechaFin'=>$this->fechaFin,
             'descripcion'=>$this->descripcion,
-            //'nota'=>$this->nota,
             'salario'=>$this->salario,
             //'funcion_id'=>$this->funcionid,
-            'estado'=>'Activo'
+            'estadoC'=>'Activo',
+            'estadoV'=>'Vigente'
         ]);
 
         $this->resetUI();
@@ -234,10 +240,10 @@ class ContratoController extends Component
             'fechaInicio'=>$this->fechaInicio,
             'fechaFin'=>$this->fechaFin,
             'descripcion'=>$this->descripcion,
-            //'nota'=>$this->nota,
             'salario'=>$this->salario,
             //'funcion_id'=>$this->funcionid,
-            'estado'=>$this->estado
+            'estadoC'=>$this->estadoC,
+            'estadoV'=>$this->estadoV
         ]);
 
         $this->resetUI();
@@ -252,7 +258,8 @@ class ContratoController extends Component
         //$this->nota='';
         $this->salario='';
         //$this->funcionid='Elegir';
-        $this->estado = 'Elegir';
+        $this->estadoC = 'Elegir';
+        $this->estadoV = 'Elegir';
         $this->search='';
         $this->selected_id=0;
         $this->resetValidation(); // resetValidation para quitar los smg Rojos
@@ -266,7 +273,8 @@ class ContratoController extends Component
     public function Destroy($id)
     {
         $contrato = Contrato::find($id);
-        $contrato->delete();
+        $contrato -> update(['estadoV'=>'No Vigente']);
+        //$contrato->delete();
         $this->resetUI();
         $this->emit('tcontrato-deleted','Contrato Eliminada');
     }

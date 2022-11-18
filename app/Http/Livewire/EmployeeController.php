@@ -27,7 +27,7 @@ class EmployeeController extends Component
     use withFileUploads;
 
     // Datos de Empleados
-    public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $selected_id; /* $contratoid, $fechaInicio,*/
+    public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $estado, $selected_id; /* $contratoid, $fechaInicio,*/
     public $cargoid = null, $areaid = null, $cargos = null;
     public $pageTitle, $componentName, $search; /*, $componentNuevoContrato*/
     private $pagination = 12;
@@ -45,7 +45,7 @@ class EmployeeController extends Component
         $this->genero = 'Seleccionar';
         $this->estadoCivil = 'Seleccionar';
 
-        //$this->estado = 'Elegir';
+        $this->estado = 'Elegir';
         
         $this->idEmpleado = 0;
     }
@@ -93,6 +93,7 @@ class EmployeeController extends Component
         ->section('content');
     }
 
+    // ver selecion de cargos
     public function updatedareaid($area_id)
     {
         $this->cargos = Cargo::where('area_id',$area_id)->get();
@@ -182,75 +183,42 @@ class EmployeeController extends Component
         $this->image = $detalle->image;
     }
 
-    // Registro de nuevo Contrato
-    /*public function RegNuevoContrato(){
-        $rules = [
-            'salario' => 'required',
-            //'estado' => 'required|not_in:Elegir',
-            'funcionid' => 'required|not_in:Elegir'
-        ];
-        $messages =  [
-            'salario.required' => 'El salario es requerido',
-            //'estado.required' => 'seleccione estado de contrato',
-            //'estado.not_in' => 'selecciona estado de contrato',
-            'funcionid.not_in' => 'elije un nombre de funcion diferente de elegir',
-        ];
-
-        $this->validate($rules, $messages);
-       
-        $contrato = Contrato::create([
-            'fechaInicio'=>$this->fechaInicio,
-            'fechaFin'=>$this->fechaFin,
-            'descripcion'=>$this->descripcion,
-            'nota'=>$this->nota,
-            'funcion_area_id' => $this->funcionid,
-            'salario'=>$this->salario,
-            'estado'=>'Activo'
-        ]);
-
-        //$contrato->save();
-
-        $this->emit('tcontrato-added','Area Registrada');
-        //$this->resetUI();
-        $this->emit('modal-hide-contrato', 'show modal!');
-        $this->emit('modal-show', 'show modal!');
-    }*/
-
     // Registro de empleado nuevo
     public function Store(){
         $rules = [
             'ci' => 'required|unique:employees',
-            'name' => 'required',
-            'lastname' => 'required',
+            'name' => 'required|alpha', //'name' => 'required|alpha', validacion de solo letras
+            'lastname' => 'required|alpha',
             'genero' => 'required|not_in:Seleccionar',
             'dateNac' => 'required',
             //'address' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits_between:8,8',
             //'estadoCivil' => 'required|not_in:Seleccionar',
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
-            //'contratoid' => 'required|not_in:Elegir',
-            //'fechaInicio' => 'required',
             //'image' => 'required', //'max:2048'
+            'image' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',
             'ci.unique' => 'ya existe el numero de documento en el sistema',
             'name.required' => 'el nombre de empleado es requerida',
+            'name.alpha' => 'Solo se permite letras no numeros',
             'lastname.required' => 'los apellidos del empleado son requerida',
+            'lastname.alpha' => 'Solo se permite letras no numeros',
             'genero.required' => 'seleccione el genero del empleado',
             'genero.not_in' => 'selecciona genero',
             'dateNac.required' => 'la fecha de nacimiento es requerido',
             //'address.required' => 'la direccion es requerida',
             'phone.required' => 'el numero de telefono es requerido',
+            'phone.digits_between' => 'Solo se permite 8 numeros',
             //'estadoCivil.required' => 'seleccione estado civil del empleado',
             //'estadoCivil.not_in' => 'selecciona estado civil',
             'areaid.not_in' => 'elije un nombre de area diferente de elegir',
             'cargoid.not_in' => 'elije un nombre del cargo diferente de elegir',
-            //'contratoid.not_in' => 'seleccione un contrato',
-            //'fechaInicio.required' => 'la fecha de Inicio es requerido',
             //'image.required' => 'la image es requerida seleccione una'
             //'image.max' => 'La imagen no debe ser superior a 2048 kilobytes.',
+            'image.mimes' => 'Solo se permite imagen'
         ];
 
         $this->validate($rules, $messages);
@@ -266,6 +234,7 @@ class EmployeeController extends Component
             'estadoCivil'=>$this->estadoCivil,
             'area_trabajo_id' => $this->areaid,
             'cargo_id' => $this->cargoid,
+            'estado' => 'Activo'
             //'contrato_id' => $this->contratoid,
             //'fechaInicio'=>$this->fechaInicio,
             //'image'=>  $customFileName,
@@ -317,6 +286,11 @@ class EmployeeController extends Component
         $this->emit('modal-show', 'show modal!');
     }
 
+    public function ImprimirListaEmpleados()
+    {
+        
+    }
+
     // Abrir modal con la informacion
     public function Edit(Employee $employee){
 
@@ -328,11 +302,10 @@ class EmployeeController extends Component
         $this->address = $employee->address;
         $this->phone = $employee->phone;
         $this->estadoCivil = $employee->estadoCivil;
+        $this->areaid = $employee->area_trabajo_id;
         $this->cargoid = $employee->cargo_id;
-        //$this->areaid = $employee->area_trabajo_id;
-        //$this->contratoid = $employee->contrato_id;
-        //$this->fechaInicio = \Carbon\Carbon::parse($employee->fechaInicio)->format('Y-m-d') ;
         $this->image = $employee->null;
+        $this->estado = $employee->estado;
         $this->selected_id = $employee->id;
 
         $this->emit('modal-show', 'Show modal!');
@@ -347,13 +320,12 @@ class EmployeeController extends Component
             'genero' => 'required|not_in:Seleccionar',
             'dateNac' => 'required',
             //'address' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits_between:8,8',
             //'estadoCivil' => 'required|not_in:Seleccionar',
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
-            //'contratoid' => 'required|not_in:Elegir',
-            //'fechaInicio' => 'required',
             //'image' => 'max:2048',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',
@@ -369,6 +341,7 @@ class EmployeeController extends Component
 
             //'address.required' => 'la direccion es requerida',
             'phone.required' => 'el numero de telefono es requerido',
+            'phone.digits_between' => 'Solo se permite 8 numeros',
 
             //'estadoCivil.required' => 'seleccione estado civil del empleado',
             //'estadoCivil.not_in' => 'selecciona estado civil',
@@ -376,10 +349,9 @@ class EmployeeController extends Component
             'areaid.not_in' => 'elije un nombre de area diferente de elegir',
 
             'cargoid.not_in' => 'elije un nombre del cargo diferente de elegir',
-            //'contratoid.not_in' => 'elije contrato de elegir',
-            //'fechaInicio.required' => 'la fecha de Inicio es requerido',
             //'image.required' => 'Seleccione una imagen no superior a 2048 kilobytes',
             //'image.max' => 'La imagen no debe ser superior a 2048 kilobytes.',
+            'image.mimes' => 'Solo se permite imagen'
         ];
 
         $this->validate($rules, $messages);
@@ -396,6 +368,7 @@ class EmployeeController extends Component
             'estadoCivil'=>$this->estadoCivil,
             'area_trabajo_id' => $this->areaid,
             'cargo_id' => $this->cargoid,
+            'estado'=>$this->estado
             //'contrato_id' => $this->contratoid,
             //'fechaInicio' => $this->fechaInicio,
         ]);
@@ -449,16 +422,10 @@ class EmployeeController extends Component
         //$this->contratoid = 'Elegir';
         //$this->fechaInicio = '';
         $this->image=null;
+        $this->estado = 'Elegir';
         $this->search = '';
         $this->selected_id = 0;
 
-        // Datos de contrato
-        /*$this->fechaFin='';
-        $this->descripcion='';
-        $this->nota='';
-        $this->salario='';
-        $this->estado = 'Elegir';
-        $this->select_contrato_id = 0;*/
         $this->resetValidation(); // resetValidation para quitar los smg Rojos
     }
     //

@@ -15,13 +15,14 @@ class AreaTrabajoController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $nameArea, $descriptionArea, $selected_id; // $cargoid, 
+    public $nameArea, $descriptionArea, $estadoA, $selected_id; // $cargoid, 
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
         $this -> componentName = 'Areas de Trabajo';
+        $this->estadoA = 'Elegir';
 
         $this->cargoid = 'Elegir';
     }
@@ -38,8 +39,8 @@ class AreaTrabajoController extends Component
             //$data = Area::where('name','like','%' . $this->search . '%')->paginate($this->pagination);
             /*join('cargos as car', 'car.id','area_trabajos.cargo_id')  ,'car.name as cargo'
             ->*/
-            $data = AreaTrabajo::select('area_trabajos.id as idarea','area_trabajos.nameArea as name','area_trabajos.descriptionArea as description',
-                DB::raw('0 as verificar'))
+            $data = AreaTrabajo::select('area_trabajos.*', 'area_trabajos.id as idarea',
+                'area_trabajos.nameArea as name', 'area_trabajos.descriptionArea as description', DB::raw('0 as verificar'))
             ->orderBy('id','desc')
             ->where('area_trabajos.nameArea', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
@@ -54,8 +55,8 @@ class AreaTrabajoController extends Component
         {
             // $data = Area::orderBy('id','desc')->paginate($this->pagination);
             // join('cargos as car', 'car.id','area_trabajos.cargo_id')-> ,'car.name as cargo'
-            $data = AreaTrabajo::select('area_trabajos.id as idarea','area_trabajos.nameArea as name','area_trabajos.descriptionArea as description',
-                DB::raw('0 as verificar'))
+            $data = AreaTrabajo::select('area_trabajos.*', 'area_trabajos.id as idarea',
+                'area_trabajos.nameArea as name', 'area_trabajos.descriptionArea as description', DB::raw('0 as verificar'))
             ->orderBy('id','desc')
             ->paginate($this->pagination);
 
@@ -98,10 +99,11 @@ class AreaTrabajoController extends Component
 
     // editar 
     public function Edit($id){
-        $record = AreaTrabajo::find($id, ['id', 'nameArea', 'descriptionArea']); // ,'cargo_id'
+        $record = AreaTrabajo::find($id, ['id', 'nameArea', 'descriptionArea', 'estadoA']); // ,'cargo_id'
         //$this->cargoid = $record->cargo_id;
         $this->nameArea = $record->nameArea;
         $this->descriptionArea = $record->descriptionArea;
+        $this->estadoA = $record->estadoA;
         $this->selected_id = $record->id;
 
         $this->emit('show-modal', 'show modal!');
@@ -126,7 +128,8 @@ class AreaTrabajoController extends Component
         $area = AreaTrabajo::create([
             //'cargo_id' => $this->cargoid,
             'nameArea'=>$this->nameArea, 
-            'descriptionArea'=>$this->descriptionArea
+            'descriptionArea'=>$this->descriptionArea,
+            'estadoA'=>'Activo'
         ]);
 
         $this->resetUI();
@@ -155,6 +158,7 @@ class AreaTrabajoController extends Component
             //'cargo_id' => $this->cargoid,
             'nameArea' => $this->nameArea,
             'descriptionArea' => $this->descriptionArea,
+            'estadoA'=>$this->estadoA
         ]);
 
         $this->resetUI();
@@ -165,6 +169,7 @@ class AreaTrabajoController extends Component
         //$this->cargoid = 'Elegir';
         $this->nameArea='';
         $this->descriptionArea='';
+        $this->estadoA = 'Elegir';
         $this->search='';
         $this->selected_id=0;
     }

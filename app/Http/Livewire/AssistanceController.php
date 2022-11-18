@@ -8,6 +8,10 @@ use App\Models\Employee;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+//use Intervention\Image\Facades\Image;
+
 use Illuminate\Support\Facades\DB;
 
 class AssistanceController extends Component
@@ -15,7 +19,7 @@ class AssistanceController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $empleadoid, $fecha, $motivo, $selected_id;
+    public $empleadoid, $fecha, $motivo, $comprobante, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 5;
 
@@ -92,12 +96,14 @@ class AssistanceController extends Component
             'fecha' => 'required',
             'empleadoid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
+            'comprobante' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             //'estado.required' => 'seleccione estado de asistencia',
             //'estado.not_in' => 'selecciona estado de asistencia diferente a elegir',
+            'comprobante.mimes' => 'Solo se permite imagen'
         ];
 
         $this->validate($rules, $messages);
@@ -109,6 +115,31 @@ class AssistanceController extends Component
             'empleado_id' => $this->empleadoid
         ]);
 
+        //$customFileName;
+        if($this->comprobante)
+        {
+            // guardar nueva imagen
+            $customFileName = uniqid() . '_.' . $this->comprobante->extension();
+            $path = $this->comprobante->storeAs('public/assistances', $customFileName);
+            $assistance->comprobante = $customFileName;
+            $assistance->save();
+
+            //dd('hola');
+            // proceso de compresion de imagen
+            $fileName = collect(explode('/', $path))->last(); // obtener el nombre de la imagen asignado por laravel
+            $imagex = Image::make(Storage::get($path)); // recuperar la imagen almacenada y crear una nueva instancia
+            
+            // reduccion de calidad y compresion de imagen
+            $imagex->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            //dd($imagex);
+
+            // por ultimo solo guardamos esta nueva instancia, reemplazando la imagen anterior.
+            Storage::put($path, (string) $imagex->encode('jpg', 30));
+        }
+
         $this->resetUI();
         $this->emit('asist-added', 'Ausencia Registrada');
     }
@@ -118,8 +149,8 @@ class AssistanceController extends Component
         $this->selected_id = $assistance->id;
         $this->fecha = $assistance->fecha;
         $this->motivo = $assistance->motivo;
-        //$this->estado = $assistance->estado;
         $this->empleadoid = $assistance->empleado_id;
+        $this->comprobante = $assistance->null;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -130,12 +161,14 @@ class AssistanceController extends Component
             'fecha' => "required",
             'empleadoid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
+            'comprobante' => 'mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             //'estado.required' => 'seleccione estado de asistencia',
             //'estado.not_in' => 'selecciona estado de asistencia diferente a elegir',
+            'comprobante.mimes' => 'Solo se permite imagen'
         ];
         $this->validate($rules,$messages);
 
@@ -147,6 +180,34 @@ class AssistanceController extends Component
             'empleado_id' => $this->empleadoid
         ]);
 
+        if($this->comprobante){
+            $customFileName = uniqid() . '_.' . $this->comprobante->extension();
+            $path = $this->comprobante->storeAs('public/assistances', $customFileName);
+            $imageTemp = $assistance->comprobante;  // imagen temporal
+
+            $assistance->comprobante = $customFileName;
+            $assistance->save();
+
+            if($imageTemp !=null){
+                if(file_exists('storage/assistances/' . $imageTemp)){
+                    unlink('storage/assistances/' . $imageTemp);
+                }
+            }
+
+            $fileName = collect(explode('/', $path))->last(); // obtener el nombre de la imagen asignado por laravel
+            //dd($fileName);
+            $imagex = Image::make(Storage::get($path)); // recuperar la imagen almacenada y crear una nueva instancia
+
+            // reduccion de calidad y compresion de imagen
+            $imagex->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            // por ultimo solo guardamos esta nueva instancia, reemplazando la imagen anterior.
+            Storage::put($path, (string) $imagex->encode('jpg', 30));
+        }
+
         $this->resetUI();
         $this->emit('asist-updated','ausencia Actualizada');
     }
@@ -157,6 +218,7 @@ class AssistanceController extends Component
         $this->motivo='';
         //$this->estado='Elegir';
         $this->empleadoid = 'Elegir';
+        $this->image=null;
         $this->search='';
         $this->selected_id=0;
         $this->resetValidation(); // resetValidation para quitar los smg Rojos

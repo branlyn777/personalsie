@@ -1,7 +1,7 @@
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog" style="overflow-y: scroll;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
                     <b>{{ $componentName }}</b> | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
                 </h5>
@@ -101,7 +101,7 @@
                         <div class="form-group">
                             <label>Area de Trabajo</label>
                             <select wire:model="areaid" class="form-control">
-                                <option value="" >Elegir</option>
+                                <option value="">Elegir</option>
                                 @foreach($areas as $area)
                                 <option value="{{$area->id}}">{{$area->nameArea}}</option>
                                 @endforeach
@@ -122,7 +122,9 @@
                             @error('cargoid') <span class="text-danger er"> {{ $message }}</span> @enderror
                         </div>
                     </div> --}}
+                    
                     @if (!is_null($cargos))
+                        @if ($selected_id <> 1)
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label>Cargo</label>
@@ -135,35 +137,22 @@
                                 @error('cargoid') <span class="text-danger er"> {{ $message }}</span> @enderror
                             </div>
                         </div>
+                        @endif
                     @endif
-                    
 
-                    {{-- <div class="col-sm-12 col-md-6">
-                        <div class="form-group">
-                            <label>Fecha de Inicio</label>
-                            <input type="date" wire:model.lazy="fechaInicio" class="form-control">
-                            @error('fechaInicio') <span class="text-danger er">{{ $message }}</span> @enderror
-                        </div>
-                    </div> --}}
-
-                    {{-- <div class="col-sm-12 col-md-6">
-                        <div class="form-group">
-                            <label>Contrato</label>
-                            <br>
-                            <div class="btn-group"> --}}
-                                {{-- <select wire:model="contratoid" class="form-control col-md-12">
+                    @if ($selected_id >= 1)
+                        <div class="col-sm-12 col-md-5">
+                            <div class="form-group">
+                                <label>Estado de Empleado</label>
+                                <select id="seleccion" wire:model="estado" class="form-control">
                                     <option value="Elegir" disabled>Elegir</option>
-                                    @foreach($contratos as $contrato)
-                                        <option value="{{$contrato->id}}">{{$contrato->descripcion}}</option>
-                                    @endforeach
-                                </select> --}}
-                                {{-- <a type="button" wire:click="NuevoContrato()" class="btn btn-warning close-btn text-info">Nuevo</a>
+                                    <option value="Activo" selected>Activo</option>
+                                    <option value="Inactivo" selected>Inactivo</option>
+                                </select>
+                                @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
                             </div>
-                            <br> --}}
-                            {{-- @error('contratoid') <span class="text-danger er"> {{ $message }}</span> @enderror --}}
-                        {{-- </div> --}}
-                        {{-- @error('contratoid') <span class="text-danger er"> {{ $message }}</span> @enderror --}}
-                    {{-- </div> --}}
+                        </div>
+                    @endif
 
                     <div class="col-sm-12 mt-3">
                         <div class="form-group custom-file">
@@ -177,18 +166,19 @@
             </div>
            
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning close-btn text-info" data-dismiss="modal" style="background: #02b1ce">CANCELAR</button>
-                    @if ($selected_id < 1)
-                        <button type="button" wire:click.prevent="Store()" class="btn btn-warning close-btn text-info">
-                            <span wire:loading.remove>GUARDAR</span>
-                            <span wire:loading style="color: blue">CARGANDO</span>
-                        </button>
-                    @else
-                        <button type="button" wire:click.prevent="Update()" class="btn btn-warning close-btn text-info">
-                                <span wire:loading.remove>ACTUALIZAR</span>
-                                <span wire:loading style="color: blue">CARGANDO</span>
-                        </button>
-                    @endif
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary close-btn" 
+                    data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
+                @if ($selected_id < 1)
+                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                        <span wire:loading.remove>GUARDAR</span>
+                        <span wire:loading style="color: white">CARGANDO</span>
+                    </button>
+                @else
+                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary close-btn">
+                        <span wire:loading.remove>ACTUALIZAR</span>
+                        <span wire:loading style="color: white">CARGANDO</span>
+                    </button>
+                @endif
             </div>
         </div>
     </div>

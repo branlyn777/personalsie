@@ -30,12 +30,12 @@ class CreateEmployeesTable extends Migration
 
             $table->unsignedBigInteger('cargo_id');
             $table->foreign('cargo_id')->references('id')->on('cargos');
-
             /*$table->unsignedBigInteger('contrato_id');
             $table->foreign('contrato_id')->references('id')->on('contratos');*/
 
             //$table->timestamp('fechaInicio');
             $table->string('image',100)->nullable();
+            $table->enum('estado',['Activo','Inactivo'])->default('Activo')->nullable();
 
             $table->timestamps();
         });

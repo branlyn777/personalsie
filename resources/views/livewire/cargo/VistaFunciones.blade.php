@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary" style="background: #414141">
                 <h5 class="modal-title text-white">
-                    <b>{{$pageTitleF}} </b>
+                    <b>{{$pageTitleF}}</b>
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
@@ -12,7 +12,7 @@
                 <div class="widget-content">
                     <div class="table-responsive">
                         <table class="table table-bordered table-bordered-bd-ligth striped mt-1" >
-                            <thead class="text-white" style="background: #02b1ce">
+                            <thead class="text-white" style="background: #ee761c">
                                 <tr>
                                     <th style="width: 50%;">FUNCION</th>
                                     <th style="width: 2%; text-align: center;">ACTIONS</th>
@@ -21,25 +21,24 @@
                             <tbody>
                                 @if ($detalle != null)
                                     @foreach($detalle as $det)
-                                    <tr>
-                                        <td><h6>{{$det->nameFuncion}}</h6></td>
-        
-                                        <td class="text-center">
+                                        <tr>
+                                            <td><h6>{{$det->nameFuncion}}</h6></td>
+            
+                                            <td class="text-center">
+                                                <a href="javascript:void(0)"
+                                                    wire:click="EditarF({{$det->idfuncion}})"
+                                                    class="btn btn-dark p-2" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
 
-                                            <a href="javascript:void(0)"
-                                                wire:click="EditarF({{$det->idcargo}})"
-                                                class="btn btn-dark p-2" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-
-                                            <a href="javascript:void(0)"
-                                                wire:click="EliminarF()"
-                                                class="btn btn-dark p-2" title="Destroy">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                                <a href="javascript:void(0)"
+                                                    wire:click="EliminarF('{{$det->idfuncion}}')"
+                                                    class="btn btn-dark p-2" title="Destroy">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @else
                                     <h4>Sin funciones</h4>
                                 @endif
@@ -51,7 +50,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning"
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary"
                     data-dismiss="modal" style="background: #3b3f5c">Cerrar</button>
             </div>
         </div>

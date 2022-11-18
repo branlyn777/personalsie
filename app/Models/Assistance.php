@@ -8,5 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Assistance extends Model
 {
     use HasFactory;
-    protected $fillable = ['empleado_id', 'fecha', 'motivo'];
+    protected $fillable = ['empleado_id', 'fecha', 'motivo', 'comprobante'];
+
+    public function getImagenAttribute()
+    {
+        if ($this->comprobante == null) {
+            return 'noimage.jpg';
+        }
+        if (file_exists('storage/assistances/' . $this->comprobante))
+            return $this->comprobante;
+        else {
+            return 'noimage.jpg';
+        }
+    }
 }

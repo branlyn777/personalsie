@@ -6,8 +6,10 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
-                    data-target="#theModal">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
+                    data-target="#theModal">Agregar</a> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                        data-target="#theModal"">Agregar</a>
                 </ul>
             </div>
 
@@ -16,30 +18,30 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-bordered table-bordered-bd-warning striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                               <th class="table-th text-white">EMPLEADO</th>
-                               <th class="table-th text-white text-center">FECHA</th>
-                               <th class="table-th text-withe text-center">MOTIVO</th>
-                               {{--<th class="table-th text-withe text-center">SALARION</th>
-                               <th class="table-th text-withe text-center">NUEVO SALARIO</th>--}}
-                               <th class="table-th text-white text-center">ACTIONS</th>
+                                <th class="table-th text-white">#</th>
+                                <th class="table-th text-white">EMPLEADO</th>
+                                <th class="table-th text-white text-center">FECHA</th>
+                                <th class="table-th text-withe text-center">MOTIVO</th>
+                                <th class="table-th text-withe text-center">COMPROVANTE</th>
+                                <th class="table-th text-white text-center">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($asistencias as $a)
                             <tr>
+                                <td><h6>{{ ($asistencias->currentpage()-1) * $asistencias->perpage() + $loop->index + 1 }}</h6></td>
                                 <td><h6>{{ $a->empleado }}</h6></td>
                                 <td><h6 class="text-center">{{$a->fecha}}</h6></td>
                                 <td><h6 class="text-center">{{$a->motivo}}</h6></td>
-                                {{---<td><h6 class="text-center">{{$a->salario}}</h6></td>
-                                <td><h6 class="text-center">{{number_format($a->salario - 30)}} Bs</h6></td>--}}
-                                {{--<td class="text-center">
-                                    <span class="badge {{$a->estado == 'Presente' ? 'badge-success' : 'badge-danger'}}
-                                        text-uppercase">
-                                        {{$a->estado}}
+                                
+                                <td class="text-center">
+                                    <span>
+                                        <img src="{{ asset('storage/assistances/' .$a->comprobante)}}"
+                                         alt="Sin Comprobante" height="70" width="80" class="rounded">
                                     </span>
-                                </td>--}}
+                                </td>
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
@@ -109,7 +111,11 @@
         }
         else
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
             return;
         }
         

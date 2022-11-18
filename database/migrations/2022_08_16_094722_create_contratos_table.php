@@ -28,7 +28,8 @@ class CreateContratosTable extends Migration
             /*$table->unsignedBigInteger('funcion_id');
             $table->foreign('funcion_id')->references('id')->on('function_areas');*/
 
-            $table->enum('estado',['Activo','Finalizado'])->default('Activo');
+            $table->enum('estadoC',['Activo','Inactivo'])->default('Activo');
+            $table->enum('estadoV',['Vigente','No Vigente'])->default('Vigente');
 
             $table->timestamps();
         });

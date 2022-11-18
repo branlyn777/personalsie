@@ -575,6 +575,11 @@
 											Lista de Ventas </a>
 									</li>
 									<li>
+										<a href="{{ url('ventalistaproductos') }}">
+											<i class="fas fa-clipboard-list"></i>
+											Lista Productos</a>
+									</li>
+									<li>
 										<a href="{{ url('estadisticas') }}">
 											<i class="fas fa-chart-line"></i>
 											Estadísticas </a>
@@ -702,11 +707,11 @@
 											Cargos</a>
 									  </li>
 								  @endcan
-								  <li>
+								  {{-- <li>
 									<a href="{{ url('funciones') }}">
 										<i class="fa fas fa-minus"></i>
 										Funciones de Cargo</a>
-								  </li>
+								  </li> --}}
 
 								  <li>
 									<a href="{{ url('comisiones') }}">

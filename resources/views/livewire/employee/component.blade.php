@@ -6,24 +6,59 @@
                     <b>{{ $componentName }} | {{ $pageTitle }}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="NuevoEmpleado()">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" wire:click="NuevoEmpleado()">Agregar</a> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" wire:click="NuevoEmpleado()">Agregar</a>
+                    {{-- <div class="col-12 col-sm-12 col-md-4 text-right">
+                        <button href="javascript:void(0)" type="button" class="btn btn-primary" wire:click="ImprimirListaEmpleados()">Exportar</button>
+                    </div> --}}
                 </ul>
+
                {{-- <h6>{{ date('Y-m-d H:i:s') }}</h6>   muestra hora de sistema--}}
             </div>
-            @include('common.searchbox')
+
+            <div class="row justify-content-between">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-gp">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="form-group">
+                        {{-- <h6>Elegir Tipo de Exportacion</h6> --}}
+                        <select wire:model="estado" class="form-control">
+                            <option value="0">Todos</option>
+                            <option value="Activo" selected>Activo</option>
+                            <option value="Inactivo" selected>Inactivo</option>
+                        </select>
+                        @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
+                    </div>
+                    
+                    {{-- <a  href="{{ url('ListaEmpleados/pdf' . '/' . $employeeid)}}"  
+                        class="btn btn-success p-1" title="Exportar Lista de Empleados">Generar PDF</a> --}}
+                </div>
+                
+            </div>
 
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                                <th class="table-th text-withe">NOMBRE</th>
+                                <th class="table-th text-withe">#</th>
+                                <th class="table-th text-withe text-center">NOMBRE</th>
                                 <th class="table-th text-withe text-center">APELLIDOS</th>
                                 <th class="table-th text-withe text-center">CI</th>
                                 <th class="table-th text-withe text-center">TELEFONO</th>
                                 <th class="table-th text-withe text-center">AREA</th>
                                 <th class="table-th text-withe text-center">CARGO</th>
                                 <th class="table-th text-white text-center">IMAGEN</th>
+                                <th class="table-th text-withe text-center">ESTADO</th>
                                 <th class="table-th text-withe text-center">FECHA DE REGISTRO</th>
                                 <th class="table-th text-withe text-center">ACCIONES</th>
                             </tr>
@@ -31,6 +66,7 @@
                         <tbody>
                             @foreach ($data as $employee)
                                 <tr>
+                                    <td><h6>{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</h6></td>
                                     <td><h6 class="text-center">{{ $employee->name }}</h6></td>
                                     <td><h6 class="text-center">{{ $employee->lastname }}</h6></td>
                                     <td><h6 class="text-center">{{ $employee->ci }}</h6></td>
@@ -66,6 +102,12 @@
                                         <span>
                                             <img src="{{ asset('storage/employees/' .$employee->image)}}"
                                              alt="Sin Imagen" height="70" width="80" class="rounded">
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span class="badge {{$employee->estado == 'Activo' ? 'badge-success' : 'badge-danger'}} 
+                                            text-uppercase"> {{$employee->estado}}
                                         </span>
                                     </td>
 
@@ -144,7 +186,12 @@
     function Confirm(id, verificar) {
         if(verificar == 'no')
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
+            // swal('no es posible eliminar porque tiene datos relacionados')
             return;
         }else
         {

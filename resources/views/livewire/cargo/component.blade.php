@@ -6,8 +6,10 @@
                     <b>{{$componentName}} | {{$pageTitle}}</b>
                 </h4>
                 <ul class="tabs tab-pills">
-                    <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" 
-                    data-target="#theModal">Agregar</a>
+                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal" 
+                    data-target="#theModal">Agregar</a> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                    data-target="#theModal"">Agregar</a>
                 </ul>
             </div>
 
@@ -16,9 +18,9 @@
             <div class="widget-content">
                 <div class="table-responsive">
                     <table class="table table-bordered table striped mt-1" >
-                        <thead class="text-white" style="background: #02b1ce">
+                        <thead class="text-white" style="background: #ee761c">
                             <tr>
-                               {{-- <th class="table-th text-white">ID</th> --}}
+                               <th class="table-th text-white">#</th>
                                <th class="table-th text-white">CARGO</th>
                                <th class="table-th text-white text-center">AREA</th>
                                <th class="table-th text-white text-center">FUNCIONES</th>
@@ -29,14 +31,14 @@
                         <tbody>
                             @foreach($cargos as $cargo)
                             <tr>
-                                {{-- <td><h6>{{$cargo->idcargo}}</h6></td> --}}
+                                <td><h6>{{($cargos->currentpage()-1) * $cargos->perpage() + $loop->index + 1}}</h6></td>
                                 <td><h6>{{$cargo->name}}</h6></td>
                                 <td><h6 class="text-center">{{$cargo->area}}</h6></td>
 
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
                                         wire:click="VistaFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-warning mtmobile" title="Ver">
+                                        class="btn btn-primary mtmobile" title="Ver">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
@@ -51,7 +53,7 @@
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
                                         wire:click="NuevaFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-warning close-btn text-info" title="Agregar">
+                                        class="btn btn-primary close-btn" title="Agregar">
                                         <i class="fas fa-plus-circle"></i>
                                     </a>
 
@@ -62,7 +64,7 @@
                                     </a>
 
                                     <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
-                                        class="btn btn-dark mtmobile" title="Eliminar">
+                                        class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
                                         <i class="fas fa-trash"></i>
                                     </a>
 
@@ -98,7 +100,7 @@
             $('#theModal').modal('hide')
         });
 
-        // Fomrmulario de nueva funcion
+        // Formulario de nueva funcion
         window.livewire.on('show-modal-NFuncion', Msg => {
             $('#theModal-NFuncion').modal('show')
         })
@@ -106,6 +108,10 @@
         window.livewire.on('fun-added', msg=>{
             $('#theModal').modal('hide')
         });
+
+        window.livewire.on('modal-hide-NFuncion', Msg => {
+            $('#theModal-NFuncion').modal('hide')
+        })
         
         // formulario de vista funciones
         window.livewire.on('show-modal-VFuncion', Msg => {
@@ -128,14 +134,19 @@
         window.livewire.on('fun-updated', msg=>{
             $('#theModal').modal('hide')
         });
-        
+
+        // Eliminar funcion seleccionado
     });
 
     function Confirmar1(id, verificar)
     {
         if(verificar == 'no')
         {
-            swal('no es posible eliminar porque tiene datos relacionados')
+            Swal(
+                'Error',
+                'No es posible eliminar porque tiene datos relacionados.',
+                'error'
+            )
             return;
         }
         else
