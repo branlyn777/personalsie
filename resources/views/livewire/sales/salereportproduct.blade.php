@@ -31,6 +31,96 @@
         padding-left: 10px;
         border-right: 0.3px solid #ee761c;
     }
+
+
+     /* Estilos para el loading */
+     .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        }
+        .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+        }
+        .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ee761c;
+        margin: -4px 0 0 -4px;
+        }
+        .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+        }
+        .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+        }
+        .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+        }
+        .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+        }
+        .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+        }
+        .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+        }
+        .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+        }
+        .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+        }
+        .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+        }
+        .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+        }
+        .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+        }
+        .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+        }
+        .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+        }
+        .lds-roller div:nth-child(7):after {
+        top: 63px;
+        left: 17px;
+        }
+        .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+        }
+        .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12px;
+        }
+        @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+
 </style>
 
 @endsection
@@ -46,7 +136,14 @@
         <div class="col-12 col-sm-6 col-md-2 text-center">
             <b>Buscar</b>
             <div class="form-group">
-                <input wire:model="search" type="text" class="form-control" placeholder="Ingrese Nombre o código">
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text input-gp">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    <input type="text" wire:model="search" placeholder="Ingrese Nombre o código" class="form-control">
+                </div>
             </div>
         </div>
         <div class="col-12 col-sm-6 col-md-2 text-center">
@@ -97,7 +194,13 @@
         </div>
     </div>
 
-    <br>
+    <center><div id="preloader_3" wire:loading.delay.longest>
+                
+            
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+    
+    </div></center>
 
     <div class="table-wrapper">
         <table>
@@ -113,7 +216,7 @@
                 @foreach($tabla_productos->sortByDesc('cantidad_vendida') as $t)
                 <tr>
                     <td class="text-center">
-                        {{ ($tabla_productos->currentpage()-1) * $tabla_productos->perpage() + $loop->index + 1 }}
+                        {{-- {{ ($tabla_productos->currentpage()-1) * $tabla_productos->perpage() + $loop->index + 1 }} --}}
                     </td>
                     <td>
                         {{$t->nombre_producto}}
@@ -129,6 +232,6 @@
             </tbody>
         </table>
     </div>
-    {{ $tabla_productos->links() }}
+    {{-- {{ $tabla_productos->links() }} --}}
 
 </div>

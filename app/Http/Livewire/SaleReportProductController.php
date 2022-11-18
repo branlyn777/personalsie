@@ -29,7 +29,6 @@ class SaleReportProductController extends Component
 
     public $listasucursales, $listausuarios;
 
-
     use WithPagination;
 
     public function paginationView()
@@ -49,7 +48,6 @@ class SaleReportProductController extends Component
         $this->listausuarios = $this->listausuarios();
 
     }
-
     public function render()
     {
         if(strlen($this->search) == 0)
@@ -70,7 +68,7 @@ class SaleReportProductController extends Component
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -83,7 +81,7 @@ class SaleReportProductController extends Component
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
                 else
@@ -99,7 +97,7 @@ class SaleReportProductController extends Component
                         ->where("s.user_id",$this->user_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -111,7 +109,7 @@ class SaleReportProductController extends Component
                         ->where("s.status","PAID")
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
             }
@@ -133,7 +131,7 @@ class SaleReportProductController extends Component
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -148,7 +146,7 @@ class SaleReportProductController extends Component
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
                 else
@@ -166,7 +164,7 @@ class SaleReportProductController extends Component
                         ->where("s.user_id",$this->user_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -180,7 +178,7 @@ class SaleReportProductController extends Component
                         ->where("s.status","PAID")
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
             }
@@ -209,7 +207,7 @@ class SaleReportProductController extends Component
 
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -229,7 +227,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
                 else
@@ -252,7 +250,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -271,7 +269,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
             }
@@ -300,7 +298,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -322,7 +320,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
                 else
@@ -347,7 +345,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                     else
                     {
@@ -368,7 +366,7 @@ class SaleReportProductController extends Component
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->groupBy("products.id")
-                        ->paginate($this->paginacion);
+                        ->get();
                     }
                 }
             }
@@ -387,7 +385,6 @@ class SaleReportProductController extends Component
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
     {
@@ -411,8 +408,6 @@ class SaleReportProductController extends Component
         ->get();
         return $listausuarios;
     }
-
-
     //Obtiene la cantidad vendida de un producto en un llapso de tiempo
     public function obtener_cantidad_vendida($productoid)
     {
@@ -420,10 +415,6 @@ class SaleReportProductController extends Component
         ->where("sale_details.product_id",$productoid)
         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
         ->sum('sale_details.quantity');
-
         return $cantidad;
     }
-
-
-
 }
