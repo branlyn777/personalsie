@@ -183,6 +183,9 @@ return [
         // compresion de imagen
         Intervention\Image\ImageServiceProvider::class,
 
+        // Exportacion de PDF
+        Barryvdh\DomPDF\ServiceProvider::class,
+
     ],
 
     /*
@@ -241,6 +244,9 @@ return [
 
         //compresion de imagen
         'Image' => Intervention\Image\Facades\Image::class,
+
+        // exportacion de PDF
+        'PDF' => \Barryvdh\DomPDF\Facade::class,
 
     ],
 

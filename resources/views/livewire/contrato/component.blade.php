@@ -100,9 +100,8 @@
                                         class="btn btn-dark mtmobile" style="color: #fff" title="Imprimir Contrato">
                                         <i class="fas fa-print"></i>
                                     </a> --}}
-                                    <a href="javascript:void(0)"
-                                        wire:click="NuevoContrato({{$datos->idContrato}})" 
-                                            class="btn btn-dark mtmobile">
+                                    <a class="btn btn-dark mtmobile" 
+                                        href="{{url('contratoPDF')}}">
                                         <i class="fas fa-print"></i>
                                     </a>
 

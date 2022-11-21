@@ -39,7 +39,8 @@
                                 <td class="text-center">
                                     <span>
                                         <img src="{{ asset('storage/assistances/' .$a->comprobante)}}"
-                                         alt="Sin Comprobante" height="70" width="80" class="rounded">
+                                         alt="Sin Comprobante" height="70" width="80" class="rounded"
+                                         wire:click="verImagen({{$a->idAsistencia}})">
                                     </span>
                                 </td>
 
@@ -66,6 +67,7 @@
         </div>
     </div>
     @include('livewire.assistances.form')
+    @include('livewire.assistances.verImg')
 </div>
 
 @section('javascript')
@@ -89,6 +91,10 @@
         });
         window.livewire.on('hidden.bs.modal', msg=>{
             $('.er').css('display','none')
+        });
+        // vista de comprobante
+        window.livewire.on('show-modal-img', msg=>{
+            $('#theModal-img').modal('show')
         });
     });
 

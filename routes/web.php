@@ -116,6 +116,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ExportListaEmpleadosController; // Exportar lista de empleados
+use App\Http\Controllers\ExportContratoController; // Exportar contrato de empleado
 
 // prueba de notificaciones
     use App\Mail\TestMail;
@@ -340,14 +341,10 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    // exportar Lista de empleados
-    // Route::get('ListaEmpleados/pdf/{employeeid}', [ExportListaEmpleadosController::class, 'PrintEmpleadosPDF']);
+    // exportar Lista de empleados en PDF
+    Route::get('/empleadoPDF', [ExportListaEmpleadosController::class, 'downloadPDF']);
+
+    // exportar Contrato de Empleado en PDF
+    Route::get('/contratoPDF', [ExportContratoController::class, 'downloadCPDF']);
 
 });
-
-
-
-
-
-
-//reportes EXCEL

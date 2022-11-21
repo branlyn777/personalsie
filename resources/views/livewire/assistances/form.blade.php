@@ -36,7 +36,7 @@
     <div class="col-sm-12 col-md-12 mt-3">
         <div class="form-group custom-file">
             <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model="comprobante" accept="comprobante/x-png, comprobante/gif, comprobante/jpeg">
-            <label for="" class="custom-file-label">Comprobante{{$comprobante}}</label>
+            <label for="" class="custom-file-label">Comprobante {{$comprobante}}</label>
             @error('comprobante') <span class="text-danger er"> {{ $message }}</span> @enderror
         </div>
     </div>

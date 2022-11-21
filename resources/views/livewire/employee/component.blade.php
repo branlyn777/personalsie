@@ -7,12 +7,12 @@
                 </h4>
                 <ul class="tabs tab-pills">
                     {{-- <a href="javascript:void(0)" class="btn btn-primary" wire:click="NuevoEmpleado()">Agregar</a> --}}
-                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" wire:click="NuevoEmpleado()">Agregar</a>
-                    {{-- <div class="col-12 col-sm-12 col-md-4 text-right">
-                        <button href="javascript:void(0)" type="button" class="btn btn-primary" wire:click="ImprimirListaEmpleados()">Exportar</button>
-                    </div> --}}
+                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" 
+                        wire:click="NuevoEmpleado()">Agregar</a>
+                    
+                    <a class="btn btn-dark mtmobile text-right" style="color: #fff" 
+                    href="{{url('empleadoPDF')}}">Exportar PDF</a>
                 </ul>
-
                {{-- <h6>{{ date('Y-m-d H:i:s') }}</h6>   muestra hora de sistema--}}
             </div>
 
@@ -28,20 +28,17 @@
                     </div>
                 </div>
                 
-                <div>
+                {{-- <div>
                     <div class="form-group">
                         {{-- <h6>Elegir Tipo de Exportacion</h6> --}}
-                        <select wire:model="estado" class="form-control">
+                        {{-- <select wire:model="estado" class="form-control">
                             <option value="0">Todos</option>
                             <option value="Activo" selected>Activo</option>
                             <option value="Inactivo" selected>Inactivo</option>
                         </select>
                         @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
-                    </div>
-                    
-                    {{-- <a  href="{{ url('ListaEmpleados/pdf' . '/' . $employeeid)}}"  
-                        class="btn btn-success p-1" title="Exportar Lista de Empleados">Generar PDF</a> --}}
-                </div>
+                    </div> --}}
+                {{-- </div> --}}
                 
             </div>
 

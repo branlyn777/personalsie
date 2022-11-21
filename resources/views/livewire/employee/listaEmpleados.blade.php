@@ -1,109 +1,91 @@
-<!DOCTYPE html>
-<html lang="es">
+{{-- <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lista de Empleados</title>
-    <link rel="stylesheet" href="{{ asset('css/custom_pdf.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/custom_page.css')}}">
-</head>
-<body>
-    <section class="header" style="top: -287px;">
-        <table cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-                <td colspan="2" class="text-center">
-                    <span style="font-size: 25px; font-weight: bold;">Soluciones Informaticas Emanuel</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td width="30%" style="vertical-align: top; padding-top: 10px; position: relative">
-                    <img src="{{ asset('assets/img/logo.png') }}" class="invoice-logo">
-                </td>
-                <td width="70%" class="text-left text-company" style="vertical-align: top; padding-top: 10px">
-                    {{-- @if ($reportType == 0)
-                    <span style="font-size: 16px"><strong>Reporte de venta del Dia</strong></span>
-                    @else
-                    <span style="font-size: 16px"><strong>Reporte de venta por Fechas</strong></span>
-                    @endif
-                    <br> --}}
-                    {{-- @if($reportType != 0)
-                    <span style="font-size: 16px"><strong>Fecha de consulta: {{$dateFrom}} al {{$dateTo}}</strong></span>
-                    @else --}}
-                    <span style="font-size: 16px"><strong>Fecha de creacion: {{ \Carbon\Carbon::now()->format('d-M-Y')}}</strong></span>
-                    {{-- @endif --}}
-                    <br>
-                    {{-- <span style="font-size: 14px">Usuario: {{$user}}</span> --}}
-                </td>
-            </tr>
-        </table>
-    </section>
-
-    <section style="margin-top: -110px">
-        <table cellpadding="0" cellspacing="0" class="table-items" width="100%">
-            <thead>
-                <tr>
-                    <th width="10%">CI</th>
-                    <th width="12%">NOMBRE</th>
-                    <th width="10%">APELLIDOS</th>
-                    <th width="12%">GENERO</th>
-                    <th width="12%">FECHA DE NACIMIENTO</th>
-                    <th width="12%">DIRECCION</th>
-                    <th width="12%">TELEFONO</th>
-                    <th width="12%">ESTADO CIVIL</th>
-                    <th width="12%">AREA DE TRABAJO</th>
-                    <th width="12%">CARGO</th>
-                    <th width="12%">IMAGEN</th>
-                    <th width="12%">ESTADO</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- @foreach ($data as $item)
+    <title>Empresas</title>
+</head> --}}
+{{-- <body>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Lista de Empleados</div>
+            <div class="card-title">Fecha de Creacion: {{ date('Y-m-d H:i:s') }}</div>
+        </div>
+        <div class="card-body">
+            <table class="table table-head-bg-primary mt-4">
+                <thead>
                     <tr>
-                        <td align="center">{{$item->id}}</td>
-                        <td align="center">{{number_format($item->total,2)}}</td>
-                        <td align="center">{{$item->items}}</td>
-                        <td align="center">{{$item->status}}</td>
-                        <td align="center">{{$item->user}}</td>
-                        <td align="center">{{$item->created_at}}</td>
+                        <th style="text-align: left">#</th>
+                        <th style="text-align: left">NRO DE CI</th>
+                        <th style="text-align: left">NOMBRE COMPLETO</th>
+                        <th style="text-align: left">FECHA DE NACIMIENTO</th>
+                        <th style="text-align: left">DIRECCION</th>
+                        <th style="text-align: left">TELEFONO</th>
+                        <th style="text-align: left">AREA DE TRABAJO</th>
+                        <th style="text-align: left">CARGO</th>
                     </tr>
-                @endforeach --}}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td class="text-center">
-                        <span><b>TOTAL DE EMPLEADOS</b></span>
-                    </td>
-
-                    <td colspan="1" class="text-center">
-                        <span><strong>${{number_format($data->sum('total'),2)}}</strong></span>
-                    </td>
-
-                    <td class="text-center">
-                        {{$data->sum('items')}}
-                    </td>
-
-                    <td colspan="3"></td>
-                </tr>
-            </tfoot>
-        </table>
-    </section>
-
-    <section class="footer">
-        <table cellpadding="0" cellspacing="0" class="table-items" width="100%">
-            <tr>
-                <td width="20%">
-                    <span>Sistema LWPOS v1</span>
-                </td>
-                <td width="60%" class="text-center">
-                    <span>luisfax.com</span>
-                </td>
-                <td class="text-center">
-                    Pagina <span class="pagenum"></span>
-                </td>
-            </tr>
-        </table>
-    </section>
+                </thead> --}}
+                {{-- <tbody>
+                    @foreach ($empleados as $emp)
+                        <tr>
+                            <th scope="row">Num </th>
+                            <td style="text-align: left">{{$emp->ci}}</td>
+                            <td style="text-align: left">{{$emp->name}} {{$emp->lastname}}</td>
+                            <td style="text-align: left">{{$emp->dateNac}}</td>
+                            <td style="text-align: left">{{$emp->address}}</td>
+                            <td style="text-align: left">{{$emp->phone}}</td>
+                            <td style="text-align: left">{{$emp->area}}</td>
+                            <td style="text-align: left">{{$emp->cargo}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
-</html>
+</html> --}}
+
+<div class="row sales layout-top-spacing">
+    <div class="col-sm-12">
+        <div class="widget widget-chart-one">
+            <div class="widget-heading">
+                <h3 style="text-align: center">Lista de Empleados</h3>
+                <h4 style="text-align: center">Fecha de Creacion: {{date('Y-m-d')}}</h4>
+            </div>
+
+            <div class="widget-content">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-bordered-bd-success striped mt-2">
+                        <thead class="text-white" style="background: #ee761c">
+                            <tr>
+                                <th style="text-align: left">#</th>
+                                <th style="text-align: left">NRO DE CI</th>
+                                <th style="text-align: left">NOMBRE COMPLETO</th>
+                                <th style="text-align: left">FECHA DE NACIMIENTO</th>
+                                <th style="text-align: left">DIRECCION</th>
+                                <th style="text-align: left">TELEFONO</th>
+                                <th style="text-align: left">AREA DE TRABAJO</th>
+                                <th style="text-align: left">CARGO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($empleados as $emp)
+                                <tr>
+                                    <th scope="row">Num</th>
+                                    <td style="text-align: left">{{$emp->ci}}</td>
+                                    <td style="text-align: left">{{$emp->name}}</td>
+                                    <td style="text-align: left">{{$emp->dateNac}}</td>
+                                    <td style="text-align: left">{{$emp->address}}</td>
+                                    <td style="text-align: left">{{$emp->phone}}</td>
+                                    <td style="text-align: left">{{$emp->area}}</td>
+                                    <td style="text-align: left">{{$emp->cargo}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -90,6 +90,31 @@ class AssistanceController extends Component
         }
     }
 
+    // ver comprobante
+    public function verImagen($idAsistencia)
+    {
+        $detalle = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
+        ->select('assistances.id as idAsistencia',
+            'assistances.comprobante',
+            'at.name')
+        ->where('assistances.id', $idAsistencia)    // selecciona
+        ->get()
+        ->first();
+
+        //dd($this->name = $detalle->empleado);
+
+        $this->comprobante = $detalle->comprobante;
+
+        // $this-> detalle = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
+        // ->select('assistances.id as idAsistencia',
+        //      'assistances.comprobante',
+        //      'at.name')
+        // ->where('assistances.id', $idAsistencia)    // selecciona
+        // ->get();
+    
+        $this->emit('show-modal-img', 'open modal');
+    }
+
     // crear y guardar
     public function Store(){
         $rules = [
