@@ -155,16 +155,18 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
         ->select('employees.id', DB::raw("CONCAT(employees.name,' ',employees.lastname) AS Nombre"), 'pt.name as cargo', DB::raw('0 as Horas') , 'ct.salario', DB::raw('0 as Adelanto' ) ,DB::raw('0 as Descuento'), DB::raw('0 as Bonificaciones'),DB::raw('0 as Total_pagado'),DB::raw('0 as retrasos'))
         ->where('at.id',1)
         ->get();
-
+        
         //calcular las horas totateles, retrasdos, dias de cada empleado
-        foreach ($reporte as $h) {
-
+        foreach ($reporte as $h)
+        {
             //obtenemos el reporte del horario del empleado
             $data3 = Attendance::join('employees as e','e.id','attendances.employee_id')
             ->select('attendances.fecha',  'attendances.entrada', 'attendances.salida',DB::raw('0 as retraso'), DB::raw('0 as hcumplida'))
             ->whereBetween('attendances.fecha', [$from,$to])
             ->where('employee_id', $h->id)
-            ->get();
+            ->get()/* ->take(3) */;
+            dd($data3);
+
             foreach ($data3 as $os)
              {   
                  
@@ -201,24 +203,26 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
                          }
                  
              }
+             
              //sumar horas, minutos de retraso y dias
-            $horasum='00:00:00';
-            $retrasomin = '00:00:00';
-            $dias = 0;
-            foreach ($data3 as $x) {
-                //$fechasD=carbon::parse($mergeAM);
-                $e = Carbon::parse($x->entrada);
-                $s = Carbon::parse($x->salida);
-                
-                if($x->entrada != "00:00:00" && $x->salida != "00:00:00")
-                {  
-                    $diferencia = $e->diff($s)->format('%H:%I:%S');
-                }
-                
-                if($x->name == "Yazmin")
-                {
-                    //dump($diferencia);
-                }
+             $horasum='00:00:00';
+             $retrasomin = '00:00:00';
+             $dias = 0;
+             foreach ($data3 as $x) {
+                 //$fechasD=carbon::parse($mergeAM);
+                 $e = Carbon::parse($x->entrada);
+                 $s = Carbon::parse($x->salida);
+                 
+                 if($x->entrada != "00:00:00" && $x->salida != "00:00:00")
+                 {  
+                     $diferencia = $e->diff($s)->format('%H:%I:%S');
+                    }
+                    
+                    if($x->name == "Yazmin")
+                    {
+                        //dump($diferencia);
+                    }
+                    
                //$hora= $diferencia->format('%H:%I:%S');
                 //dump($e);
                 //dump($s);
@@ -358,6 +362,7 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
             $num++;
             //$h->Dias_trabajados=$dias;
         }
+        
 
 
         //sumar columnas para agregar a los totales finales

@@ -162,6 +162,7 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
         ->where('at.id',2)
         ->get();
         
+       
         //calcular las horas totateles, retrasdos, dias de cada empleado
         foreach ($reporte as $h) {
             //obtenemos el reporte del horario del empleado
@@ -175,6 +176,7 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
             {
                 dd($data3);
             }
+            
             foreach ($data3 as $os)
              {   
                  //validar el horario conformado y enviarlo a unfuncion para calcular
@@ -380,6 +382,7 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
            $h->id=$num;
            $num++;
         }
+        
 
         //dd($reporte);
         //sumar columnas para agregar a los totales finales
