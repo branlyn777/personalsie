@@ -59,7 +59,7 @@ class EmployeeController extends Component
                 'employees.id as idEmpleado', DB::raw('0 as verificar'))
             ->where('employees.name', 'like', '%' . $this->search . '%')    // busquedas employees
             ->orWhere('employees.ci', 'like', '%' . $this->search . '%')    // busquedas
-            ->orWhere('c.nameArea', 'like', '%' . $this->search . '%')      // busqueda nombre de categoria
+            ->orWhere('c.nameArea', 'like', '%' . $this->search . '%')      // busqueda 
             ->orderBy('employees.created_at', 'desc')
             ->paginate($this->pagination);
 
@@ -197,7 +197,7 @@ class EmployeeController extends Component
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
             //'image' => 'required', //'max:2048'
-            'image' => 'mimes:jpeg,png,jpg,gif,svg'
+            'image' => 'sometimes|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',

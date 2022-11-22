@@ -13,7 +13,18 @@
                 </ul>
             </div>
             
-            @include('common.searchbox')
+            <div class="row justify-content-between">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-gp">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" wire:model="search" placeholder="Nombre de Empleado" class="form-control">
+                    </div>
+                </div>
+            </div>
             
             <div class="widget-content">
                 <div class="table-responsive">
@@ -96,18 +107,11 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
 
-                                    {{-- <a href="{{ url('Compras/pdf' . '/' . $data->compra_id)}}" 
-                                        class="btn btn-dark mtmobile" style="color: #fff" title="Imprimir Contrato">
-                                        <i class="fas fa-print"></i>
-                                    </a> --}}
-                                    <a class="btn btn-dark mtmobile" 
-                                        href="{{url('contratoPDF')}}">
+                                    <a href="{{ url('Contratos/pdf' . '/' . $datos->idContrato)}}"  
+                                        class="btn btn-dark mtmobile" title="Imprimir Contrato">
                                         <i class="fas fa-print"></i>
                                     </a>
 
-                                    {{-- <a class=" btn btn-dark mtmobile" style="color: #fff" wire:click="NuevoContrato()">
-                                        <i class="fas fa-print"></i>
-                                    </a> --}}
                                     {{-- <a href="javascript:void(0)"
                                     onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
                                     class="btn btn-dark" title="Destroy">

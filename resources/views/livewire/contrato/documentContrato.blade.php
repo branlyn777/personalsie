@@ -2,53 +2,132 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Contrato de Empleado</title>
+    <title>Document</title>
+
+    <style>
+    	.titulo{
+    		text-align: center;
+    		margin-top: 10px;
+    		font-size: 1.5em;
+    	}
+    	.subtitulo{
+    		text-align: center;
+    		margin-top: 1px;
+    		font-size: 1.2em;
+    	}
+        .container{
+            margin: 60px;
+            margin-top: 10px;
+        }
+        .firmas{
+            margin: 50px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h4 style="text-align: center">FORMATO DE CONTRATO</h4>
-    <h4>Cochabamba: {{ date('Y-m-d') }}</h4>
-    <h4 style="text-align: center">PRUEBA NRO 1</h4>
+	
+    <div>
+    	<h2 class="titulo">Soluciones Informaticas Emanuel</h2>
+		<h3 class="subtitulo">Contrato de Trabajo<br>Fecha de Creacion: {{ date('Y-m-d') }}</h3><br>
+    </div>
 
-    @foreach ($contratos as $cont)
-        <p>Lorem ipsum dolor, <b>Nombre completo: </b>{{$cont->name}} {{$cont->lastname}} sit amet consectetur <b>C.I.: </b>{{$cont->ci}} adipisicing elit.
-             Voluptas <b>nro de telefono: </b>{{$cont->phone}} aperiam rerum veritatis debitis repellat consectetur porro architecto, 
-             neque est perferendis dicta, quaerat, sit quos ex at ullam fugiat nulla aliquid!
+    <div class="container">
+        @foreach ($contratos as $cont)
+        <p>
+            Introduccion: ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
+            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis 
+            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui 
+            officia deserunt mollit anim id est laborum.
         </p>
 
-        <p>Lorem ipsum dolor <b>Salario: </b>{{$cont->salario}} sit amet consectetur adipisicing elit. <b>area de trabajo: </b>{{$cont->area}}
-            Aspernatur pariatur <b>cargo: </b>{{$cont->cargo}} tempora exercitationem necessitatibus tenetur rem nihil nam saepe
-            illo, accusamus voluptates totam ut earum, reprehenderit rerum cumque ipsam itaque aliquam exercitationem debitis.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, a quam. Laborum iure laboriosam assumenda 
-            esse eius odio ea, voluptas repudiandae magnam rerum. <b>fecha de inicio: </b>{{\Carbon\Carbon::parse($cont->fechaInicio)->format('Y-m-d')}} Natus nam 
-            <b>fecha de finalizacion: </b>{{\Carbon\Carbon::parse($cont->fechaFin)->format('Y-m-d')}}consectetur labore?
+        <p>
+            PRIMERA: ipsum <b>Nombre completo: </b>{{$cont->name}} {{$cont->lastname}} dolor sit amet <b>C.I.: </b>{{$cont->ci}} consectetur adipisicing elit, sed do eiusmod tempor 
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+            mollit anim id est laborum. cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id 
+            est laborum. cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. cillum 
+            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+            sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
 
-        <h4>Parte I</h4>
-        <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt natus dolor animi suscipit asperiores tempore similique,
-             illo, accusamus voluptates totam ut earum, reprehenderit rerum cumque ipsam itaque aliquam exercitationem debitis.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, a quam. Laborum iure laboriosam assumenda
-             quae atque officia incidunt veritatis, laudantium voluptatem aut quos voluptates id autem, eligendi tempore corporis!
-             <br>
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt natus dolor animi suscipit asperiores tempore similique,
-             illo, accusamus voluptates totam ut earum, reprehenderit rerum cumque ipsam itaque aliquam exercitationem debitis.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, a quam. Laborum iure laboriosam assumenda
-             quae atque officia incidunt veritatis, laudantium voluptatem aut quos voluptates id autem, eligendi tempore corporis!
-        </P>
+        <p>
+            SEGUNDA: ipsum dolor sit amet <b>Salario: </b>{{$cont->salario}} consectetur adipisicing elit <b>area de trabajo: </b>{{$cont->area}} sed do eiusmod <b>cargo: </b>{{$cont->cargo}} tempor 
+            incididunt <b>fecha de inicio: </b>{{\Carbon\Carbon::parse($cont->fechaInicio)->format('Y-m-d')}} ut labore et dolore magna aliqua <b>fecha de finalizacion: </b>{{\Carbon\Carbon::parse($cont->fechaFin)->format('Y-m-d')}} Ut enim ad minim veniam, quis nostrud 
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo.proident, sunt in culpa 
+            qui officia deserunt mollit anim id est laborum.
+        </p>
 
-        <h4>Parte   II</h4>
-        <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt natus dolor animi suscipit asperiores tempore similique,
-             illo, accusamus voluptates totam ut earum, reprehenderit rerum cumque ipsam itaque aliquam exercitationem debitis.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, a quam. Laborum iure laboriosam assumenda
-             quae atque officia incidunt veritatis, laudantium voluptatem aut quos voluptates id autem, eligendi tempore corporis!
-        </P>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h5 style="text-align: center"><b>Firma del Empleado</b></h5>
+        <p>
+            TERCERA: ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+            deserunt mollit anim id est laborum consequat. Duis aute irure dolor in reprehenderit 
+            in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id 
+            est laborum.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+            sunt in culpa qui officia deserunt mollit anim id est laborum consequat. Duis aute 
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+            deserunt mollit anim id est laborum.
+        </p>
+
+        <p>
+            CUARTA: ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+            deserunt mollit anim id est laborum consequat. Duis aute irure dolor in reprehenderit 
+            in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim 
+            id est laborum.Duis aute irure dolor in reprehenderit in voluptate velit esse 
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum consequat. 
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui 
+            officia deserunt mollit anim id est laborum.cillum dolore eu fugiat nulla pariatur. 
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+            mollit anim id est laborum.
+        </p>
+
+        <p>
+            QUINTA: ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+        </p>
+
+        <p>
+            SEXTA: ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.proident, sunt 
+            in culpa qui officia deserunt mollit anim id est laborum.cillum dolore eu fugiat 
+            nulla pariatur. Excepteur sint occaecat cupidatat non.
+        </p>
+
+        <p>
+            SEPTIMA: ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+            deserunt mollit anim id est laborum.
+        </p>
+    </div>
+
+    <div class="firmas">
+        <h4>Firma de Empleadob</h4>
+        <h4>Firma del Contratante</h4>
+    </div>
     @endforeach
-
 </body>
 </html>

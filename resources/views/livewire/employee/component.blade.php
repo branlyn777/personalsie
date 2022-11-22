@@ -10,8 +10,13 @@
                     <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" 
                         wire:click="NuevoEmpleado()">Agregar</a>
                     
-                    <a class="btn btn-dark mtmobile text-right" style="color: #fff" 
-                    href="{{url('empleadoPDF')}}">Exportar PDF</a>
+                    {{-- <a class="btn btn-dark mtmobile text-right" style="color: #fff" 
+                    href="{{url('empleadoPDF')}}">Exportar PDF</a> --}}
+
+                    <a href="{{ url('ListaEmpleados/pdf' . '/' . $idEmpleado)}}"  
+                        class="btn btn-dark mtmobile">
+                        Exportar PDF</a>
+                    
                 </ul>
                {{-- <h6>{{ date('Y-m-d H:i:s') }}</h6>   muestra hora de sistema--}}
             </div>
@@ -24,22 +29,9 @@
                                 <i class="fas fa-search"></i>
                             </span>
                         </div>
-                        <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                        <input type="text" wire:model="search" placeholder="Nombre ó CI" class="form-control">
                     </div>
                 </div>
-                
-                {{-- <div>
-                    <div class="form-group">
-                        {{-- <h6>Elegir Tipo de Exportacion</h6> --}}
-                        {{-- <select wire:model="estado" class="form-control">
-                            <option value="0">Todos</option>
-                            <option value="Activo" selected>Activo</option>
-                            <option value="Inactivo" selected>Inactivo</option>
-                        </select>
-                        @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
-                    </div> --}}
-                {{-- </div> --}}
-                
             </div>
 
             <div class="widget-content">
@@ -128,6 +120,7 @@
                                                 class="btn btn-dark" title="DetalleEmpleado" type="button" class="btn btn-success">
                                                 <i class="fas fa-list"></i>
                                             </button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

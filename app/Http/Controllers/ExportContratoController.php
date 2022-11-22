@@ -30,6 +30,7 @@ class ExportContratoController extends Controller
             ->select('contratos.*','emp.*', 'at.nameArea as area','cg.name as cargo')
             ->get();
 
+        dd($contratos);
         // $contratos = Contrato::join('employees as emp', 'emp.id', 'contratos.Employee_id')
         //     ->join('area_trabajos as at', 'at.id', 'emp.area_trabajo_id')
         //     ->join('cargos as cg', 'cg.id', 'emp.cargo_id')

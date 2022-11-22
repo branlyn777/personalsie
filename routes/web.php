@@ -115,8 +115,11 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\ExportListaEmpleadosController; // Exportar lista de empleados
-use App\Http\Controllers\ExportContratoController; // Exportar contrato de empleado
+//use App\Http\Controllers\ExportListaEmpleadosController; // Exportar lista de empleados f1
+// use App\Http\Controllers\ExportContratoController; // Exportar contrato de empleado  f1
+
+use App\Http\Controllers\ExportContratosController; // Exportar Contratos forma 2
+use App\Http\Controllers\ExportListaEmpController;  // Exportar Lista de empleados forma 2
 
 // prueba de notificaciones
     use App\Mail\TestMail;
@@ -342,9 +345,12 @@ Route::middleware(['auth'])->group(function () {
 
 
     // exportar Lista de empleados en PDF
-    Route::get('/empleadoPDF', [ExportListaEmpleadosController::class, 'downloadPDF']);
+    //Route::get('/empleadoPDF', [ExportListaEmpleadosController::class, 'downloadPDF']);
+    Route::get('ListaEmpleados/pdf/{idEmpleado}', [ExportListaEmpController::class, 'PrintListaEmpPdf']);
 
     // exportar Contrato de Empleado en PDF
-    Route::get('/contratoPDF', [ExportContratoController::class, 'downloadCPDF']);
+    //Route::get('/contratoPDF', [ExportContratoController::class, 'downloadCPDF']);
+    // otro exportacion de contrato
+    Route::get('Contratos/pdf/{idContrato}', [ExportContratosController::class, 'PrintContratoPdf']);
 
 });

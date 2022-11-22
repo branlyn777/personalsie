@@ -15,7 +15,18 @@
             </div>
             {{-- http://talentoreciclaje.blogspot.com/2010/11/areas-y-cargos_18.html --}}
 
-            @include('common.searchbox')
+            <div class="row justify-content-between">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-gp">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" wire:model="search" placeholder="Area" class="form-control">
+                    </div>
+                </div>
+            </div>
 
             <div class="widget-content">
                 <div class="table-responsive">
@@ -23,7 +34,7 @@
                         <thead class="text-white" style="background: #ee761c">
                             <tr>
                                 <th class="table-th">#</th>
-                                <th class="table-th text-white text-center">NOMBRE</th>
+                                <th class="table-th text-white">NOMBRE</th>
                                 <th class="table-th text-white text-center">DESCRIPCION</th>
                                 <th class="table-th text-white text-center">ESTADO</th>
                                 <th class="table-th text-white text-center">ACTIONS</th>
@@ -33,7 +44,7 @@
                             @foreach($areas as $area)
                             <tr>
                                 <td><h6>{{ ($areas->currentpage()-1) * $areas->perpage() + $loop->index + 1 }}</h6></td>
-                                <td><h6 class="text-center">{{$area->name}}</h6></td>
+                                <td><h6>{{$area->name}}</h6></td>
                                 <td><h6 class="text-center">{{$area->description}}</h6></td>
 
                                 <td class="text-center">

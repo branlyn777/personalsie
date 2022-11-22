@@ -41,10 +41,8 @@ class AssistanceController extends Component
         if(strlen($this->search) > 0)
         {
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id') // se uno amabas tablas
-            //->join('contratos as ct', 'ct.id', 'at.contrato_id')
             ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
-            ->where('assistances.estado', 'like', '%' . $this->search . '%')   
-            ->orWhere('at.name', 'like', '%' . $this->search . '%')         
+            ->where('at.name', 'like', '%' . $this->search . '%')   
             ->orderBy('assistances.fecha', 'asc')
             ->paginate($this->pagination);
 
@@ -56,7 +54,6 @@ class AssistanceController extends Component
         }
         else
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
-            //->join('contratos as ct', 'ct.id', 'at.contrato_id')
             ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
             ->orderBy('assistances.fecha', 'asc')
             ->paginate($this->pagination);

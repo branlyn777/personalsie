@@ -20,8 +20,8 @@ class CreateAnticiposTable extends Migration
             $table->foreign('empleado_id')->references('id')->on('employees');
 
             $table->decimal('anticipo',10,2);
+            $table->date('fecha');
             $table->string('motivo',500)->nullable();
-            //$table->date('fecha');
 
             $table->timestamps();
         });

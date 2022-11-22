@@ -13,7 +13,18 @@
                 </ul>
             </div>
 
-            @include('common.searchbox')
+            <div class="row justify-content-between">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-gp">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" wire:model="search" placeholder="Nombre de Empleado" class="form-control">
+                    </div>
+                </div>
+            </div>
 
             <div class="widget-content">
                 <div class="table-responsive">
@@ -46,7 +57,8 @@
                                     @endif
                                 </h6></td> --}}
 
-                                <td><h6 class="text-center">{{\Carbon\Carbon::parse($a->created_at)->format('Y-m-d') }}</h6></td> {{-- {{$a->created_at}}{{ $employee->created_at->diffForHumans() }}--}}
+                                <td><h6 class="text-center">{{\Carbon\Carbon::parse($a->fecha)->format('Y-m-d')}}</h6></td>
+                                {{-- <td><h6 class="text-center">{{\Carbon\Carbon::parse($a->created_at)->format('Y-m-d') }}</h6></td> {{$a->created_at}}{{ $employee->created_at->diffForHumans() }} --}}
                                 <td><h6 class="text-center">{{$a->motivo}}</h6></td>
 
                                 <td class="text-center">
@@ -56,11 +68,11 @@
                                     <i class="fas fa-edit"></i>
                                     </a>
 
-                                    <a href="javascript:void(0)"
+                                    {{-- <a href="javascript:void(0)"
                                         onclick="Confirm({{$a->idAnticipo}},'{{$a->verificar}}')"
                                         class="btn btn-dark mtmobile" title="Destroy">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </a> --}}
                                 </td>
                             </tr>
                             @endforeach
