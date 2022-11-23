@@ -18,16 +18,16 @@
         <div class="form-group">
             <label>Fecha de Inicio</label>
             <input type="date" wire:model.lazy="fechaInicio" class="form-control">
+            @error('fechaInicio') <span class="text-danger er">{{ $message }}</span> @enderror
         </div>
-        @error('fechaInicio') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Fecha de Final</label>
             <input type="date" wire:model.lazy="fechaFin" class="form-control">
+            @error('fechaFin') <span class="text-danger er">{{ $message }}</span> @enderror
         </div>
-        @error('fechaFin') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
     <div class="col-sm-12 col-md-6">

@@ -118,7 +118,7 @@ class AssistanceController extends Component
             'fecha' => 'required',
             'empleadoid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
-            'comprobante' => 'mimes:jpeg,png,jpg,gif,svg'
+            'comprobante' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
@@ -183,7 +183,7 @@ class AssistanceController extends Component
             'fecha' => "required",
             'empleadoid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
-            'comprobante' => 'mimes:jpeg,png,jpg,gif,svg'
+            'comprobante' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',

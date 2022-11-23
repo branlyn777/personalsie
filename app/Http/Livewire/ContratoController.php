@@ -184,6 +184,8 @@ class ContratoController extends Component
         $rules = [
             'employeeid' => 'required|not_in:Elegir',
             'salario' => 'required',
+            'fechaInicio' => 'required',
+            'fechaFin' => 'required',
             //'funcionid' => 'required|not_in:Elegir',
             //'estado' => 'required|not_in:Elegir',
         ];
@@ -191,6 +193,8 @@ class ContratoController extends Component
             'employeeid.required' => 'Elija un Empleado',
             'employeeid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             'salario.required' => 'El salario es requerido',
+            'fechaInicio.required' => 'La fecha de inicio es requerida',
+            'fechaFin.required' => 'La fecha de finalizacion es requerida',
             //'funcionid.required' => 'Elija una Funcion',
             //'funcionid.not_in' => 'Elije una funcion diferente de elegir',
             //'estado.required' => 'seleccione estado de contrato',

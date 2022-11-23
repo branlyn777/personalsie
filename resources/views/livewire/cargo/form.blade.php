@@ -28,8 +28,8 @@
                 <label>Estado de Cargo</label>
                 <select id="seleccion" wire:model="estado" class="form-control">
                     <option value="Elegir" disabled>Elegir</option>
-                    <option value="Disponible" selected>Disponible</option>
-                    <option value="No Disponible" selected>No Disponible</option>
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Inactivo" selected>Inactivo</option>
                 </select>
                 @error('estado') <span class="text-danger er">{{ $message }}</span> @enderror
             </div>

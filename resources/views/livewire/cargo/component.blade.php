@@ -1,93 +1,95 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{$componentName}} | {{$pageTitle}}</b>
-                </h4>
-                <ul class="tabs tab-pills">
-                    {{-- <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal" 
-                    data-target="#theModal">Agregar</a> --}}
-                    <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
-                    data-target="#theModal"">Agregar</a>
-                </ul>
-            </div>
+@section('css')
+    <style>
+        .modal .modal-content { width: 100%; }
+    </style>
+@endsection
 
-            <div class="row justify-content-between">
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="input-group mb-4">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text input-gp">
-                                <i class="fas fa-search"></i>
-                            </span>
-                        </div>
-                        <input type="text" wire:model="search" placeholder="Cargo" class="form-control">
-                    </div>
+<div>
+    <div class="row">
+        <div class="col-12 text-center" style="margin-bottom: 50px">
+            <p class="h1"><b>{{$componentName}} | {{$pageTitle}}</b></p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text input-gp">
+                        <i class="fas fa-search"></i>
+                    </span>
                 </div>
-            </div>
-
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-bordered table striped mt-1" >
-                        <thead class="text-white" style="background: #ee761c">
-                            <tr>
-                               <th class="table-th text-white">#</th>
-                               <th class="table-th text-white">CARGO</th>
-                               <th class="table-th text-white text-center">AREA</th>
-                               <th class="table-th text-white text-center">FUNCIONES</th>
-                               <th class="table-th text-white text-center">ESTADO</th>
-                               <th class="table-th text-white text-center">ACTIONS</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($cargos as $cargo)
-                            <tr>
-                                <td><h6>{{($cargos->currentpage()-1) * $cargos->perpage() + $loop->index + 1}}</h6></td>
-                                <td><h6>{{$cargo->name}}</h6></td>
-                                <td><h6 class="text-center">{{$cargo->area}}</h6></td>
-
-                                <td class="text-center">
-                                    <a href="javascript:void(0)"
-                                        wire:click="VistaFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-primary mtmobile" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                </td>
-
-                                <td class="text-center">
-                                    <span class="badge {{$cargo->estado == 'Disponible' ? 'badge-success' : 'badge-danger'}}
-                                        text-uppercase">
-                                        {{$cargo->estado}}
-                                    </span>
-                                </td>
-
-                                <td class="text-center">
-                                    <a href="javascript:void(0)"
-                                        wire:click="NuevaFuncion({{$cargo->idcargo}})" 
-                                        class="btn btn-primary close-btn" title="Agregar">
-                                        <i class="fas fa-plus-circle"></i>
-                                    </a>
-
-                                    <a href="javascript:void(0)" 
-                                        wire:click="Edit({{$cargo->idcargo}})"
-                                        class="btn btn-dark mtmobile" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-
-                                    <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
-                                        class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table> 
-                    {{$cargos->links()}}
-                </div>
+                <input type="text" wire:model="search" placeholder="Cargo" class="form-control">
             </div>
         </div>
+    
+        <div class="col-12 col-sm-6 col-md-4 text-center"></div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+            <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                data-target="#theModal"">Agregar</a>
+        </div>
+
+    </div>
+    <br>
+    <div class="table-5">
+        <table>
+            <thead> 
+                <tr class="text-center">
+                    <th class="table-th text-white">#</th>
+                    <th class="table-th text-white">CARGO</th>
+                    <th class="table-th text-white text-center">AREA</th>
+                    <th class="table-th text-white text-center">FUNCIONES</th>
+                    <th class="table-th text-white text-center">ESTADO</th>
+                    <th class="table-th text-white text-center">ACTIONS</th>        
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($cargos as $cargo)
+                <tr>
+                    <td><h6>{{($cargos->currentpage()-1) * $cargos->perpage() + $loop->index + 1}}</h6></td>
+                    <td><h6>{{$cargo->name}}</h6></td>
+                    <td><h6 class="text-center">{{$cargo->area}}</h6></td>
+
+                    <td class="text-center">
+                        <a href="javascript:void(0)"
+                            wire:click="VistaFuncion({{$cargo->idcargo}})" 
+                            class="btn btn-primary mtmobile" title="Ver">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+
+                    <td class="text-center">
+                        <span class="badge {{$cargo->estado == 'Activo' ? 'badge-success' : 'badge-danger'}}
+                            text-uppercase">
+                            {{$cargo->estado}}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <a href="javascript:void(0)"
+                            wire:click="NuevaFuncion({{$cargo->idcargo}})" 
+                            class="btn btn-primary close-btn" title="Agregar">
+                            <i class="fas fa-plus-circle"></i>
+                        </a>
+
+                        <a href="javascript:void(0)" 
+                            wire:click="Edit({{$cargo->idcargo}})"
+                            class="btn btn-dark mtmobile" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                        <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
+                            class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </a>
+
+                    </td>
+                </tr>
+                @endforeach        
+            </tbody>
+        </table>
+        {{$cargos->links()}}
     </div>
     @include('livewire.cargo.form')
     @include('livewire.cargo.nuevaFuncion')

@@ -27,6 +27,60 @@
 
     ORsE CLAVE
 
+****************************************************************
+@section('css')
+    <style>
+        .modal .modal-content { width: 80%; }
+    </style>
+@endsection
+
+<div>
+    <div class="row">
+        <div class="col-12 text-center" style="margin-bottom: 50px">
+            <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text input-gp">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <input type="text" wire:model="search" placeholder="Nombre de Empleado" class="form-control">
+            </div>
+        </div>
+    
+        <div class="col-12 col-sm-6 col-md-4 text-center"></div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+            <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
+                data-target="#theModal"">Agregar</a>
+        </div>
+
+    </div>
+    <br>
+    <div class="table-5">
+        <table>
+            <thead> 
+                <tr class="text-center">
+                    
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        {{$contratos->links()}}
+    </div>
+    @include('livewire.contrato.form')
+    @include('livewire.contrato.vistaPreviaContrato')
+</div>
+****************************************************************
+
+
     /*Swal.fire({
         title: 'CONFIRMAR',
         text: "¿CONFIRMAS ELIMINAR  EL REGISTRO",

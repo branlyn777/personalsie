@@ -107,7 +107,42 @@ class EmployeeController extends Component
         ->where('employees.id', $idEmpleado)
         ->get();
 
-        if($consulta->count() > 0)
+        $consulta2 = Employee::join('contratos as ct', 'ct.employee_id', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        $consulta3 = Employee::join('attendances as ats', 'ats.employee_id', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        $consulta4 = Employee::join('anticipos as atp', 'atp.empleado_id', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        $consulta5 = Employee::join('discountsvs as dv', 'dv.ci', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        $consulta6 = Employee::join('shifts as sht', 'sht.ci', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        $consulta7 = Employee::join('commissions_employees as com', 'com.user_id', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        $consulta8 = Employee::join('user_employees as ue', 'ue.employee_id', 'employees.id')
+        ->select('employees.*')
+        ->where('employees.id', $idEmpleado)
+        ->get();
+
+        if($consulta->count() > 0 || $consulta2->count() > 0 || $consulta3->count() > 0 || $consulta4->count() > 0 || $consulta5->count() > 0 || $consulta6->count() > 0 || $consulta7->count() > 0 || $consulta8->count() > 0)
         {
             return "no";
         }
@@ -187,8 +222,8 @@ class EmployeeController extends Component
     public function Store(){
         $rules = [
             'ci' => 'required|unique:employees',
-            'name' => 'required|alpha', //'name' => 'required|alpha', validacion de solo letras
-            'lastname' => 'required|alpha',
+            'name' => 'required|regex:/^[\pL\s\-]+$/u', //'name' => 'required|alpha', validacion de solo letras
+            'lastname' => 'required|regex:/^[\pL\s\-]+$/u',
             'genero' => 'required|not_in:Seleccionar',
             'dateNac' => 'required',
             //'address' => 'required',
@@ -197,15 +232,15 @@ class EmployeeController extends Component
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
             //'image' => 'required', //'max:2048'
-            'image' => 'sometimes|mimes:jpeg,png,jpg,gif,svg'
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',
             'ci.unique' => 'ya existe el numero de documento en el sistema',
             'name.required' => 'el nombre de empleado es requerida',
-            'name.alpha' => 'Solo se permite letras no numeros',
+            'name.regex' => 'Solo se permite letras',
             'lastname.required' => 'los apellidos del empleado son requerida',
-            'lastname.alpha' => 'Solo se permite letras no numeros',
+            'lastname.regex' => 'Solo se permite letras',
             'genero.required' => 'seleccione el genero del empleado',
             'genero.not_in' => 'selecciona genero',
             'dateNac.required' => 'la fecha de nacimiento es requerido',
@@ -325,7 +360,7 @@ class EmployeeController extends Component
             'areaid' => 'required|not_in:Elegir',
             'cargoid' => 'required|not_in:Elegir',
             //'image' => 'max:2048',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg'
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'ci.required' => 'numero de cedula de identidad requerida',

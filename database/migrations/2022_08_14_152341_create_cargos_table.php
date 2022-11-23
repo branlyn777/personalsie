@@ -23,7 +23,7 @@ class CreateCargosTable extends Migration
 
             //$table->integer('parent_id')->nullable()->default('0');
 
-            $table->enum('estado',['Disponible','No Disponible'])->default('Disponible');
+            $table->enum('estado',['Activo','Inactivo'])->default('Activo');
 
             $table->timestamps();
         });

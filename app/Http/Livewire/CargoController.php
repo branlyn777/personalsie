@@ -217,7 +217,7 @@ class CargoController extends Component
         $cargo = Cargo::create([
             'name'=>$this->name,
             'area_id' => $this->areaid,
-            'estado'=>'Disponible'
+            'estado'=>'Activo'
         ]);
 
         $this->resetUI();

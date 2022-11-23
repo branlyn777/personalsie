@@ -29,8 +29,8 @@
         <div class="form-group">
             <label>Fecha</label>
             <input type="date" wire:model.lazy="fecha" class="form-control">
+            @error('fecha') <span class="text-danger er">{{ $message }}</span> @enderror
         </div>
-        @error('fecha') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
     <div class="col-sm-12 col-md-6">
