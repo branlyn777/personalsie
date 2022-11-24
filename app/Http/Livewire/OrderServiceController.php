@@ -3273,6 +3273,36 @@ class OrderServiceController extends Component
         $this->edit_motivocostoservicio = $detallesservicio->detallecosto;
         $this->emit('show-entregarservicio', 'show modal!');
     }
+
+    //Verifica la sucursal de origen del servicio y la sucursal de la caja donde se ará la entrega
+    public function verificar_origen()
+    {
+        //Obteniendo el id de la sucursal de donde se recepciono el servicio
+        $sucursal_servicio = OrderService::join("services as s","s.order_service_id","order_services.id")
+        ->select("s.sucursal_id as sucursalservicio")
+        ->where("order_services.id",$this->id_orden_de_servicio)
+        ->first()
+        ->sucursalservicio;
+        //Obteniendo el id de la sucursal de donde se ará entrega del servicio
+        $sucursal_entrega = Caja::join("carteras as c","c.caja_id","cajas.id")
+        ->select("cajas.sucursal_id as sucursalentrega")
+        ->where("c.id",$this->tipopago)
+        ->first()
+        ->sucursalentrega;
+
+        if($sucursal_servicio == $sucursal_entrega)
+        {
+            $this->entregarservicio();
+        }
+        else
+        {
+            $this->emit("entregar-servicio-sucursal");
+        }
+
+
+
+
+    }
     //Entrega el Servicio Correspondiente, Marca como TERMINADO
     public function entregarservicio()
     {
@@ -3590,6 +3620,28 @@ class OrderServiceController extends Component
         'anularservicio' => 'anularordenservicio',
         'eliminarservicio' => 'eliminarordenservicio'
     ];
+
+    public function entregar_servicio()
+    {
+        $servicios = Service::where("services.order_service_id",$this->id_orden_de_servicio)->get();
+
+        //Obteniendo el id de la sucursal de donde se ará entrega del servicio
+        $sucursal_entrega =  Caja::join("carteras as c","c.caja_id","cajas.id")
+        ->select("cajas.sucursal_id as sucursalentrega")
+        ->where("c.id",$this->tipopago)
+        ->first()
+        ->sucursalentrega;
+
+        foreach($servicios as $s)
+        {
+            $s->update([
+                'sucursal_id' => $sucursal_entrega
+            ]);
+        }
+
+        $this->entregarservicio();
+
+    }
 
     //Anula un Servicio Modificando los estados
     public function anularordenservicio($id)

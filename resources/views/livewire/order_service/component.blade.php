@@ -1201,6 +1201,23 @@
 
         });
 
+        //Mostrar Mensaje de confirmacion para entregar un servicio de otra sucursal
+        window.livewire.on('entregar-servicio-sucursal', event => {
+            swal({
+            title: '¿Entregar Servicio?',
+            text: "Realizaras la entrega de un servicio recepcionada en otra sucursal, se actualizara el servicio como si se hubiese recepcionado en esta sucursal",
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Estoy de Acuerdo',
+            padding: '2em'
+            }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('entregarservicio')
+                }
+            })
+        });
+
 
 
 
