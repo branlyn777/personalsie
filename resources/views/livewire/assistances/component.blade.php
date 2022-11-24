@@ -28,6 +28,12 @@
         <div class="col-12 col-sm-12 col-md-4 text-right">
             <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
                 data-target="#theModal"">Agregar</a>
+
+            <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
+                <option value="Todo">Todo</option>
+                <option value="Permiso">Permiso</option>
+                <option value="Licencia">Licencia</option>
+            </select>
         </div>
 
     </div>
@@ -41,6 +47,7 @@
                     <th class="table-th text-white text-center">FECHA</th>
                     <th class="table-th text-withe text-center">MOTIVO</th>
                     <th class="table-th text-withe text-center">COMPROVANTE</th>
+                    <th class="table-th text-withe text-center">ESTADO</th>
                     <th class="table-th text-white text-center">ACTIONS</th>        
                 </tr>
             </thead>
@@ -57,6 +64,12 @@
                             <img src="{{ asset('storage/assistances/' .$a->comprobante)}}"
                              alt="Sin Comprobante" height="70" width="80" class="rounded"
                              wire:click="verImagen({{$a->idAsistencia}})">
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <span class="badge {{$a->estadoA == 'Permiso' ? 'badge-success' : 'badge-danger'}} 
+                            text-uppercase"> {{$a->estadoA}}
                         </span>
                     </td>
 

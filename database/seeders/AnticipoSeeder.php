@@ -14,12 +14,12 @@ class AnticipoSeeder extends Seeder
      */
     public function run()
     {
-        Anticipo::create([
+        /*Anticipo::create([
             //1
             'empleado_id' => 8693177,
             'anticipo' => '500',
             'motivo' => 'Emergencia',
             //'fecha' => '2022-09-28',
-        ]);
+        ]);*/
     }
 }

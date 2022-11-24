@@ -28,6 +28,12 @@
         <div class="col-12 col-sm-12 col-md-4 text-right">
             <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
                 data-target="#theModal"">Agregar</a>
+
+            <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
+                <option value="Todos">Todos</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
         </div>
 
     </div>

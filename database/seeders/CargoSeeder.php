@@ -14,7 +14,7 @@ class CargoSeeder extends Seeder
      */
     public function run()
     {
-        Cargo::create([
+        /*Cargo::create([
             //1
             'name' => 'Gerente',
             'area_id' => 1,
@@ -112,6 +112,6 @@ class CargoSeeder extends Seeder
             'area_id' => 3,
             //'nrovacantes' => 'No definido',
             'estado' => 'Disponible',
-        ]);
+        ]);*/
     }
 }

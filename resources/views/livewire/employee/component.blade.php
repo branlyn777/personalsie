@@ -32,10 +32,10 @@
             <a href="{{ url('ListaEmpleados/pdf' . '/' . $idEmpleado)}}"  
                 class="btn btn-dark mtmobile">Exportar PDF</a>
               
-            <select wire:model='estados' style="color:black; border-color: blue; text-align: left" class="btn col-lg-5">
-                <option value="null" disabled>Estado</option>
-                <option value="ACTIVO">ACTIVO</option>
-                <option value="INACTIVO">INACTIVO</option>
+            <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-5 col-4">
+                <option value="Todos">Todos</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
             </select>
         </div>
         

@@ -23,9 +23,9 @@ class CreateAssistancesTable extends Migration
             $table->foreign('empleado_id')->references('id')->on('employees');
 
             $table->date('fecha');
-            //$table->enum('estado',['Presente','Falta','Licencia'])->default('Presente');
             $table->string('motivo',500)->nullable();
             $table->string('comprobante',100)->nullable();
+            $table->enum('estadoA',['Permiso','Licencia'])->default('Permiso');
             
             $table->timestamps();
         });

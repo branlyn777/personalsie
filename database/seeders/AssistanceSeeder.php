@@ -14,7 +14,7 @@ class AssistanceSeeder extends Seeder
      */
     public function run()
     {
-        Assistance::create([
+        /*Assistance::create([
             'empleado_id' => 8693177,
             'fecha' => '2022-08-10 00:00:00',
             'motivo' => 'Emergencia',
@@ -28,6 +28,6 @@ class AssistanceSeeder extends Seeder
             'empleado_id' => 8693177,
             'fecha' => '2022-08-30 00:00:00',
             'motivo' => 'Emergencia',
-        ]);
+        ]);*/
     }
 }

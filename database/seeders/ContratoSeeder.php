@@ -27,7 +27,7 @@ class ContratoSeeder extends Seeder
         ]);*/
 
         // Contrato area Admin
-        Contrato::create([
+        /*Contrato::create([
             //2
             'Employee_id' => '8037861',
             'fechaInicio' => '2018-01-01 00:00:00',

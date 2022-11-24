@@ -14,7 +14,7 @@ class AreaTrabajoSeeder extends Seeder
      */
     public function run()
     {
-        AreaTrabajo::create([
+        /*AreaTrabajo::create([
             //1
             //'cargo_id' => 1,
             'nameArea' => 'Area Administrativa',
@@ -31,6 +31,6 @@ class AreaTrabajoSeeder extends Seeder
             //'cargo_id' => 14,
             'nameArea' => 'No Definido',
             'descriptionArea' => 'null',
-        ]);
+        ]);*/
     }
 }

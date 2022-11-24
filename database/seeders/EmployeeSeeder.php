@@ -14,7 +14,7 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        Employee::create([
+        /*Employee::create([
             'id' => 9406795,
             'ci' => 9406795,
             'name' => 'Clever',
@@ -717,6 +717,6 @@ class EmployeeSeeder extends Seeder
             ////'contrato_id' => 13,
             //'fechaInicio' => '2022-01-01 01:01:01',
             'image' => '6328d2231e599_.webp',
-        ]);
+        ]);*/
     }
 }

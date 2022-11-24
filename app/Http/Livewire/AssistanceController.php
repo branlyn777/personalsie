@@ -19,15 +19,18 @@ class AssistanceController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $empleadoid, $fecha, $motivo, $comprobante, $selected_id;
+    public $empleadoid, $fecha, $motivo, $comprobante, $estadoA, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 5;
+    public $selected;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
         $this -> componentName = 'Permisos ó licencias';
+        $this->estadoA = 'Elegir';
+        $this->selected = 'Todos';
 
-        //$this->estado = 'Elegir';
+        // seleccionar empleado
         $this->empleadoid = 'Elegir';
     }
 
@@ -38,7 +41,8 @@ class AssistanceController extends Component
 
     public function render()
     {
-        if(strlen($this->search) > 0)
+        //if(strlen($this->search) > 0)
+        if($this->selected == 'Todos')
         {
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id') // se uno amabas tablas
             ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
@@ -52,9 +56,13 @@ class AssistanceController extends Component
                 $os->verificar = $this->verificar($os->idAsistencia);
             }
         }
-        else
+        else{
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
             ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
+            ->where('assistances.estadoA',$this->selected)
+            ->where(function($querys){
+                $querys->where('at.name', 'like', '%' . $this->search . '%');
+            })
             ->orderBy('assistances.fecha', 'asc')
             ->paginate($this->pagination);
 
@@ -63,6 +71,7 @@ class AssistanceController extends Component
                 //Obtener los servicios de la orden de servicio
                 $os->verificar = $this->verificar($os->idAsistencia);
             }
+        }
 
         return view('livewire.assistances.component', [
             'asistencias' => $data,        // se envia asistencias
@@ -117,14 +126,14 @@ class AssistanceController extends Component
         $rules = [
             'fecha' => 'required',
             'empleadoid' => 'required|not_in:Elegir',
-            //'estado' => 'required|not_in:Elegir',
+            'estadoA' => 'required|not_in:Elegir',
             'comprobante' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
-            //'estado.required' => 'seleccione estado de asistencia',
-            //'estado.not_in' => 'selecciona estado de asistencia diferente a elegir',
+            'estadoA.required' => 'seleccione estado de asistencia',
+            'estadoA.not_in' => 'selecciona estado de asistencia diferente a elegir',
             'comprobante.mimes' => 'Solo se permite imagen'
         ];
 
@@ -133,8 +142,8 @@ class AssistanceController extends Component
         $assistance = Assistance::create([
             'fecha'=>$this->fecha,
             'motivo'=>$this->motivo,
-            //'estado'=>$this->estado,
-            'empleado_id' => $this->empleadoid
+            'empleado_id' => $this->empleadoid,
+            'estadoA'=>$this->estadoA
         ]);
 
         //$customFileName;
@@ -173,6 +182,7 @@ class AssistanceController extends Component
         $this->motivo = $assistance->motivo;
         $this->empleadoid = $assistance->empleado_id;
         $this->comprobante = $assistance->null;
+        $this->estadoA = $assistance->estadoA;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -198,7 +208,7 @@ class AssistanceController extends Component
         $assistance -> update([
             'fecha'=>$this->fecha,
             'motivo'=>$this->motivo,
-            //'estado'=>$this->estado,
+            'estadoA'=>$this->estadoA,
             'empleado_id' => $this->empleadoid
         ]);
 
@@ -238,7 +248,7 @@ class AssistanceController extends Component
     public function resetUI(){
         $this->fecha='';
         $this->motivo='';
-        //$this->estado='Elegir';
+        $this->estadoA='Elegir';
         $this->empleadoid = 'Elegir';
         $this->image=null;
         $this->search='';

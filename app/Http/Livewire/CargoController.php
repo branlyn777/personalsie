@@ -20,6 +20,7 @@ class CargoController extends Component
     public $idcargo, $name, $areaid, $estado, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
+    public $selected;
 
     // Datos de Funcion
     public $idFuncion, $nameFuncion1, $cargoid, $selected_fun_id , $detalle; //,
@@ -33,6 +34,7 @@ class CargoController extends Component
         $this->areaid = 'Elegir';
         $this->estado = 'Elegir';
         $this->idcargo = 0;
+        $this->selected = 'Todos';
 
         // Funciones
         $this -> pageTitleF = 'Lista de Funciones';
@@ -49,7 +51,8 @@ class CargoController extends Component
     public function render()
     {
         //dd($this-> detalle);
-        if(strlen($this->search) > 0)
+        //if(strlen($this->search) > 0)
+        if ($this->selected == 'Todos')
         {
             $data = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
             ->select('cargos.id as idcargo','cargos.name as name','at.nameArea as area','cargos.estado as estado',
@@ -69,6 +72,10 @@ class CargoController extends Component
             $data = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
             ->select('cargos.id as idcargo','cargos.name as name','at.nameArea as area','cargos.estado as estado',
                 DB::raw('0 as verificar'))
+            ->where('cargos.estado',$this->selected)
+            ->where(function($querys){
+                $querys->where('cargos.name', 'like', '%' . $this->search . '%');
+            })
             ->orderBy('at.id','desc')
             ->paginate($this->pagination);
 

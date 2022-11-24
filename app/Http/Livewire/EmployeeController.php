@@ -29,8 +29,9 @@ class EmployeeController extends Component
     // Datos de Empleados
     public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $estado, $selected_id; /* $contratoid, $fechaInicio,*/
     public $cargoid = null, $areaid = null, $cargos = null;
-    public $pageTitle, $componentName, $search; /*, $componentNuevoContrato*/
+    public $pageTitle, $componentName, $search;
     private $pagination = 12;
+    public $selected;
 
     public function paginationView()
     {
@@ -45,42 +46,66 @@ class EmployeeController extends Component
         $this->genero = 'Seleccionar';
         $this->estadoCivil = 'Seleccionar';
 
+        //$this->selected_id = 'Todos';
         $this->estado = 'Elegir';
+        $this->selected = 'Todos';
         
         $this->idEmpleado = 0;
     }
 
     public function render()
     {
-        if(strlen($this->search) > 0){
-            $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id') // se uno amabas tablas
-            ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
-            ->select('employees.*','c.nameArea as area', 'pt.name as cargo', 
-                'employees.id as idEmpleado', DB::raw('0 as verificar'))
-            ->where('employees.name', 'like', '%' . $this->search . '%')    // busquedas employees
-            ->orWhere('employees.ci', 'like', '%' . $this->search . '%')    // busquedas
-            ->orWhere('c.nameArea', 'like', '%' . $this->search . '%')      // busqueda 
-            ->orderBy('employees.created_at', 'desc')
-            ->paginate($this->pagination);
+        // if(strlen($this->search) > 0){
+        //     $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id')
+        //         ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
+        //         ->select('employees.*','c.nameArea as area','pt.name as cargo', 'employees.id as idEmpleado', DB::raw('0 as verificar'))
+        //         ->where('employees.estado',$this->estado)  // segun  estado
+        //         ->where(function($querys){
+        //             $querys->where('employees.name', 'like', '%' . $this->search . '%')    // busquedas employees
+        //             ->orWhere('employees.ci', 'like', '%' . $this->search . '%') ;   // busquedas
+        //         })
+        //         ->orderBy('employees.created_at', 'desc')
+        //         ->paginate($this->pagination);
 
-            foreach ($employ as $os)
-            {
-                //Obtener los servicios de la orden de servicio
-                $os->verificar = $this->verificar($os->idEmpleado);
-            }
-        }
-        else
-            $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id')
-            ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
-            ->select('employees.*','c.nameArea as area','pt.name as cargo', 'employees.id as idEmpleado', DB::raw('0 as verificar'))
-            ->orderBy('employees.created_at', 'desc')
-            ->paginate($this->pagination);
+        //         foreach ($employ as $os)
+        //         {
+        //             //Obtener los servicios de la orden de servicio
+        //             $os->verificar = $this->verificar($os->idEmpleado);
+        //         }
+        // }else{
+            if ($this->selected == 'Todos') {
+                $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id')
+                ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
+                ->select('employees.*','c.nameArea as area','pt.name as cargo', 'employees.id as idEmpleado', DB::raw('0 as verificar'))
+                ->where('employees.name', 'like', '%' . $this->search . '%')    // busquedas employees
+                    ->orWhere('employees.ci', 'like', '%' . $this->search . '%')
+                ->orderBy('employees.created_at', 'desc')
+                ->paginate($this->pagination);
 
-            foreach ($employ as $os)
-            {
-                //Obtener los servicios de la orden de servicio
-                $os->verificar = $this->verificar($os->idEmpleado);
+                foreach ($employ as $os)
+                {
+                    //Obtener los servicios de la orden de servicio
+                    $os->verificar = $this->verificar($os->idEmpleado);
+                }
+            }else{
+                $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id')
+                ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
+                ->select('employees.*','c.nameArea as area','pt.name as cargo', 'employees.id as idEmpleado', DB::raw('0 as verificar'))
+                ->where('employees.estado',$this->selected)  // segun  estado
+                ->where(function($querys){
+                    $querys->where('employees.name', 'like', '%' . $this->search . '%')    // busquedas employees
+                    ->orWhere('employees.ci', 'like', '%' . $this->search . '%') ;   // busquedas
+                })
+                ->orderBy('employees.created_at', 'desc')
+                ->paginate($this->pagination);
+
+                foreach ($employ as $os)
+                {
+                    //Obtener los servicios de la orden de servicio
+                    $os->verificar = $this->verificar($os->idEmpleado);
+                }
             }
+        // }
 
         return view('livewire.employee.component', [
             'data' => $employ,    //se envia data
