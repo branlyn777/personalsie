@@ -34,5 +34,9 @@ class Employee extends Model
         return $this->hasMany(Contrato::class);
     }
 
-    
+    // !!!!!!!!
+    public function sucursalusers()
+    {
+        return $this->hasMany(SucursalUser::class);
+    }
 }

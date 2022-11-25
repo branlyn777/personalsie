@@ -17,9 +17,10 @@ class ContratoController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $employeeid, $fechaInicio, $fechaFin, $descripcion, $salario, $estadoC, $estadoV, $selected_id;  /*$nota, $funcionid, */
+    public $employeeid, $fechaInicio, $fechaFin, $descripcion, $salario, $estadoV, $estadoC, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
+    public $selected;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
@@ -27,6 +28,7 @@ class ContratoController extends Component
         $this->employeeid = 'Elegir';
         $this->estadoC = 'Elegir';
         $this->estadoV = 'Elegir';
+        $this->selected = 'Todos';
         //$this->funcionid = 'Elegir';
 
         //$this->fechaFin=Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -39,7 +41,8 @@ class ContratoController extends Component
 
     public function render()
     {
-        if(strlen($this->search) > 0)
+        //if(strlen($this->search) > 0)
+        if($this->selected == 'Todos')
         {
             $data = Contrato::join('employees as at', 'at.id', 'contratos.Employee_id')
             //->join('function_areas as fun', 'fun.id', 'contratos.funcion_id')
@@ -63,6 +66,10 @@ class ContratoController extends Component
             //->join('function_areas as fun', 'fun.id', 'contratos.funcion_id') ,'fun.name as funcion'
             ->select('contratos.*','at.name as name',
                 DB::raw('0 as year'), DB::raw('0 as mouth'), DB::raw('0 as day'),'contratos.id as idContrato',DB::raw('0 as verificar'))
+            ->where('contratos.estadoV', $this->selected)
+            ->where(function($querys){
+                $querys->where('at.name', 'like', '%' . $this->search . '%');
+            })
             ->orderBy('id','desc')
             ->paginate($this->pagination);
 
@@ -88,6 +95,15 @@ class ContratoController extends Component
             ])
         ->extends('layouts.theme.app')
         ->section('content');
+    }
+
+    // cambiar estado segu vigencia
+    public function updatedestadoV($estadoV)
+    {
+        if($estadoV=='No Vigente'){
+            'estadoC' == 'Inactivo';
+        }
+        //$this->estadoCs = Contrato::select('estadoC'=='Inactivo',);
     }
 
     // verificar 

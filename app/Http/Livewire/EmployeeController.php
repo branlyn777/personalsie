@@ -20,6 +20,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 // elementos de prueba forma de compresion de img
 use Illuminate\Http\Request;
 
+// creacion datos de usuario
+use Spatie\Permission\Models\Role;
+use App\Models\Sucursal;
+use App\Models\SucursalUser;
+use App\Models\User;
+
+//use PhpOffice\PhpSpreadsheet\Calculation\TextData\Replace;
 
 class EmployeeController extends Component
 {
@@ -33,6 +40,14 @@ class EmployeeController extends Component
     private $pagination = 12;
     public $selected;
 
+    // informacion de usuario
+    public $nameu, $phoneu, $email, $imageu, $password, $selected_usu_id, $fileLoaded, $profile,
+        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname;
+    public $user, $profiles, $idUsuarioG;
+
+    //public $email, $password, $sucursal_id;
+    public $componentNameU, $sucur;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -41,6 +56,7 @@ class EmployeeController extends Component
     public function mount(){
         $this->pageTitle = 'Listado';
         $this->componentName = 'Empleados';
+
         //$this->areaid = 'Elegir';   // null
         //$this->cargoid = 'Elegir';  // null
         $this->genero = 'Seleccionar';
@@ -51,6 +67,12 @@ class EmployeeController extends Component
         $this->selected = 'Todos';
         
         $this->idEmpleado = 0;
+
+        $this->componentNameU = 'Usuario';
+
+        // Roles y Sucursales
+        $this->roles =  Role::all();
+        $this->sucursales = Sucursal::all();
     }
 
     public function render()
@@ -339,16 +361,75 @@ class EmployeeController extends Component
 
         //https://hcastillaq.medium.com/comprimiendo-im%C3%A1genes-con-laravel-ccc92a0d45e5
         
+        $this->idUsuarioG = $id;
 
         //$this->resetUI();
         $this->emit('employee-added', 'Empleado Registrado');
         $this->emit('modal-hide-contrato', 'show modal!');
         $this->emit('modal-show', 'show modal!');
+
+        $this->emit('modal-hide-employee', 'show modal!');
+        $this->emit('show-modal-formUser', 'show modal!');
     }
 
-    public function ImprimirListaEmpleados()
+    public function formUser($idEmpleado)
     {
-        
+        dd($idEmpleado);
+        $detalle = Employee::join('area_trabajos as at', 'at.id', 'employees.area_trabajo_id')
+        ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
+        ->select('employees.id as idEmpleado',
+            'employees.name',
+            'employees.phone',
+            'employees.image',
+        )
+        ->where('employees.id', $idEmpleado)    // selecciona al empleado
+        ->get()
+        ->first();
+
+        //dd($detalle->name);
+        $this->idEmpleado = $detalle->idEmpleado;
+        $this->name = $detalle->name;
+        $this->lastname = $detalle->lastname;
+        $this->phone = $detalle->phone;
+        $this->image = $detalle->image;
+
+        // usuario
+
+        $user = User::create(
+            [
+                'name' => $this->name,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'status' => 'ACTIVE',
+                'profile' => $this->profile,
+                'password' => bcrypt($this->password)
+            ]
+            );
+        // $usuario = new UsersController;
+        // $usuario->selected_usu_id=$this->selected_usu_id;
+        // $usuario->name = $this->name = $detalle->name;
+        // $usuario->phone = $this->phone = $detalle->phone;
+        // $usuario->email= $this->email;
+        // $usuario->password= $this->password;
+        // $usuario->profile = $this->profiles;
+        // $usuario->image = $this->image;
+        // $usuario->Store();
+        // $this->resetUSU();
+
+        SucursalUser::create([
+            'user_id' => $user->id,
+            'sucursal_id' => $this->sucursal_id,
+            'estado' => 'ACTIVO',
+            'fecha_fin' => null,
+        ]);
+
+        /*
+        select concat(lower(replace(name, ' ','.')),'@sie.com') as Usuario,
+        concat(lower(ci),lower(substr(name,1,1))) as Contraseña from employees;
+        */
+
+        $this->emit('employee-added', 'Empleado Registrado');
+
     }
 
     // Abrir modal con la informacion

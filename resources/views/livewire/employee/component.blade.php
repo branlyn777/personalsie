@@ -114,6 +114,7 @@
     @include('livewire.employee.form')
     {{-- @include('livewire.employee.nuevoContrato') --}}
     @include('livewire.employee.detalleEmpleado')
+    @include('livewire.employee.formUser')
 </div>
 
 @section('javascript')
@@ -133,6 +134,10 @@
         window.livewire.on('modal-show', msg => {
             $('#theModal').modal('show')
         });
+
+        window.livewire.on('modal-hide-employee', Msg => {
+            $('#theModal').modal('hide')
+        })
         // formulario de Nuevo contrato
         window.livewire.on('show-modal-contrato', Msg => {
             $('#theModal-contrato').modal('show')
@@ -150,6 +155,18 @@
         window.livewire.on('show-modal-detalleE', Msg => {
             $('#modal-details').modal('show')
         })
+
+        // Abrir siguiente modal
+        window.livewire.on('show-modal-formUser', Msg => {
+            $('#theModal-formUser').modal('show')
+        })
+        window.livewire.on('modal-hide-formUser', Msg => {
+            $('#theModal-formUser').modal('hide')
+        })
+
+        window.livewire.on('formUser-added', msg => {
+            $('#theModal-formUser').modal('hide')
+        });
     });
 
     function Confirm(id, verificar) {

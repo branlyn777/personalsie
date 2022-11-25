@@ -30,7 +30,7 @@
                 data-target="#theModal"">Agregar</a>
 
             <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
-                <option value="Todo">Todo</option>
+                <option value="Todos">Todos</option>
                 <option value="Permiso">Permiso</option>
                 <option value="Licencia">Licencia</option>
             </select>

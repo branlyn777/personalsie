@@ -29,17 +29,17 @@
             <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
                 data-target="#theModal"">Agregar</a>
 
-            <select wire:model='' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
-                <option value="null" disabled>Estado</option>
+            <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
+                <option value="Todos">Todos</option>
                 <option value="Vigente">Vigente</option>
                 <option value="No Vigente">No Vigente</option>
             </select>
     
-            <select wire:model='' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
+            {{-- <select wire:model='' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
                 <option value="null" disabled>Estado</option>
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
-            </select>
+            </select> --}}
         </div>
 
     </div>

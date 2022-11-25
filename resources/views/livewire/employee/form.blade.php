@@ -7,7 +7,7 @@
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
-            
+
             {{-- DATOS DE EMPLEADO --}}
             <div class="card-body">
                 <div class="row">
@@ -96,7 +96,7 @@
                         </div>
                     </div> --}}
 
-                    
+
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Area de Trabajo</label>
@@ -122,7 +122,7 @@
                             @error('cargoid') <span class="text-danger er"> {{ $message }}</span> @enderror
                         </div>
                     </div> --}}
-                    
+
                     @if (!is_null($cargos))
                         @if ($selected_id <> 1)
                         <div class="col-sm-12 col-md-6">
@@ -156,7 +156,7 @@
 
                     <div class="col-sm-12 mt-3">
                         <div class="form-group custom-file">
-                            <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model="image" accept="image/x-png, image/gif, image/jpeg">
+                            <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model="image" accept="image/x-png, image/gif, image/jpeg, image/jpg">
                             <label for="" class="custom-file-label">Imagen {{$image}}</label>
                             @error('image') <span class="text-danger er"> {{ $message }}</span> @enderror
                         </div>
@@ -164,21 +164,13 @@
 
                 </div>
             </div>
-           
+
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary close-btn" 
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary close-btn"
                     data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
-                @if ($selected_id < 1)
-                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
-                        <span wire:loading.remove>GUARDAR</span>
-                        <span wire:loading style="color: white">CARGANDO</span>
-                    </button>
-                @else
-                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary close-btn">
-                        <span wire:loading.remove>ACTUALIZAR</span>
-                        <span wire:loading style="color: white">CARGANDO</span>
-                    </button>
-                @endif
+
+                <button type="button"  wire:click.prevent="Store({{$idEmpleado}})"
+                    class="btn btn-primary">SIGUIENTE</button>
             </div>
         </div>
     </div>
