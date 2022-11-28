@@ -21,12 +21,14 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
 
 // creacion datos de usuario
-use Spatie\Permission\Models\Role;
 use App\Models\Sucursal;
 use App\Models\SucursalUser;
 use App\Models\User;
+use FontLib\Table\Type\name;
+use Spatie\Permission\Models\Role;
 
-//use PhpOffice\PhpSpreadsheet\Calculation\TextData\Replace;
+// Usuario Empleado
+use App\Models\UserEmployee;
 
 class EmployeeController extends Component
 {
@@ -34,19 +36,21 @@ class EmployeeController extends Component
     use withFileUploads;
 
     // Datos de Empleados
-    public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $estado, $selected_id; /* $contratoid, $fechaInicio,*/
+    public $idEmpleado, $ci, $name, $lastname, $genero, $dateNac, $address, $phone, $estadoCivil, $image, $estado, $selected_id;
     public $cargoid = null, $areaid = null, $cargos = null;
     public $pageTitle, $componentName, $search;
     private $pagination = 12;
     public $selected;
 
-    // informacion de usuario
-    public $nameu, $phoneu, $email, $imageu, $password, $selected_usu_id, $fileLoaded, $profile,
-        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname;
-    public $user, $profiles, $idUsuarioG;
+    // Datos de Usuario
+    public $idUsuario, $nameu, $phoneu, $email, $profile, $status, $password, $imageu, $selected_user_id;
+    public $componentNameU;
 
-    //public $email, $password, $sucursal_id;
-    public $componentNameU, $sucur;
+    // Datos Sucursal Usuario
+    public $sucursalUsuario, $sucursal_id;
+
+    // Datos de Usuario Empleado
+    //public $empleadoid, $userid, $selected_EU_id;
 
     public function paginationView()
     {
@@ -68,33 +72,17 @@ class EmployeeController extends Component
         
         $this->idEmpleado = 0;
 
+        // Usuario
         $this->componentNameU = 'Usuario';
+        $this->profile = 'Elegir';
 
-        // Roles y Sucursales
-        $this->roles =  Role::all();
-        $this->sucursales = Sucursal::all();
+        // Sucursal Ususario
+        $this->sucursal_id = 'Elegir';
     }
+    // https://styde.net/manejo-de-cadenas-de-texto-con-laravel/
 
     public function render()
     {
-        // if(strlen($this->search) > 0){
-        //     $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id')
-        //         ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
-        //         ->select('employees.*','c.nameArea as area','pt.name as cargo', 'employees.id as idEmpleado', DB::raw('0 as verificar'))
-        //         ->where('employees.estado',$this->estado)  // segun  estado
-        //         ->where(function($querys){
-        //             $querys->where('employees.name', 'like', '%' . $this->search . '%')    // busquedas employees
-        //             ->orWhere('employees.ci', 'like', '%' . $this->search . '%') ;   // busquedas
-        //         })
-        //         ->orderBy('employees.created_at', 'desc')
-        //         ->paginate($this->pagination);
-
-        //         foreach ($employ as $os)
-        //         {
-        //             //Obtener los servicios de la orden de servicio
-        //             $os->verificar = $this->verificar($os->idEmpleado);
-        //         }
-        // }else{
             if ($this->selected == 'Todos') {
                 $employ = Employee::join('area_trabajos as c', 'c.id', 'employees.area_trabajo_id')
                 ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
@@ -133,7 +121,8 @@ class EmployeeController extends Component
             'data' => $employ,    //se envia data
             //'areas' => AreaTrabajo::orderBy('nameArea', 'asc')->get(),
             //'cargos' => Cargo::orderBy('name', 'asc')->get(), // Cargo
-
+            'roles' => Role::orderBy('name', 'asc')->get(),     // roles
+            'sucursales' => Sucursal::orderBy('name', 'asc')->get(),    // sucursales
             'areas' => AreaTrabajo::all()
         ])
         ->extends('layouts.theme.app')
@@ -203,21 +192,6 @@ class EmployeeController extends Component
     public function NuevoEmpleado()
     {
         $this->resetUI();
-        $this->emit('modal-show', 'show modal!');
-    }
-
-    // Abre el modal de Nuevo contrato
-    /*public function NuevoContrato()
-    {
-        //$this->resetUI();
-        $this->emit('modal-hide', 'show modal!');
-        $this->emit('show-modal-contrato', 'show modal!');
-    }*/
-
-    // Cierra el modal y abre el modal de Registro de empleados
-    public function cancelar()
-    {
-        $this->resetPage(); // regresa la pagina
         $this->emit('modal-show', 'show modal!');
     }
 
@@ -361,60 +335,73 @@ class EmployeeController extends Component
 
         //https://hcastillaq.medium.com/comprimiendo-im%C3%A1genes-con-laravel-ccc92a0d45e5
         
-        $this->idUsuarioG = $id;
-
         //$this->resetUI();
         $this->emit('employee-added', 'Empleado Registrado');
-        $this->emit('modal-hide-contrato', 'show modal!');
         $this->emit('modal-show', 'show modal!');
 
+        // Abrir modal de Nuevo Usuario
         $this->emit('modal-hide-employee', 'show modal!');
         $this->emit('show-modal-formUser', 'show modal!');
     }
 
-    public function formUser($idEmpleado)
+    // Registro de nuevo usuario
+    public function NuevoUsuario()
     {
-        dd($idEmpleado);
-        $detalle = Employee::join('area_trabajos as at', 'at.id', 'employees.area_trabajo_id')
-        ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
-        ->select('employees.id as idEmpleado',
-            'employees.name',
-            'employees.phone',
-            'employees.image',
-        )
-        ->where('employees.id', $idEmpleado)    // selecciona al empleado
-        ->get()
-        ->first();
+        $rules = [
+            //'nameu' => 'required|min:3',
+            'email' => 'required|unique:users|email',
+            'profile' => 'required|not_in:Elegir',
+            'password' => 'required|min:3',
+            // 'sucursal_id' => 'required|not_in:Elegir',
+        ];
+        $messages =  [
+            // 'nameu.required' => 'Ingresa el nombre del usuario',
+            // 'nameu.min' => 'El nombre del usuario debe tener al menos 3 caracteres',
+            'email.required' => 'Ingresa una direccion de correo electrónico',
+            'email.email' => 'Ingresa una dirección de correo válida',
+            'email.unique' => 'El email ya existe en el sistema',
+            'profile.required' => 'Selecciona el perfil/rol del usuario',
+            'profile.not_in' => 'Seleccioa un perfil/rol distinto a Elegir',
+            'password.required' => 'Ingresa el password',
+            'password.min' => 'El password debe tener al menos 3 caracteres',
+            // 'sucursal_id.required' => 'Seleccione la sucursal del usuario',
+            // 'sucursal_id.not_in' => 'Seleccione una sucursal distinto a Elegir',
+        ];
+ 
+        $this->validate($rules, $messages);
 
-        //dd($detalle->name);
-        $this->idEmpleado = $detalle->idEmpleado;
-        $this->name = $detalle->name;
-        $this->lastname = $detalle->lastname;
-        $this->phone = $detalle->phone;
-        $this->image = $detalle->image;
+        // $collection = collect(['@sie.com']);
+        $user = User::create([
+            'name' => $this->name,
+            'email' => $this->email,//$this->$collection = $this->name,'@sie.com', //
+            'phone' => $this->phone,
+            'status' => 'ACTIVE',
+            'profile' => $this->profile,
+            'password' => bcrypt($this->password)
+        ]);
 
-        // usuario
+        $user->syncRoles($this->profile);
 
-        $user = User::create(
-            [
-                'name' => $this->name,
-                'email' => $this->email,
-                'phone' => $this->phone,
-                'status' => 'ACTIVE',
-                'profile' => $this->profile,
-                'password' => bcrypt($this->password)
-            ]
-            );
-        // $usuario = new UsersController;
-        // $usuario->selected_usu_id=$this->selected_usu_id;
-        // $usuario->name = $this->name = $detalle->name;
-        // $usuario->phone = $this->phone = $detalle->phone;
-        // $usuario->email= $this->email;
-        // $usuario->password= $this->password;
-        // $usuario->profile = $this->profiles;
-        // $usuario->image = $this->image;
-        // $usuario->Store();
-        // $this->resetUSU();
+        if ($this->image) {
+            $customFileName = uniqid() . '_.' . $this->image->extension();
+            $path = $this->image->storeAs('public/usuarios', $customFileName);
+            $user->image = $customFileName;
+            $user->save();
+
+            // proceso de compresion de imagen
+            $fileName = collect(explode('/', $path))->last(); // obtener el nombre de la imagen asignado por laravel
+            $imagex = Image::make(Storage::get($path)); // recuperar la imagen almacenada y crear una nueva instancia
+            
+            // reduccion de calidad y compresion de imagen
+            $imagex->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            //dd($imagex);
+
+            // por ultimo solo guardamos esta nueva instancia, reemplazando la imagen anterior.
+            Storage::put($path, (string) $imagex->encode('jpg', 30));
+        }
 
         SucursalUser::create([
             'user_id' => $user->id,
@@ -423,13 +410,28 @@ class EmployeeController extends Component
             'fecha_fin' => null,
         ]);
 
-        /*
-        select concat(lower(replace(name, ' ','.')),'@sie.com') as Usuario,
-        concat(lower(ci),lower(substr(name,1,1))) as Contraseña from employees;
-        */
+        // UserEmployee::create([
+        //     'user_id' => $user->id,
+        //     'employee_id' => $this->idEmpleado,
+        // ]);
 
-        $this->emit('employee-added', 'Empleado Registrado');
+        //$user->save();
+        $this->resetUS();
+        $this->emit('formUser-added','Usuario Registrado');
+        $this->emit('modal-hide-formUser', 'show modal!');
+    }
 
+    // Reset de Usuario
+    public function resetUS()
+    {
+        $this->nameu = '';
+        $this->email = '';
+        $this->phoneu = '';
+        $this->image = null;
+        $this->profile = 'Elegir';
+        $this->sucursal_id = 'Elegir';
+        $this->selected_user_id = 0;
+        $this->resetValidation();
     }
 
     // Abrir modal con la informacion
@@ -453,7 +455,7 @@ class EmployeeController extends Component
     }
 
     // actulizar informacion
-    public function Update(Request $request){
+    public function Update(){
         $rules = [
             'ci' => "required|unique:employees,ci,{$this->selected_id}",
             'name' => 'required',
@@ -569,14 +571,14 @@ class EmployeeController extends Component
 
         $this->resetValidation(); // resetValidation para quitar los smg Rojos
     }
-    //
+
     protected $listeners = [
         'deleteRow' => 'Destroy'
     ];
 
     // eliminar informacion
-    public function Destroy($id){
-
+    public function Destroy($id)
+    {
         $employee = Employee::find($id);
         $imageName = $employee->image; //imagen temporal
         $employee->delete();

@@ -33,6 +33,7 @@
                 <option value="Todos">Todos</option>
                 <option value="Vigente">Vigente</option>
                 <option value="No Vigente">No Vigente</option>
+                <option value="Finalizado">Finalizados</option>
             </select>
     
             {{-- <select wire:model='' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
@@ -55,7 +56,7 @@
                         <th class="table-th text-white">FECHA FINAL</th>
                         <th class="table-th text-white">DESCRIPCION</th>
                         <th class="table-th text-white">SALARIO</th>
-                        <th class="table-th text-white text-center">ESTADO</th>
+                        {{-- <th class="table-th text-white text-center">ESTADO</th> --}}
                         <th class="table-th text-white text-center">VIGENCIA DE CONTRATO</th>
                         <th class="table-th text-white text-center">ACCION</th>
                     </tr>
@@ -70,12 +71,12 @@
                         <td><h6>{{$datos->descripcion}}</h6></td>
                         <td><h6>{{$datos->salario}}</h6></td>
 
-                        <td class="text-center">
+                        {{-- <td class="text-center">
                             <span class="badge {{$datos->estadoC == 'Activo' ? 'badge-success' : 'badge-danger'}}
                                 text-uppercase">
                                 {{$datos->estadoC}}
                             </span>
-                        </td>
+                        </td> --}}
 
                         <td class="text-center">
                             <span class="badge {{$datos->estadoV == 'Vigente' ? 'badge-info' : 'badge-danger'}}
@@ -96,10 +97,16 @@
                                 <i class="fas fa-print"></i>
                             </a>
 
+                            <a href="javascript:void(0)"
+                            wire:click="NoVigente({{$datos->idContrato}})"
+                                class="btn btn-dark" title="Finalizar">
+                                <i class="far fa-times-circle"></i>
+                            </a>
+
                             {{-- <a href="javascript:void(0)"
-                            onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
-                            class="btn btn-dark" title="Destroy">
-                            <i class="far fa-times-circle"></i>
+                                onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
+                                class="btn btn-dark" title="Destroy">
+                                <i class="fas fa-trash"></i>
                             </a> --}}
                         </td>
                     </tr>
@@ -151,7 +158,7 @@
         {
             swal({
                 title: 'CONFIRMAR',
-                text: "¿FINALIZAR CONTRATO?",
+                text: "¿CONFIRMAS ELIMINAR EL REGISTRO?",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',

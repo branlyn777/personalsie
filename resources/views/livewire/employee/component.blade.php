@@ -120,7 +120,6 @@
 @section('javascript')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
         window.livewire.on('employee-added', msg => {
             $('#theModal').modal('hide')
         });
@@ -138,19 +137,6 @@
         window.livewire.on('modal-hide-employee', Msg => {
             $('#theModal').modal('hide')
         })
-        // formulario de Nuevo contrato
-        window.livewire.on('show-modal-contrato', Msg => {
-            $('#theModal-contrato').modal('show')
-        })
-        window.livewire.on('modal-hide', msg => {
-            $('#theModal').modal('hide')
-        });
-        window.livewire.on('modal-hide-contrato', Msg => {
-            $('#theModal-contrato').modal('hide')
-        })
-        window.livewire.on('hidden.bs.modal', msg => {
-            $('.er').css('display','none')
-        });
         // ver detalle de empleados
         window.livewire.on('show-modal-detalleE', Msg => {
             $('#modal-details').modal('show')
@@ -160,13 +146,12 @@
         window.livewire.on('show-modal-formUser', Msg => {
             $('#theModal-formUser').modal('show')
         })
-        window.livewire.on('modal-hide-formUser', Msg => {
-            $('#theModal-formUser').modal('hide')
-        })
-
         window.livewire.on('formUser-added', msg => {
             $('#theModal-formUser').modal('hide')
         });
+        window.livewire.on('modal-hide-formUser', Msg => {
+            $('#theModal-formUser').modal('hide')
+        })
     });
 
     function Confirm(id, verificar) {

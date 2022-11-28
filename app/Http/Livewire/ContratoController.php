@@ -17,7 +17,7 @@ class ContratoController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $employeeid, $fechaInicio, $fechaFin, $descripcion, $salario, $estadoV, $estadoC, $selected_id;
+    public $employeeid, $fechaInicio, $fechaFin, $descripcion, $salario, $estadoV, $selected_id; /*, $estadoC*/
     public $pageTitle, $componentName, $search;
     private $pagination = 10;
     public $selected;
@@ -26,7 +26,7 @@ class ContratoController extends Component
         $this -> pageTitle = 'Listado';
         $this -> componentName = 'Contrato';
         $this->employeeid = 'Elegir';
-        $this->estadoC = 'Elegir';
+        //$this->estadoC = 'Elegir';
         $this->estadoV = 'Elegir';
         $this->selected = 'Todos';
         //$this->funcionid = 'Elegir';
@@ -95,15 +95,6 @@ class ContratoController extends Component
             ])
         ->extends('layouts.theme.app')
         ->section('content');
-    }
-
-    // cambiar estado segu vigencia
-    public function updatedestadoV($estadoV)
-    {
-        if($estadoV=='No Vigente'){
-            'estadoC' == 'Inactivo';
-        }
-        //$this->estadoCs = Contrato::select('estadoC'=='Inactivo',);
     }
 
     // verificar 
@@ -175,7 +166,7 @@ class ContratoController extends Component
 
     // editar 
     public function Edit($id){
-        $record = Contrato::find($id, ['id', 'employee_id', 'fechaInicio', 'fechaFin', 'descripcion', 'salario', 'estadoC', 'estadoV']);
+        $record = Contrato::find($id, ['id', 'employee_id', 'fechaInicio', 'fechaFin', 'descripcion', 'salario', 'estadoV']); /*, 'estadoC'*/
         //dd(\Carbon\Carbon::parse($record->fechaFin)->format('Y-m-d'));
         $this->employeeid = $record->employee_id;
         $this->fechaInicio = \Carbon\Carbon::parse($record->fechaInicio)->format('Y-m-d');
@@ -184,7 +175,7 @@ class ContratoController extends Component
         $this->descripcion = $record->descripcion;
         $this->salario = $record->salario;
         //$this->funcionid = $record->funcion_id;
-        $this->estadoC = $record->estadoC;
+        //$this->estadoC = $record->estadoC;
         $this->estadoV = $record->estadoV;
         $this->selected_id = $record->id;
 
@@ -226,7 +217,7 @@ class ContratoController extends Component
             'descripcion'=>$this->descripcion,
             'salario'=>$this->salario,
             //'funcion_id'=>$this->funcionid,
-            'estadoC'=>'Activo',
+            //'estadoC'=>'Activo',
             'estadoV'=>'Vigente'
         ]);
 
@@ -262,7 +253,7 @@ class ContratoController extends Component
             'descripcion'=>$this->descripcion,
             'salario'=>$this->salario,
             //'funcion_id'=>$this->funcionid,
-            'estadoC'=>$this->estadoC,
+            //'estadoC'=>$this->estadoC,
             'estadoV'=>$this->estadoV
         ]);
 
@@ -278,7 +269,7 @@ class ContratoController extends Component
         //$this->nota='';
         $this->salario='';
         //$this->funcionid='Elegir';
-        $this->estadoC = 'Elegir';
+        //$this->estadoC = 'Elegir';
         $this->estadoV = 'Elegir';
         $this->search='';
         $this->selected_id=0;
@@ -293,9 +284,41 @@ class ContratoController extends Component
     public function Destroy($id)
     {
         $contrato = Contrato::find($id);
-        $contrato -> update(['estadoV'=>'No Vigente']);
-        //$contrato->delete();
+        $contrato->delete();
         $this->resetUI();
         $this->emit('tcontrato-deleted','Contrato Eliminada');
+    }
+    
+    // Finalizar Contrato
+    public function NoVigente($id)
+    {
+        $contrato = Contrato::find($id);
+        $contrato -> update(['estadoV'=>'No Vigente']);
+    }
+
+    public function FunctionName($id)
+    {
+        // dias restantes
+        // public function dayR($idUsuario)
+        // {
+            $tiempoRestante = 0;
+            $tiempoR = Employee::join('employees as emp', 'emp.id', 'contratos.employee_id')
+            ->select('contratos.id as idContrato', 'emp.fechaFin as fechafinal')
+            ->where('contratos.id', $id)
+            ->get()
+            ->first();      // permite tomar solo el primer dato
+    
+            $diasR = Carbon::parse($tiempoR->fechafinal)->format('d');
+    
+            if($diasR > Carbon::parse(Carbon::now())->format('d'))
+            {
+                $contrato = Contrato::find($id);
+            
+                $contrato -> update(['estadoV'=>'No Vigente']);
+                //$tiempoRestante = $diasR - Carbon::parse(Carbon::now())->format('d');
+            }
+            // return $tiempoRestante;
+    
+    
     }
 }

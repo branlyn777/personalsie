@@ -168,9 +168,13 @@
             <div class="modal-footer">
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary close-btn"
                     data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
-
-                <button type="button"  wire:click.prevent="Store({{$idEmpleado}})"
-                    class="btn btn-primary">SIGUIENTE</button>
+                @if ($selected_id < 1)
+                    <button type="button" wire:click.prevent="Store()"
+                        class="btn btn-primary">SIGUIENTE</button>
+                @else
+                    <button type="button" wire:click.prevent="Update()"
+                        class="btn btn-primary">ACTUALIZAR</button>
+                @endif
             </div>
         </div>
     </div>
