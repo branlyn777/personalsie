@@ -101,7 +101,16 @@
                                         class="btn btn-dark" title="DetalleEmpleado" type="button" class="btn btn-success">
                                         <i class="fas fa-list"></i>
                                     </button>
-                                    </a>
+
+                                    <button href="javascript:void(0)"
+                                        wire:click="UsuEmploy({{$employee->idEmpleado}})"
+                                        class="btn btn-dark"  title="" type="button" class="btn btn-success">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                        class="feather feather-at-sign"><circle cx="12" cy="12" r="4"></circle>
+                                        <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -112,9 +121,9 @@
         </div>
     </div>
     @include('livewire.employee.form')
-    {{-- @include('livewire.employee.nuevoContrato') --}}
     @include('livewire.employee.detalleEmpleado')
     @include('livewire.employee.formUser')
+    @include('livewire.employee.UsuEmploy')
 </div>
 
 @section('javascript')
@@ -123,7 +132,6 @@
         window.livewire.on('employee-added', msg => {
             $('#theModal').modal('hide')
         });
-
         window.livewire.on('employee-updated', msg => {
             $('#theModal').modal('hide')
         });
@@ -152,6 +160,13 @@
         window.livewire.on('modal-hide-formUser', Msg => {
             $('#theModal-formUser').modal('hide')
         })
+        // Abrir UsuarioEmploy
+        window.livewire.on('show-modal-UsuEmp', Msg => {
+            $('#theModal-UsuEmp').modal('show')
+        })
+        window.livewire.on('UsuEmp-added', msg => {
+            $('#theModal-UsuEmp').modal('hide')
+        });
     });
 
     function Confirm(id, verificar) {

@@ -50,7 +50,7 @@ class EmployeeController extends Component
     public $sucursalUsuario, $sucursal_id;
 
     // Datos de Usuario Empleado
-    //public $empleadoid, $userid, $selected_EU_id;
+    public $empleadoid, $userid, $selected_EU_id;
 
     public function paginationView()
     {
@@ -71,6 +71,7 @@ class EmployeeController extends Component
         $this->selected = 'Todos';
         
         $this->idEmpleado = 0;
+        //$this->idUsuario = 0;
 
         // Usuario
         $this->componentNameU = 'Usuario';
@@ -78,6 +79,10 @@ class EmployeeController extends Component
 
         // Sucursal Ususario
         $this->sucursal_id = 'Elegir';
+
+        // Usuario Empleado
+        $this -> empleadoid = 'Elegir';
+        $this -> userid = 'Elegir';
     }
     // https://styde.net/manejo-de-cadenas-de-texto-con-laravel/
 
@@ -115,7 +120,6 @@ class EmployeeController extends Component
                     $os->verificar = $this->verificar($os->idEmpleado);
                 }
             }
-        // }
 
         return view('livewire.employee.component', [
             'data' => $employ,    //se envia data
@@ -123,6 +127,8 @@ class EmployeeController extends Component
             //'cargos' => Cargo::orderBy('name', 'asc')->get(), // Cargo
             'roles' => Role::orderBy('name', 'asc')->get(),     // roles
             'sucursales' => Sucursal::orderBy('name', 'asc')->get(),    // sucursales
+            'usuarios' => User::orderBy('name', 'asc')->get(),
+            'empleados' => Employee::orderBy('name', 'asc')->get(),
             'areas' => AreaTrabajo::all()
         ])
         ->extends('layouts.theme.app')
@@ -410,15 +416,64 @@ class EmployeeController extends Component
             'fecha_fin' => null,
         ]);
 
-        // UserEmployee::create([
-        //     'user_id' => $user->id,
-        //     'employee_id' => $this->idEmpleado,
-        // ]);
-
         //$user->save();
         $this->resetUS();
         $this->emit('formUser-added','Usuario Registrado');
         $this->emit('modal-hide-formUser', 'show modal!');
+
+        
+    }
+
+    // Registro ó actualizacion de Usuario Empleado
+    public function UsuEmploy($idEmpleado)
+    {
+        //dd(' Prueba de funcionamiento');
+        //$this->id_Empleado = $idEmpleado;
+        
+        $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
+        ->select('employees.id as idEmpleado',
+            'employees.name',
+            'employees.lastname',
+            'employees.phone',
+            'usu.email',
+            'usu.phone as cel',
+            'usu.id as idUsuario',
+            )
+        ->where('employees.id', $idEmpleado)    // selecciona al empleado
+        ->get()
+        ->first();
+
+        //$this->idEmpleado = $detalle->idEmpleado;
+        $this->name = $detalle->name;
+        $this->lastname = $detalle->lastname;
+        $this->email = $detalle->email;
+        $this->phone = $detalle->phone;
+        $this->phoneu = $detalle->cel;
+        //$this->idUsuario = $detalle->idUsuario;
+        
+        $this->emit('show-modal-UsuEmp', 'show modal!');
+        // $val = [
+        //     //'empleadoid' => 'required|not_in:Elegir',
+        //     'userid' => 'required|not_in:Elegir'
+        // ];
+        // $msg =  [
+        //     //'empleadoid.required' => 'Empleado requerido seleccione uno',
+        //     //'empleadoid.not_in' => 'elije un nombre de Empleado diferente de elegir',
+
+        //     //'userid.required' => 'Usuario requerido',
+        //     'userid.not_in' => 'elije un nombre de usuario diferente de elegir',
+        // ];
+        // $this->validate($val, $msg);
+        //'cargo_id' => $this->cargoid,
+
+        // Registra datos de empleado Usuario
+        UserEmployee::create([
+            'user_id' => $this->idUsuario = $detalle->idUsuario,
+            'employee_id' => $this->idEmpleado = $detalle->idEmpleado,
+        ]);
+
+
+        $this->emit('UsuEmp-added','Usuario Registrado');
     }
 
     // Reset de Usuario
@@ -426,8 +481,9 @@ class EmployeeController extends Component
     {
         $this->nameu = '';
         $this->email = '';
+        $this->password = '';
         $this->phoneu = '';
-        $this->image = null;
+        //$this->image = null;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';
         $this->selected_user_id = 0;

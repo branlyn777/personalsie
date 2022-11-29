@@ -65,9 +65,7 @@
             <tbody>
                 @foreach ($empleados as $emp)
                     <tr>
-						<td>nro</td>
-                        {{-- <td>{{ $nro++ }}</td> --}}
-						{{-- <td>{{($empleados->currentpage()-1) * $empleados->perpage() + $loop->index + 1}}</td> --}}
+                        <td>{{ $nro++ }}</td>
                         <td style="text-align: left">{{$emp->ci}}</td>
                         <td style="text-align: left">{{$emp->name}} {{$emp->lastname}}</td>
                         <td style="text-align: left">{{$emp->dateNac}}</td>

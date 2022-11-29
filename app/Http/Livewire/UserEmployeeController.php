@@ -76,7 +76,7 @@ class UserEmployeeController extends Component
     }
 
     // verificar empleado
-    public function verificar($idUserEmploy)
+    public function verificar()
     {
         return "si";
     }

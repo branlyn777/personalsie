@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Cargo;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use App\Models\Employee;
 use App\Models\AreaTrabajo;
 use App\Models\Funciones;
 
@@ -97,9 +98,9 @@ class CargoController extends Component
     // verificar dato para eliminar
     public function verificar($idcargo)
     {
-        $consulta = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
-        ->select('cargos.*')
-        ->where('cargos.id', $idcargo)
+        $consulta = Employee::join('cargos as cg', 'cg.id', 'employees.cargo_id')
+        ->select('employees.*')
+        ->where('employees.id', $idcargo)
         ->get();
 
         if($consulta->count() > 0)
