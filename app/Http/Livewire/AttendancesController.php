@@ -19,7 +19,7 @@ class AttendancesController extends Component
     public $reportType, $userId, $dateFrom, $dateTo, $horaentrada,$horaconformada, $componentName, $title, $fechahoy, $total, $archivo ,$verfiarchivo;
     //datos para fallo
 
-    public $fechaf, $empleadoid, $entradaf, $salidaf, $prueba;
+    public $fechaf, $empleadoid, $entradaf, $salidaf, $prueba/* $employees, $employeSelectId, $employeSelectName */;
 
     protected $pagination;
 
@@ -33,6 +33,7 @@ class AttendancesController extends Component
     //propiedades de las vistas
     public function mount(){
     
+        /* $this -> employees = []; */
         $this->reportType = 0;
         $this->userId = 0;
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -62,7 +63,7 @@ class AttendancesController extends Component
         //hacemos el llamando a la funcion SalesByDate y luego usamos la funcion paginate para obtener 
         //el total de paginas para la vista
 
-
+        /* $this->categories = Employee::orderBy('name', 'asc')->get(); */
         $paginador = $this->paginate($this->SalesByDate());
 
 
@@ -125,7 +126,7 @@ class AttendancesController extends Component
             ->orderBy('attendances.fecha','asc')
             ->get();
 
-            
+            /*  dd($this->data); */
            
             //agregar el tiempo de retrasa del empleado
             foreach ($this->data as $os)

@@ -120,7 +120,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ExportContratosController; // Exportar Contratos forma 2
 use App\Http\Controllers\ExportListaEmpController;  // Exportar Lista de empleados forma 2
-
+use App\Http\Livewire\AttendancesController2;
 // prueba de notificaciones
     use App\Mail\TestMail;
     use Illuminate\Support\Facades\Mail;
@@ -311,6 +311,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('areas_de_trabajos', AreaTrabajoController::class);
     Route::get('funciones', FuncionesController::class);
     Route::get('attendance', AttendancesController::class);
+    Route::get('attendance2', AttendancesController2::class);
     Route::get('areaspermissions', AreasPermissionsController::class);
     Route::get('cargos', CargoController::class);
     Route::get('contratos', ContratoController::class);

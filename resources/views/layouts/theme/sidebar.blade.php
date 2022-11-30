@@ -739,12 +739,12 @@
 										Reporte Horario </a>
 								</li>
 								@endcan
-								{{-- <!--
+
 								<li>
-									<a href="{{ url('calendariolaboral') }}">
+									<a href="{{ url('attendance2') }}">
 										<i class="fa fas fa-minus"></i>
-										Calendario Feriado/Festivo/Fallo del Sistema </a>
-								</li>--> --}}
+										Reporte Horario 2.0</a>
+								</li>
 
 								<li>
 									<a href="{{ url('assistances') }}">

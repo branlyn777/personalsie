@@ -165,7 +165,7 @@ class AdministrationExport implements FromCollection, WithHeadings, WithCustomSt
             ->whereBetween('attendances.fecha', [$from,$to])
             ->where('employee_id', $h->id)
             ->get()/* ->take(3) */;
-            dd($data3);
+           /*  dd($data3); */
 
             foreach ($data3 as $os)
              {   

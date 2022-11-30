@@ -174,7 +174,7 @@ class TechnicalExport implements FromCollection, WithHeadings, WithCustomStartCe
             ->get();
             if($h->id == 14419461)
             {
-                dd($data3);
+                /* dd($data3); */
             }
             
             foreach ($data3 as $os)
