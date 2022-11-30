@@ -36,25 +36,25 @@
         <table>
             <thead> 
                 <tr class="text-center">
-                    <th class="table-th">#</th>
-                    <th>EMPLEADO</th>
-                    {{-- <th class="table-th text-white text-center">CONTRATO</th> --}}
-                    <th class="table-th text-withe text-center">ADELANTO</th>
-                    {{-- <th class="table-th text-white text-center">NUEVO SALARIO</th> --}}
-                    <th class="table-th text-withe text-center">FECHA</th>
-                    <th class="table-th text-withe text-center">MOTIVO</th>
-                    <th class="table-th text-white text-center">ACTIONS</th>        
+                    <th style="width: 50px;">#</th>
+                    <th style="width: 500px;">EMPLEADO</th>
+                    {{-- <th>CONTRATO</th> --}}
+                    <th style="width: 150px;">ADELANTO</th>
+                    {{-- <th>NUEVO SALARIO</th> --}}
+                    <th style="width: 150px;">FECHA</th>
+                    <th>MOTIVO</th>
+                    <th style="width: 150px;">ACTIONS</th>        
                 </tr>
             </thead>
             <tbody>
                 @foreach($anticipos as $a)
-                <tr>
+                <tr class="text-center">
                     <td><h6>{{ ($anticipos->currentpage()-1) * $anticipos->perpage() + $loop->index + 1 }}</h6></td>
                     <td><h6>{{$a->empleado}}</h6></td>
                     {{-- <td><h6 class="text-center">{{$a->salario}}</h6></td> --}}
-                    <td><h6 class="text-center">{{$a->anticipo}} Bs</h6></td>
+                    <td><h6>{{$a->anticipo}} Bs</h6></td>
 
-                    {{-- <td><h6 class="text-center">
+                    {{-- <td><h6>
                         @if($a->descuento > 0)
                             {{number_format($a->salario - ($a->anticipo +  $a->descuento))}} Bs
                         @else
@@ -62,11 +62,11 @@
                         @endif
                     </h6></td> --}}
 
-                    <td><h6 class="text-center">{{\Carbon\Carbon::parse($a->fecha)->format('Y-m-d')}}</h6></td>
-                    {{-- <td><h6 class="text-center">{{\Carbon\Carbon::parse($a->created_at)->format('Y-m-d') }}</h6></td> {{$a->created_at}}{{ $employee->created_at->diffForHumans() }} --}}
-                    <td><h6 class="text-center">{{$a->motivo}}</h6></td>
+                    <td><h6>{{\Carbon\Carbon::parse($a->fecha)->format('Y-m-d')}}</h6></td>
+                    {{-- <td><h6>{{\Carbon\Carbon::parse($a->created_at)->format('Y-m-d') }}</h6></td> {{$a->created_at}}{{ $employee->created_at->diffForHumans() }} --}}
+                    <td><h6>{{$a->motivo}}</h6></td>
 
-                    <td class="text-center">
+                    <td>
                         <a href="javascript:void(0)"
                         wire:click="Edit({{$a->idAnticipo}})"
                         class="btn btn-dark mtmobile" title="Edit">

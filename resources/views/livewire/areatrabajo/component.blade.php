@@ -42,37 +42,39 @@
         <table>
             <thead> 
                 <tr class="text-center">
-                    <th class="table-th">#</th>
-                    <th class="table-th text-white">NOMBRE</th>
-                    <th class="table-th text-white text-center">DESCRIPCION</th>
-                    <th class="table-th text-white text-center">ESTADO</th>
-                    <th class="table-th text-white text-center">ACTIONS</th>
+                    <th style="width: 50px;">#</th>
+                    <th>NOMBRE</th>
+                    <th>DESCRIPCION</th>
+                    <th style="width: 120px;">ESTADO</th>
+                    <th style="width: 180px;">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($areas as $area)
-                <tr>
+                <tr class="text-center">
                     <td><h6>{{ ($areas->currentpage()-1) * $areas->perpage() + $loop->index + 1 }}</h6></td>
                     <td><h6>{{$area->name}}</h6></td>
-                    <td><h6 class="text-center">{{$area->description}}</h6></td>
+                    <td><h6>{{$area->description}}</h6></td>
 
-                    <td class="text-center">
+                    <td>
                         <span class="badge {{$area->estadoA == 'Activo' ? 'badge-success' : 'badge-danger'}} 
                             text-uppercase"> {{$area->estadoA}}
                         </span>
                     </td>
 
-                    <td class="text-center">
-                        <a href="javascript:void(0)"
-                            wire:click="Edit({{$area->idarea}})"
-                            class="btn btn-dark" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        
-                        <a onclick="Confirmar1({{$area->idarea}},'{{$area->verificar}}')" 
-                            class="btn btn-dark" style="color:#fff" title="Destroy">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <a href="javascript:void(0)"
+                                wire:click="Edit({{$area->idarea}})"
+                                class="btn btn-dark" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            
+                            <a onclick="Confirmar1({{$area->idarea}},'{{$area->verificar}}')" 
+                                class="btn btn-dark" style="color:#fff" title="Destroy">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 @endforeach    

@@ -52,6 +52,8 @@ class EmployeeController extends Component
     // Datos de Usuario Empleado
     public $empleadoid, $userid, $selected_EU_id;
 
+    public $idEmploy;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -61,8 +63,8 @@ class EmployeeController extends Component
         $this->pageTitle = 'Listado';
         $this->componentName = 'Empleados';
 
-        //$this->areaid = 'Elegir';   // null
-        //$this->cargoid = 'Elegir';  // null
+        $this->areaid = 'null';   // null
+        $this->cargoid = 'null';  // null
         $this->genero = 'Seleccionar';
         $this->estadoCivil = 'Seleccionar';
 
@@ -139,6 +141,7 @@ class EmployeeController extends Component
     public function updatedareaid($area_id)
     {
         $this->cargos = Cargo::where('area_id',$area_id)->get();
+
     }
 
     // verificar empleado
@@ -213,6 +216,7 @@ class EmployeeController extends Component
     {
         $detalle = Employee::join('area_trabajos as at', 'at.id', 'employees.area_trabajo_id')
         ->join('cargos as pt', 'pt.id', 'employees.cargo_id')
+        // ->join('users as usu', 'usu.phone', 'employees.phone')
         ->select('employees.id as idEmpleado',
             'employees.ci',
             'employees.name',
@@ -225,6 +229,9 @@ class EmployeeController extends Component
             'employees.image',
             'at.nameArea as nombrearea',
             'pt.name as nombrecargo',
+            // 'usu.email',
+            // 'usu.phone as cel',
+            // 'usu.id as idUsuario',
             )
         ->where('employees.id', $idEmpleado)    // selecciona al empleado
         ->get()
@@ -243,10 +250,15 @@ class EmployeeController extends Component
         $this->areaid = $detalle->nombrearea;
         $this->cargoid = $detalle->nombrecargo;
         $this->image = $detalle->image;
+
+        // $this->email = $detalle->email;
+        // $this->phoneu = $detalle->cel;
+        // $this->idUsuario = $detalle->idUsuario;
     }
 
     // Registro de empleado nuevo
-    public function Store(){
+    public function Store()
+    {
         $rules = [
             'ci' => 'required|unique:employees',
             'name' => 'required|regex:/^[\pL\s\-]+$/u', //'name' => 'required|alpha', validacion de solo letras
@@ -351,7 +363,7 @@ class EmployeeController extends Component
     }
 
     // Registro de nuevo usuario
-    public function NuevoUsuario()
+    public function NuevoUsuario($idEmpleado)
     {
         $rules = [
             //'nameu' => 'required|min:3',
@@ -379,7 +391,7 @@ class EmployeeController extends Component
         // $collection = collect(['@sie.com']);
         $user = User::create([
             'name' => $this->name,
-            'email' => $this->email,//$this->$collection = $this->name,'@sie.com', //
+            'email' => $this->email,
             'phone' => $this->phone,
             'status' => 'ACTIVE',
             'profile' => $this->profile,
@@ -416,20 +428,22 @@ class EmployeeController extends Component
             'fecha_fin' => null,
         ]);
 
+        $usuEmp = new UserEmployeeController;
+        $usuEmp->selected_EU_id=$this->selected_EU_id;
+        $usuEmp->empleadoid= $this->empleadoid;
+        $usuEmp->userid = $this->userid;
+        $usuEmp->Store();
+
         //$user->save();
         $this->resetUS();
         $this->emit('formUser-added','Usuario Registrado');
         $this->emit('modal-hide-formUser', 'show modal!');
-
-        
     }
 
     // Registro ó actualizacion de Usuario Empleado
     public function UsuEmploy($idEmpleado)
     {
         //dd(' Prueba de funcionamiento');
-        //$this->id_Empleado = $idEmpleado;
-        
         $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
         ->select('employees.id as idEmpleado',
             'employees.name',
@@ -439,40 +453,28 @@ class EmployeeController extends Component
             'usu.phone as cel',
             'usu.id as idUsuario',
             )
-        ->where('employees.id', $idEmpleado)    // selecciona al empleado
+        ->where('employees.id',$idEmpleado)    // selecciona al empleado
         ->get()
         ->first();
 
-        //$this->idEmpleado = $detalle->idEmpleado;
+        // $this->idEmpleado = $detalle->idEmpleado;
         $this->name = $detalle->name;
         $this->lastname = $detalle->lastname;
-        $this->email = $detalle->email;
         $this->phone = $detalle->phone;
+        $this->email = $detalle->email;
         $this->phoneu = $detalle->cel;
         //$this->idUsuario = $detalle->idUsuario;
-        
+
         $this->emit('show-modal-UsuEmp', 'show modal!');
-        // $val = [
-        //     //'empleadoid' => 'required|not_in:Elegir',
-        //     'userid' => 'required|not_in:Elegir'
-        // ];
-        // $msg =  [
-        //     //'empleadoid.required' => 'Empleado requerido seleccione uno',
-        //     //'empleadoid.not_in' => 'elije un nombre de Empleado diferente de elegir',
-
-        //     //'userid.required' => 'Usuario requerido',
-        //     'userid.not_in' => 'elije un nombre de usuario diferente de elegir',
-        // ];
-        // $this->validate($val, $msg);
-        //'cargo_id' => $this->cargoid,
-
+        
         // Registra datos de empleado Usuario
-        UserEmployee::create([
-            'user_id' => $this->idUsuario = $detalle->idUsuario,
-            'employee_id' => $this->idEmpleado = $detalle->idEmpleado,
-        ]);
+        $usuEmp = new UserEmployeeController;
+        $usuEmp->selected_EU_id=$this->selected_EU_id;
+        $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
+        $usuEmp->userid = $this->userid;
+        $usuEmp->Store();
 
-
+        $this->resetUS();
         $this->emit('UsuEmp-added','Usuario Registrado');
     }
 
@@ -488,6 +490,9 @@ class EmployeeController extends Component
         $this->sucursal_id = 'Elegir';
         $this->selected_user_id = 0;
         $this->resetValidation();
+
+        $this->userid = 'Elegir';
+        $this->empleadoid = 'Elegir';
     }
 
     // Abrir modal con la informacion

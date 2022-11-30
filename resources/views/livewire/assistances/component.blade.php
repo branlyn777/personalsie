@@ -42,38 +42,38 @@
         <table>
             <thead> 
                 <tr class="text-center">
-                    <th class="table-th text-white">#</th>
-                    <th class="table-th text-white">EMPLEADO</th>
-                    <th class="table-th text-white text-center">FECHA</th>
-                    <th class="table-th text-withe text-center">MOTIVO</th>
-                    <th class="table-th text-withe text-center">COMPROVANTE</th>
-                    <th class="table-th text-withe text-center">ESTADO</th>
-                    <th class="table-th text-white text-center">ACTIONS</th>        
+                    <th style="width: 50px;">#</th>
+                    <th style="width: 400px;">EMPLEADO</th>
+                    <th style="width: 150px;">FECHA</th>
+                    <th>MOTIVO</th>
+                    <th style="width: 180px;">COMPROVANTE</th>
+                    <th style="width: 120px;">ESTADO</th>
+                    <th style="width: 120px;">ACTIONS</th>        
                 </tr>
             </thead>
             <tbody>
                 @foreach($asistencias as $a)
-                <tr>
+                <tr class="text-center">
                     <td><h6>{{ ($asistencias->currentpage()-1) * $asistencias->perpage() + $loop->index + 1 }}</h6></td>
                     <td><h6>{{ $a->empleado }}</h6></td>
-                    <td><h6 class="text-center">{{$a->fecha}}</h6></td>
-                    <td><h6 class="text-center">{{$a->motivo}}</h6></td>
+                    <td><h6>{{$a->fecha}}</h6></td>
+                    <td><h6>{{$a->motivo}}</h6></td>
                     
-                    <td class="text-center">
+                    <td>
                         <span>
                             <img src="{{ asset('storage/assistances/' .$a->comprobante)}}"
                              alt="Sin Comprobante" height="70" width="80" class="rounded"
                              wire:click="verImagen({{$a->idAsistencia}})">
                         </span>
                     </td>
-
-                    <td class="text-center">
-                        <span class="badge {{$a->estadoA == 'Permiso' ? 'badge-success' : 'badge-danger'}} 
+                    
+                    <td>
+                        <span class="badge {{$a->estadoA == 'Permiso' ? 'badge-success' : 'badge-info'}} 
                             text-uppercase"> {{$a->estadoA}}
                         </span>
                     </td>
 
-                    <td class="text-center">
+                    <td>
                         <a href="javascript:void(0)"
                         wire:click="Edit({{$a->idAsistencia}})"
                         class="btn btn-dark mtmobile" title="Edit">

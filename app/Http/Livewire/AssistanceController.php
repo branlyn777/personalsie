@@ -133,7 +133,7 @@ class AssistanceController extends Component
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             'estadoA.required' => 'seleccione estado de asistencia',
-            'estadoA.not_in' => 'selecciona estado de asistencia diferente a elegir',
+            'estadoA.not_in' => 'Selecione tipo de permiso diferente a elegir',
             'comprobante.mimes' => 'Solo se permite imagen'
         ];
 

@@ -42,22 +42,22 @@
         <table>
             <thead> 
                 <tr class="text-center">
-                    <th class="table-th text-white">#</th>
-                    <th class="table-th text-white">CARGO</th>
-                    <th class="table-th text-white text-center">AREA</th>
-                    <th class="table-th text-white text-center">FUNCIONES</th>
-                    <th class="table-th text-white text-center">ESTADO</th>
-                    <th class="table-th text-white text-center">ACTIONS</th>        
+                    <th style="width: 50px;">#</th>
+                    <th>CARGO</th>
+                    <th>AREA</th>
+                    <th style="width: 120px;">FUNCIONES</th>
+                    <th style="width: 150px;">ESTADO</th>
+                    <th style="width: 230px;">ACTIONS</th>        
                 </tr>
             </thead>
             <tbody>
                 @foreach($cargos as $cargo)
-                <tr>
+                <tr class="text-center">
                     <td><h6>{{($cargos->currentpage()-1) * $cargos->perpage() + $loop->index + 1}}</h6></td>
                     <td><h6>{{$cargo->name}}</h6></td>
-                    <td><h6 class="text-center">{{$cargo->area}}</h6></td>
+                    <td><h6>{{$cargo->area}}</h6></td>
 
-                    <td class="text-center">
+                    <td>
                         <a href="javascript:void(0)"
                             wire:click="VistaFuncion({{$cargo->idcargo}})" 
                             class="btn btn-primary mtmobile" title="Ver">
@@ -65,31 +65,32 @@
                         </a>
                     </td>
 
-                    <td class="text-center">
+                    <td>
                         <span class="badge {{$cargo->estado == 'Activo' ? 'badge-success' : 'badge-danger'}}
                             text-uppercase">
                             {{$cargo->estado}}
                         </span>
                     </td>
 
-                    <td class="text-center">
-                        <a href="javascript:void(0)"
-                            wire:click="NuevaFuncion({{$cargo->idcargo}})" 
-                            class="btn btn-primary close-btn" title="Agregar">
-                            <i class="fas fa-plus-circle"></i>
-                        </a>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <a href="javascript:void(0)"
+                                wire:click="NuevaFuncion({{$cargo->idcargo}})" 
+                                class="btn btn-primary close-btn" title="Agregar">
+                                <i class="fas fa-plus-circle"></i>
+                            </a>
 
-                        <a href="javascript:void(0)" 
-                            wire:click="Edit({{$cargo->idcargo}})"
-                            class="btn btn-dark mtmobile" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </a>
+                            <a href="javascript:void(0)" 
+                                wire:click="Edit({{$cargo->idcargo}})"
+                                class="btn btn-dark mtmobile" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
 
-                        <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
-                            class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
-                            <i class="fas fa-trash"></i>
-                        </a>
-
+                            <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
+                                class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 @endforeach        

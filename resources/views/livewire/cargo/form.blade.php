@@ -1,7 +1,7 @@
 @Include('common.modalHead')
 
 <div class="row">
-    <div class="col-sm-12 col-md-12">
+    <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Nombre</label>
             <input type="text" wire:model.lazy="name" class="form-control" placeholder="Ingrese nombre de Cargo">

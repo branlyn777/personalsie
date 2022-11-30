@@ -45,45 +45,45 @@
         <div class="table-responsive">
             <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
                 <thead class="text-white" style="background: #ee761c">
-                    <tr>
-                        <th class="table-th text-withe">#</th>
-                        <th class="table-th text-withe text-center">NOMBRE COMPLETO</th>
-                        <th class="table-th text-withe text-center">CI</th>
-                        <th class="table-th text-withe text-center">TELEFONO</th>
-                        <th class="table-th text-withe text-center">AREA</th>
-                        <th class="table-th text-withe text-center">CARGO</th>
-                        <th class="table-th text-white text-center">IMAGEN</th>
-                        <th class="table-th text-withe text-center">ESTADO</th>
-                        <th class="table-th text-withe text-center">FECHA DE REGISTRO</th>
-                        <th class="table-th text-withe text-center">ACCIONES</th>
+                    <tr class="text-center">
+                        <th style="width: 50px;">#</th>
+                        <th style="width: 300px;">NOMBRE COMPLETO</th>
+                        <th style="width: 70px;">CI</th>
+                        <th style="width: 70px;">TELEFONO</th>
+                        <th style="width: 280px;">AREA</th>
+                        <th style="width: 280px;">CARGO</th>
+                        <th>IMAGEN</th>
+                        <th>ESTADO</th>
+                        <th style="width: 200px;">FECHA DE REG.</th>
+                        <th>ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data as $employee)
-                        <tr>
+                        <tr class="text-center">
                             <td><h6>{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</h6></td>
-                            <td><h6 class="text-center">{{ $employee->name }} {{ $employee->lastname }}</h6></td>
-                            <td><h6 class="text-center">{{ $employee->ci }}</h6></td>
-                            <td><h6 class="text-center">{{ $employee->phone }}</h6></td>
-                            <td><h6 class="text-center">{{ $employee->area }}</h6></td>
-                            <td><h6 class="text-center">{{ $employee->cargo}}</h6></td>
+                            <td><h6>{{ $employee->name }} {{ $employee->lastname }}</h6></td>
+                            <td><h6>{{ $employee->ci }}</h6></td>
+                            <td><h6>{{ $employee->phone }}</h6></td>
+                            <td><h6>{{ $employee->area }}</h6></td>
+                            <td><h6>{{ $employee->cargo}}</h6></td>
 
-                            <td class="text-center">
+                            <td>
                                 <span>
                                     <img src="{{ asset('storage/employees/' .$employee->image)}}"
                                      alt="Sin Imagen" height="70" width="80" class="rounded">
                                 </span>
                             </td>
 
-                            <td class="text-center">
+                            <td>
                                 <span class="badge {{$employee->estado == 'Activo' ? 'badge-success' : 'badge-danger'}} 
                                     text-uppercase"> {{$employee->estado}}
                                 </span>
                             </td>
 
-                            <td><h6 class="text-center">{{\Carbon\Carbon::parse($employee->created_at)->format('Y-m-d')}}</h6></td>
+                            <td><h6>{{\Carbon\Carbon::parse($employee->created_at)->format('Y-m-d')}}</h6></td>
 
-                            <td class="text-center">
+                            <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <button href="javascript:void(0)" wire:click="Edit({{ $employee->idEmpleado }})"
                                         class="btn btn-dark mtmobile" title="Edit" type="button" class="btn btn-danger">
@@ -105,11 +105,11 @@
                                     <button href="javascript:void(0)"
                                         wire:click="UsuEmploy({{$employee->idEmpleado}})"
                                         class="btn btn-dark"  title="" type="button" class="btn btn-success">
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
+                                        <i class="fas fa-sync-alt"></i>
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
                                         class="feather feather-at-sign"><circle cx="12" cy="12" r="4"></circle>
-                                        <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+                                        <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg> --}}
                                     </button>
                                 </div>
                             </td>

@@ -49,21 +49,21 @@
         <div class="table-responsive">
             <table class="table table-bordered table striped mt-1" >
                 <thead class="text-white" style="background: #ee761c">
-                    <tr>
-                        <th class="table-th text-withe">#</th>
-                        <th class="table-th text-white">EMPLEADO</th>
-                        <th class="table-th text-white">FECHA INICIO</th>
-                        <th class="table-th text-white">FECHA FINAL</th>
-                        <th class="table-th text-white">DESCRIPCION</th>
-                        <th class="table-th text-white">SALARIO</th>
-                        {{-- <th class="table-th text-white text-center">ESTADO</th> --}}
-                        <th class="table-th text-white text-center">VIGENCIA DE CONTRATO</th>
-                        <th class="table-th text-white text-center">ACCION</th>
+                    <tr class="text-center">
+                        <th>#</th>
+                        <th>EMPLEADO</th>
+                        <th>FECHA INICIO</th>
+                        <th>FECHA FINAL</th>
+                        <th>DESCRIPCION</th>
+                        <th>SALARIO</th>
+                        {{-- <th>ESTADO</th> --}}
+                        <th style="width: 230px;">VIGENCIA DE CONTRATO</th>
+                        <th style="width: 120px;">ACCION</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($contratos as $datos)
-                    <tr>
+                    <tr class="text-center">
                         <td><h6>{{ ($contratos->currentpage()-1) * $contratos->perpage() + $loop->index + 1 }}</h6></td>
                         <td><h6>{{$datos->name}}</h6></td>
                         <td><h6>{{\Carbon\Carbon::parse($datos->fechaInicio)->format('Y-m-d')}}</h6></td>
@@ -78,36 +78,38 @@
                             </span>
                         </td> --}}
 
-                        <td class="text-center">
+                        <td>
                             <span class="badge {{$datos->estadoV == 'Vigente' ? 'badge-info' : 'badge-danger'}}
                                 text-uppercase">
                                 {{$datos->estadoV}}
                             </span>
                         </td>
 
-                        <td class="text-center">
-                            <a href="javascript:void(0)" 
-                                wire:click="Edit({{$datos->idContrato}})"
-                                class="btn btn-dark mtmobile" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <a href="javascript:void(0)" 
+                                    wire:click="Edit({{$datos->idContrato}})"
+                                    class="btn btn-dark mtmobile" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
 
-                            <a href="{{ url('Contratos/pdf' . '/' . $datos->idContrato)}}"  
-                                class="btn btn-dark mtmobile" title="Imprimir Contrato">
-                                <i class="fas fa-print"></i>
-                            </a>
+                                <a href="{{ url('Contratos/pdf' . '/' . $datos->idContrato)}}"  
+                                    class="btn btn-dark mtmobile" title="Imprimir Contrato">
+                                    <i class="fas fa-print"></i>
+                                </a>
 
-                            <a href="javascript:void(0)"
-                            wire:click="NoVigente({{$datos->idContrato}})"
-                                class="btn btn-dark" title="Finalizar">
-                                <i class="far fa-times-circle"></i>
-                            </a>
+                                <a href="javascript:void(0)"
+                                wire:click="NoVigente({{$datos->idContrato}})"
+                                    class="btn btn-dark" title="Finalizar">
+                                    <i class="far fa-times-circle"></i>
+                                </a>
 
-                            {{-- <a href="javascript:void(0)"
-                                onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
-                                class="btn btn-dark" title="Destroy">
-                                <i class="fas fa-trash"></i>
-                            </a> --}}
+                                {{-- <a href="javascript:void(0)"
+                                    onclick="Confirmar1('{{$datos->idContrato}}','{{$datos->verificar}}')"
+                                    class="btn btn-dark" title="Destroy">
+                                    <i class="fas fa-trash"></i>
+                                </a> --}}
+                            </div>
                         </td>
                     </tr>
                     @endforeach

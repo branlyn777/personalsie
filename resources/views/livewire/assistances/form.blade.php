@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-5">
+    <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Tipo de Ausencia</label>
                 <select id="seleccion" wire:model="estadoA" class="form-control">

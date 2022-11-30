@@ -33,9 +33,4 @@ class Employee extends Model
     public function contrato(){
         return $this->hasMany(Contrato::class);
     }
-
-    public function empleado()
-    {
-        return $this->hasMany(User::class);
-    }
 }

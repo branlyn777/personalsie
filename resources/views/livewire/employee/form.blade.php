@@ -101,7 +101,7 @@
                         <div class="form-group">
                             <label>Area de Trabajo</label>
                             <select wire:model="areaid" class="form-control">
-                                <option value="">Elegir</option>
+                                <option value='Elegir' disabled>Elegir</option>
                                 @foreach($areas as $area)
                                 <option value="{{$area->id}}">{{$area->nameArea}}</option>
                                 @endforeach
@@ -129,7 +129,7 @@
                             <div class="form-group">
                                 <label>Cargo</label>
                                 <select wire:model="cargoid" class="form-control">
-                                    <option value="">Elegir</option>
+                                    <option value='Elegir' disabled>Elegir</option>
                                     @foreach($cargos as $cargo)
                                         <option value="{{$cargo->id}}">{{$cargo->name}}</option>
                                     @endforeach
