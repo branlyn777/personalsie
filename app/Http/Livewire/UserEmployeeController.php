@@ -121,12 +121,12 @@ class UserEmployeeController extends Component
     public function Update()
     {
         $rules = [
-            'empleadoid' => 'required|not_in:Elegir',
+            //'empleadoid' => 'required|not_in:Elegir',
             'userid' => 'required|not_in:Elegir'
         ];
         $messages =  [
             //'empleadoid.required' => 'Empleado requerido seleccione uno',
-            'empleadoid.not_in' => 'elije un nombre de Empleado diferente de elegir',
+            //'empleadoid.not_in' => 'elije un nombre de Empleado diferente de elegir',
 
             //'userid.required' => 'Usuario requerido',
             'userid.not_in' => 'elije un nombre de usuario diferente de elegir',

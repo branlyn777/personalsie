@@ -33,6 +33,33 @@
 
                     {{-- <div class="col-sm-12 col-md-6">
                         <div class="form-group">
+                            <label>Id Empleado</label>
+                            <h4>{{$idEmpleado}}</h4> --}}
+                            {{-- <input type="text" wire:model.lazy="nameu" class="form-control">
+                            @error('nameu')<span class="text-danger er">{{ $message }}</span>@enderror --}}
+                        {{-- </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label>IdUsuario</label>
+                            <h4>{{$idUsuario}}</h4> --}}
+                            {{-- <input type="text" wire:model.lazy="nameu" class="form-control">
+                            @error('nameu')<span class="text-danger er">{{ $message }}</span>@enderror --}}
+                        {{-- </div>
+                    </div> --}}
+
+                    {{-- <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <h4>{{$email}}</h4> --}}
+                            {{-- <input type="text" wire:model.lazy="nameu" class="form-control">
+                            @error('nameu')<span class="text-danger er">{{ $message }}</span>@enderror --}}
+                        {{-- </div>
+                    </div> --}}
+
+                    {{-- <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
                             <label>Empleado</label>
                             <select wire:model="empleadoid" class="form-control">
                                 <option value="Elegir" disabled>Elegir</option>
@@ -63,8 +90,8 @@
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-primary close-btn" 
                     data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
                 
-                <button type="button" wire:click.prevent="UsuEmploy({{$idEmpleado}})"
-                    class="btn btn-primary">GUARDAR</button>
+                <button type="button" wire:click.prevent="UsuEmploy()"
+                    class="btn btn-primary">ACTUALIZAR</button>
                 
             </div>
         </div>

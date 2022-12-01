@@ -141,7 +141,6 @@
         window.livewire.on('modal-show', msg => {
             $('#theModal').modal('show')
         });
-
         window.livewire.on('modal-hide-employee', Msg => {
             $('#theModal').modal('hide')
         })
@@ -165,6 +164,9 @@
             $('#theModal-UsuEmp').modal('show')
         })
         window.livewire.on('UsuEmp-added', msg => {
+            $('#theModal-UsuEmp').modal('hide')
+        });
+        window.livewire.on('UsuEmp-updated', msg => {
             $('#theModal-UsuEmp').modal('hide')
         });
     });
