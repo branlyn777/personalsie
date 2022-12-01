@@ -89,6 +89,9 @@
                         <td class="text-center">
                             {{ ($a->nombreemployees) }}
                         </td>
+                        <td class="text-center">
+                            {{ ($a->retraso) }}
+                        </td>
 
                         
                     </tr>

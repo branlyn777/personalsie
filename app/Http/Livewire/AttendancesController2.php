@@ -37,15 +37,28 @@ class AttendancesController2 extends Component
     public function render()
     {
         $lista_asistencias = Attendance::join("employees as e","e.id","attendances.employee_id")
-        ->select("attendances.fecha as fecha_asistencia","attendances.entrada as entrada_asistencia","attendances.salida as salida_asistencia", "e.name as nombreemployees"
+        ->join("shifts as s","s.ci","e.ci")
+        ->select("attendances.fecha as fecha_asistencia","attendances.entrada as entrada_asistencia","attendances.salida as salida_asistencia",
+        "e.name as nombreemployees","e.id as idemployees","s.monday as hora_entreda"
         ,DB::raw('0 as dia'),DB::raw('0 as retraso'))
         ->where("e.estado","Activo")
         ->get();
 
         foreach($lista_asistencias as $s)
         {
-            $s->dia = $this->fecha_dia(Carbon::parse($s->fecha_asistencia)->format('D'));
+            $hora_entreda = new \Carbon\Carbon("2022-12-01 " . $s->entrada_asistencia);
+            $hora_entreda_contrado = new \Carbon\Carbon("2022-12-01 " . $s->hora_entreda);
+
+
+            // $s->retraso = $this->obtener_diferencia_horas( $hora_entreda, $hora_entreda_contrado);
+
+
+
             
+            $s->retraso = $hora_entreda->diffInMinutes($hora_entreda_contrado);
+
+            $s->dia = $this->fecha_dia(Carbon::parse($s->fecha_asistencia)->format('D'));
+
         }
 
 
@@ -56,6 +69,11 @@ class AttendancesController2 extends Component
         ->extends('layouts.theme.app')
         ->section('content');
         
+    }
+
+    public function obtener_diferencia_horas($hora_inicio, $hora_fin)
+    {
+
     }
 
     //convertir de ingles a español
