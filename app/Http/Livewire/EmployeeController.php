@@ -52,8 +52,6 @@ class EmployeeController extends Component
     // Datos de Usuario Empleado
     public $empleadoid, $userid, $selected_EU_id;
 
-    public $idEmploy;
-
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -73,7 +71,6 @@ class EmployeeController extends Component
         $this->selected = 'Todos';
         
         $this->idEmpleado = 0;
-        //$this->idUsuario = 0;
 
         // Usuario
         $this->componentNameU = 'Usuario';
@@ -314,6 +311,8 @@ class EmployeeController extends Component
             //'image'=>  $customFileName,
         ]);
 
+        $this->idEmpleado = $employ->id;
+
         $turno = Shift::create([
             'ci' => $this->ci,
             'name' => $this->name,
@@ -363,7 +362,7 @@ class EmployeeController extends Component
     }
 
     // Registro de nuevo usuario
-    public function NuevoUsuario($idEmpleado)
+    public function NuevoUsuario()
     {
         $rules = [
             //'nameu' => 'required|min:3',
@@ -428,11 +427,10 @@ class EmployeeController extends Component
             'fecha_fin' => null,
         ]);
 
-        $usuEmp = new UserEmployeeController;
-        $usuEmp->selected_EU_id=$this->selected_EU_id;
-        $usuEmp->empleadoid= $this->empleadoid;
-        $usuEmp->userid = $this->userid;
-        $usuEmp->Store();
+        UserEmployee::create([
+            'user_id' =>$user->id,
+            'employee_id' =>$this-> idEmpleado
+        ]);
 
         //$user->save();
         $this->resetUS();
@@ -440,7 +438,7 @@ class EmployeeController extends Component
         $this->emit('modal-hide-formUser', 'show modal!');
     }
 
-    // Registro ó actualizacion de Usuario Empleado
+    // Vista de datos a editar
     public function UsuEmploy($idEmpleado)
     {
         //dd(' Prueba de funcionamiento');
@@ -457,12 +455,12 @@ class EmployeeController extends Component
         ->get()
         ->first();
 
-        // $this->idEmpleado = $detalle->idEmpleado;
+        $this->idEmpleado = $detalle->idEmpleado;
         $this->name = $detalle->name;
         $this->lastname = $detalle->lastname;
-        $this->phone = $detalle->phone;
-        $this->email = $detalle->email;
-        $this->phoneu = $detalle->cel;
+        // $this->phone = $detalle->phone;
+        //$this->email = $detalle->email;
+        // $this->phoneu = $detalle->cel;
         //$this->idUsuario = $detalle->idUsuario;
 
         $this->emit('show-modal-UsuEmp', 'show modal!');
@@ -470,12 +468,12 @@ class EmployeeController extends Component
         // Registra datos de empleado Usuario
         $usuEmp = new UserEmployeeController;
         $usuEmp->selected_EU_id=$this->selected_EU_id;
-        $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
+        $usuEmp->empleadoid= $this->idEmpleado;
         $usuEmp->userid = $this->userid;
         $usuEmp->Store();
 
         $this->resetUS();
-        $this->emit('UsuEmp-added','Usuario Registrado');
+        $this->emit('UsuEmp-added','Usuario Actualizado');
     }
 
     // Reset de Usuario
