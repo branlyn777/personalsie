@@ -14,7 +14,6 @@ class ShiftSeeder extends Seeder
     public function run()
     {
         Shift::create([
-            
             'ci' => 9406795,
             'name' => 'Clever',
             'monday' => '08:00:00',

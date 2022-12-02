@@ -22,6 +22,7 @@ class CreateAreaTrabajosTable extends Migration
             $table->string('nameArea',255);
             $table->string('descriptionArea',500)->nullable();
             $table->enum('estadoA',['Activo','Inactivo'])->default('Activo')->nullable();
+            $table->time('RetrasoPermitido');
 
             $table->timestamps();
         });

@@ -32,7 +32,7 @@
                             
                         </h6>
                         @foreach ($item as $dum)
-                            
+                        {{ number_format($dum->monto,2) }}
                        <div>{{$dum->carteraNombre}}:{{$dum->monto}}</div> 
                         @endforeach
                     </div>

@@ -77,7 +77,6 @@
                             {{ ($a->dia) }}
                         </td>
                         <td class="text-center">
-                            {{-- {{ date("d/m/Y", strtotime($a->fecha)) }} --}}
                             {{ Carbon\Carbon::parse($a->fecha_asistencia)->format('d/m/Y') }}
                         </td>
                         <td class="text-center">                          
@@ -90,7 +89,7 @@
                             {{ ($a->nombreemployees) }}
                         </td>
                         <td class="text-center">
-                            {{ ($a->retraso) }}
+                            {{ Carbon\Carbon::parse($a->retraso)->format(' H:i:s') }}
                         </td>
 
                         

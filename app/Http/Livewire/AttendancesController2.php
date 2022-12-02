@@ -50,16 +50,30 @@ class AttendancesController2 extends Component
             $hora_entreda_contrado = new \Carbon\Carbon("2022-12-01 " . $s->hora_entreda);
 
 
+
             // $s->retraso = $this->obtener_diferencia_horas( $hora_entreda, $hora_entreda_contrado);
 
-
-
             
-            $s->retraso = $hora_entreda->diffInMinutes($hora_entreda_contrado);
+            /* $dateTimeObject1 = date_create($s->entrada_asistencia); 
+            $dateTimeObject2 = date_create($s->salida_asistencia); 
+              
+            $difference = date_diff($dateTimeObject1, $dateTimeObject2); 
+            echo ("The difference in hours is:");
+            echo $difference->h;
+            echo "\n";
+            $minutes = $difference->days * 24 * 60;
+            $minutes += $difference->h * 60;
+            $minutes += $difference->i;
+            echo("The difference in minutes is:");
+            echo $minutes.' minutes';
+             */
+
+            $s->retraso = $hora_entreda->diffInHours($hora_entreda_contrado) . ":" . $hora_entreda->diffInMinutes($hora_entreda_contrado);
 
             $s->dia = $this->fecha_dia(Carbon::parse($s->fecha_asistencia)->format('D'));
 
         }
+        /* dd(  $difference); */
 
 
 
@@ -76,7 +90,7 @@ class AttendancesController2 extends Component
 
     }
 
-    //convertir de ingles a español
+    //convertir dias de ingles a español
     public function fecha_dia($dia)
     {
         switch ($dia) {
