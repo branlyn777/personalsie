@@ -100,7 +100,7 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Area de Trabajo</label>
-                            <select wire:model="areaid" class="form-control">
+                            <select wire:model.lazy="areaid" class="form-control">
                                 <option value='Elegir' disabled>Elegir</option>
                                 @foreach($areas as $area)
                                 <option value="{{$area->id}}">{{$area->nameArea}}</option>
@@ -128,7 +128,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label>Cargo</label>
-                                <select wire:model="cargoid" class="form-control">
+                                <select wire:model.lazy="cargoid" class="form-control">
                                     <option value='Elegir' disabled>Elegir</option>
                                     @foreach($cargos as $cargo)
                                         <option value="{{$cargo->id}}">{{$cargo->name}}</option>
@@ -144,7 +144,7 @@
                         <div class="col-sm-12 col-md-5">
                             <div class="form-group">
                                 <label>Estado de Empleado</label>
-                                <select id="seleccion" wire:model="estado" class="form-control">
+                                <select id="seleccion" wire:model.lazy="estado" class="form-control">
                                     <option value="Elegir" disabled>Elegir</option>
                                     <option value="Activo" selected>Activo</option>
                                     <option value="Inactivo" selected>Inactivo</option>
@@ -156,7 +156,7 @@
 
                     <div class="col-sm-12 mt-3">
                         <div class="form-group custom-file">
-                            <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model="image" accept="image/x-png, image/gif, image/jpeg, image/jpg">
+                            <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model.lazy="image" accept="image/x-png, image/gif, image/jpeg, image/jpg">
                             <label for="" class="custom-file-label">Imagen {{$image}}</label>
                             @error('image') <span class="text-danger er"> {{ $message }}</span> @enderror
                         </div>

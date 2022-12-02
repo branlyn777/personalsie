@@ -5,7 +5,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Empleado</label>
-            <select wire:model="empleadoid" class="form-control">
+            <select wire:model.lazy="empleadoid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($empleados as $empleado)
                 <option value="{{$empleado->id}}">{{$empleado->name}}</option>
@@ -18,7 +18,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Usuario</label>
-            <select wire:model="userid" class="form-control">
+            <select wire:model.lazy="userid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($usuarios as $usuario)
                 <option value="{{$usuario->id}}">{{$usuario->email}}</option>

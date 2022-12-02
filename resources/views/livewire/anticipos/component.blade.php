@@ -37,10 +37,8 @@
             <thead> 
                 <tr class="text-center">
                     <th style="width: 50px;">#</th>
-                    <th style="width: 500px;">EMPLEADO</th>
-                    {{-- <th>CONTRATO</th> --}}
+                    <th style="width: 250px;">EMPLEADO</th>
                     <th style="width: 150px;">ADELANTO</th>
-                    {{-- <th>NUEVO SALARIO</th> --}}
                     <th style="width: 150px;">FECHA</th>
                     <th>MOTIVO</th>
                     <th style="width: 150px;">ACTIONS</th>        

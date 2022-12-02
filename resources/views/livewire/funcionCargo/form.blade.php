@@ -5,7 +5,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Cargo</h6>
-            <select wire:model="cargoid" class="form-control">
+            <select wire:model.lazy="cargoid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($cargos as $cargo)
                     <option value="{{$cargo->id}}">{{$cargo->name}}</option>

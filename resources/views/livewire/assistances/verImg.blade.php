@@ -15,9 +15,9 @@
 <div wire:ignore.self class="modal fade" id="theModal-img" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary" style="background: #414141">
-                
-            </div>
+            {{-- <div class="modal-header bg-primary" style="background: #414141"> --}}
+                {{-- <h5 style="color: #fff"><b>Comprobante</b></h5> --}}
+            {{-- </div> --}}
             <div class="modal-body">
                 
                 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">

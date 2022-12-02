@@ -94,7 +94,7 @@
                                 </a>
 
                                 <a href="{{ url('Contratos/pdf' . '/' . $datos->idContrato)}}"  
-                                    class="btn btn-dark mtmobile" title="Imprimir Contrato">
+                                    class="btn btn-dark mtmobile" title="Imprimir">
                                     <i class="fas fa-print"></i>
                                 </a>
 
@@ -119,29 +119,20 @@
         </div>
     </div>
     @include('livewire.contrato.form')
-    @include('livewire.contrato.vistaPreviaContrato')
 </div>
 
 @section('javascript')
 <script>
     document.addEventListener('DOMContentLoaded', function(){
-
         window.livewire.on('show-modal', msg=>{
             $('#theModal').modal('show')
         });
-
         window.livewire.on('tcontrato-added', msg=>{
             $('#theModal').modal('hide')
             noty(Msg)
         });
-
         window.livewire.on('tcontrato-updated', msg=>{
             $('#theModal').modal('hide')
-        });
-
-        // Vista Previa de contrato
-        window.livewire.on('show-modal-contrato', msg=>{
-            $('#theModal-contrato').modal('show')
         });
     });
 

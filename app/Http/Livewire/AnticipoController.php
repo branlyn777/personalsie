@@ -10,6 +10,7 @@ use App\Models\Discountsv;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AnticipoController extends Component
@@ -20,13 +21,15 @@ class AnticipoController extends Component
     public $empleadoid, $anticipo, $fecha, $motivo, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 5;
-
+    public $fechaActual;
 
     public function mount(){
         $this -> pageTitle = 'Lista';
         $this -> componentName = 'Adelantos de Sueldo';
 
         $this->empleadoid = 'Elegir';
+
+        $this->fechaActual = Carbon::parse(Carbon::now())->format('Y-m-d');
     }
 
     public function paginationView()
@@ -39,12 +42,9 @@ class AnticipoController extends Component
         if(strlen($this->search) > 0)
         {
             $data = Anticipo::join('employees as at', 'at.id', 'anticipos.empleado_id')
-            //->join('contratos as ct', 'ct.id', 'at.contrato_id')
-            //->join('discountsvs as dc', 'dc.ci', 'at.ci')
-            ->select('anticipos.*', 'at.name as empleado', /*'ct.salario', 'dc.descuento as descuento',*/ 'anticipos.id as idAnticipo',
+            ->select('anticipos.*', 'at.name as empleado','anticipos.id as idAnticipo',
                 DB::raw('0 as verificar'))
-            ->where('at.name', 'like', '%' . $this->search . '%')   
-            //->orWhere('at.contrato_id', 'like', '%' . $this->search . '%')         
+            ->where('at.name', 'like', '%' . $this->search . '%')       
             ->orderBy('at.name', 'asc')
             ->paginate($this->pagination);
 
@@ -57,9 +57,7 @@ class AnticipoController extends Component
         else
         {
             $data = Anticipo::join('employees as at', 'at.id', 'anticipos.empleado_id')
-            //->join('contratos as ct', 'ct.id', 'at.contrato_id')
-            //->join('discountsvs as dc', 'dc.ci', 'at.ci')
-            ->select('anticipos.*', 'at.name as empleado', /*'ct.salario as salario', 'dc.descuento as descuento',*/ 'anticipos.id as idAnticipo',
+            ->select('anticipos.*', 'at.name as empleado', 'anticipos.id as idAnticipo',
                 DB::raw('0 as verificar'))
             ->orderBy('at.name', 'asc')
             ->paginate($this->pagination);
@@ -71,13 +69,9 @@ class AnticipoController extends Component
             }
         }
 
-        // calcular nuevo saldo
-        //$result = number_format($data->salario - ($this->anticipo +  $this->descuento)); //$data->salario - $data->anticipo;
-        
-
         return view('livewire.anticipos.component', [
             'anticipos' => $data,        // se envia anticipos
-            'empleados' => Employee::orderBy('name', 'asc')->get(),
+            'empleados' => Employee::where('estado', 'Activo')->orderBy('name', 'asc')->get(),
             //'pruebas' => $result
             ])
         ->extends('layouts.theme.app')
@@ -104,13 +98,13 @@ class AnticipoController extends Component
         $rules = [
             'empleadoid' => 'required|not_in:Elegir',
             'anticipo' => 'required',
-            'fecha' => 'required',
+            //'fecha' => 'required',
         ];
         $messages =  [
             'empleadoid.required' => 'Elija un Empleado',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             'anticipo.required' => 'Este espacio es requerida',
-            'fecha.required' => 'La fecha es requerida',
+            //'fecha.required' => 'La fecha es requerida',
         ];
 
         $this->validate($rules, $messages);
@@ -118,7 +112,7 @@ class AnticipoController extends Component
         $anticipo = Anticipo::create([
             'empleado_id' => $this->empleadoid,
             'anticipo'=>$this->anticipo,
-            'fecha'=>$this->fecha,
+            'fecha'=>$this->fechaActual,
             'motivo'=>$this->motivo,
         ]);
 
@@ -131,7 +125,7 @@ class AnticipoController extends Component
         $this->selected_id = $anticipo->id;
         $this->empleadoid = $anticipo->empleado_id;
         $this->anticipo = $anticipo->anticipo;
-        $this->fecha = $anticipo->fecha;
+        //$this->fecha = $anticipo->fecha;
         $this->motivo = $anticipo->motivo;
 
         $this->emit('show-modal', 'show modal!');
@@ -142,13 +136,13 @@ class AnticipoController extends Component
         $rules = [
             'empleadoid' => 'required|not_in:Elegir',
             'anticipo' => 'required',
-            'fecha' => 'required',
+            //'fecha' => 'required',
         ];
         $messages =  [
             'empleadoid.required' => 'Elija un Empleado',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
             'anticipo.required' => 'Este espacio es requerida',
-            'fecha.required' => 'La fecha es requerida',
+            //'fecha.required' => 'La fecha es requerida',
         ];
         $this->validate($rules,$messages);
 
@@ -156,7 +150,7 @@ class AnticipoController extends Component
         $assistance -> update([
             'empleado_id' => $this->empleadoid,
             'anticipo'=>$this->anticipo,
-            'fecha'=>$this->fecha,
+            //'fecha'=>$this->fecha,
             'motivo'=>$this->motivo,
         ]);
 
@@ -168,7 +162,7 @@ class AnticipoController extends Component
     public function resetUI(){
         $this->empleadoid = 'Elegir';
         $this->anticipo='';
-        $this->fecha='';
+        //$this->fecha='';
         $this->motivo='';
         $this->search='';
         $this->selected_id=0;

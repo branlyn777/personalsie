@@ -25,7 +25,7 @@ class CreateAssistancesTable extends Migration
             $table->date('fecha');
             $table->string('motivo',500)->nullable();
             $table->string('comprobante',100)->nullable();
-            $table->enum('estadoA',['Permiso','Licencia'])->default('Permiso');
+            // $table->enum('estadoA',['Permiso','Licencia'])->default('Permiso');
             
             $table->timestamps();
         });

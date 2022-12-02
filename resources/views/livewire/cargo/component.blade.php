@@ -58,9 +58,9 @@
                     <td><h6>{{$cargo->area}}</h6></td>
 
                     <td>
-                        <a href="javascript:void(0)"
-                            wire:click="VistaFuncion({{$cargo->idcargo}})" 
-                            class="btn btn-primary mtmobile" title="Ver">
+                        <a href="javascript:void(0)" 
+                            wire:click="VistaFuncion({{$cargo->idcargo}})"
+                            class=" btn btn-primary" style="color: #fff" title="Ver">
                             <i class="fas fa-eye"></i>
                         </a>
                     </td>
@@ -74,9 +74,8 @@
 
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <a href="javascript:void(0)"
-                                wire:click="NuevaFuncion({{$cargo->idcargo}})" 
-                                class="btn btn-primary close-btn" title="Agregar">
+                            <a href="javascript:void(0)" wire:click="NuevaFuncion({{$cargo->idcargo}})" 
+                                class=" btn btn-primary" style="color: #fff">
                                 <i class="fas fa-plus-circle"></i>
                             </a>
 

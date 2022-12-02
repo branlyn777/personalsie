@@ -5,7 +5,7 @@
     {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Cargo</label>
-            <select wire:model="cargoid" class="form-control">
+            <select wire:model.lazy="cargoid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($cargos as $cargo)
                     <option value="{{$cargo->id}}">{{$cargo->name}}</option>
@@ -39,7 +39,7 @@
         <div class="col-sm-12 col-md-5">
             <div class="form-group">
                 <label>Estado de Area</label>
-                    <select id="seleccion" wire:model="estadoA" class="form-control">
+                    <select id="seleccion" wire:model.lazy="estadoA" class="form-control">
                         <option value="Elegir" disabled>Elegir</option>
                         <option value="Activo" selected>Activo</option>
                         <option value="Inactivo" selected>Inactivo</option>
