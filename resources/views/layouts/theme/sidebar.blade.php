@@ -713,13 +713,13 @@
 										<i class="fa fas fa-minus"></i>
 										comisiones</a>
 								  </li>
-								  @can('Reportes_Tigo_Index')
+								  {{-- @can('Reportes_Tigo_Index')
 								  <li>
 									<a href="{{ url('user_employees') }}">
 										<i class="fa fas fa-minus"></i>
 										UsuarioEmpleado</a>
 								  </li>
-								  @endcan
+								  @endcan --}}
 								</ul>
 							</div>
 						</li>

@@ -40,7 +40,7 @@
                         {{-- <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <h6>Funcion</h6>
-                                <textarea type="text" wire:model="funame" class="form-control"></textarea>
+                                <textarea type="text" wire:model.lazy="funame" class="form-control"></textarea>
                                 @error('funame')<span class="text-danger er">{{ $message }}</span>@enderror
                             </div>
                         </div> --}}

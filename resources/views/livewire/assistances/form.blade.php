@@ -5,7 +5,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Empledos</label>
-            <select wire:model="empleadoid" class="form-control">
+            <select wire:model.lazy="empleadoid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($empleados as $a)
                 <option value="{{$a->id}}">{{$a->name}} {{$a->lastname}}</option>
@@ -33,21 +33,21 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Tipo de Ausencia</label>
-                <select id="seleccion" wire:model="estadoA" class="form-control">
+                <select id="seleccion" wire:model.lazy="estadoA" class="form-control">
                     <option value="Elegir" disabled>Elegir</option>
                     <option value="Permiso" selected>Permiso</option>
                     <option value="Licencia" selected>Licencia</option>
                 </select>
             @error('estadoA') <span class="text-danger er">{{ $message }}</span> @enderror
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-sm-12 col-md-12 mt-3">
         <div class="form-group custom-file">
-            <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model="comprobante" accept="comprobante/x-png, comprobante/gif, comprobante/jpeg">
+            <input type="file" class="custom-file-input form-control img-thumbnail center-block" wire:model.lazy="comprobante" accept="comprobante/x-png, comprobante/gif, comprobante/jpeg">
             <label for="" class="custom-file-label">Comprobante {{$comprobante}}</label>
             @error('comprobante') <span class="text-danger er"> {{ $message }}</span> @enderror
         </div>

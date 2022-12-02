@@ -90,7 +90,7 @@ class ContratoController extends Component
 
         return view('livewire.contrato.component', [
                 'contratos' => $data, // se envia contratos
-                'empleados' => Employee::orderBy('name', 'asc')->get(),
+                'empleados' => Employee::where('estado', 'Activo')->orderBy('name', 'asc')->get(),
                 //'funciones' => FunctionArea::orderBy('name', 'asc')->get(),
             ])
         ->extends('layouts.theme.app')
@@ -213,7 +213,8 @@ class ContratoController extends Component
         $this->emit('show-modal-contrato', 'show modal!');
     }
 
-    public function Store(){
+    public function Store()
+    {
         $rules = [
             'employeeid' => 'required|not_in:Elegir',
             'salario' => 'required',
@@ -235,7 +236,7 @@ class ContratoController extends Component
         ];
 
         $this->validate($rules, $messages);
-       
+
         $contrato = Contrato::create([
             'employee_id'=>$this->employeeid,
             'fechaInicio'=>$this->fechaInicio,
@@ -319,6 +320,6 @@ class ContratoController extends Component
     public function NoVigente($id)
     {
         $contrato = Contrato::find($id);
-        $contrato -> update(['estadoV'=>'No Vigente']);
+        $contrato -> update(['estadoV'=>'Finalizado']);
     }
 }

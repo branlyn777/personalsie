@@ -19,16 +19,16 @@ class AssistanceController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $empleadoid, $fecha, $motivo, $comprobante, $estadoA, $selected_id;
+    public $empleadoid, $fecha, $motivo, $comprobante, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 5;
-    public $selected;
+    //public $selected;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
         $this -> componentName = 'Permisos ó licencias';
-        $this->estadoA = 'Elegir';
-        $this->selected = 'Todos';
+        // $this->estadoA = 'Elegir';
+        // $this->selected = 'Todos';
 
         // seleccionar empleado
         $this->empleadoid = 'Elegir';
@@ -41,8 +41,8 @@ class AssistanceController extends Component
 
     public function render()
     {
-        //if(strlen($this->search) > 0)
-        if($this->selected == 'Todos')
+        //if($this->selected == 'Todos')
+        if(strlen($this->search) > 0)
         {
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id') // se uno amabas tablas
             ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
@@ -59,10 +59,10 @@ class AssistanceController extends Component
         else{
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
             ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
-            ->where('assistances.estadoA',$this->selected)
-            ->where(function($querys){
-                $querys->where('at.name', 'like', '%' . $this->search . '%');
-            })
+            // ->where('assistances.estadoA',$this->selected)
+            // ->where(function($querys){
+            //     $querys->where('at.name', 'like', '%' . $this->search . '%');
+            // })
             ->orderBy('assistances.fecha', 'asc')
             ->paginate($this->pagination);
 
@@ -75,7 +75,7 @@ class AssistanceController extends Component
 
         return view('livewire.assistances.component', [
             'asistencias' => $data,        // se envia asistencias
-            'empleados' => Employee::orderBy('name', 'asc')->get()
+            'empleados' => Employee::where('estado', 'Activo')->orderBy('name', 'asc')->get()
             ])
         ->extends('layouts.theme.app')
         ->section('content');
@@ -101,14 +101,16 @@ class AssistanceController extends Component
     {
         $detalle = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
         ->select('assistances.id as idAsistencia',
-            'assistances.comprobante',
-            'at.name')
+            'assistances.comprobante'
+            )
+            //'assistances.empleado_id as idEmpleado'
+            //'at.empleado_id as idempleado')
         ->where('assistances.id', $idAsistencia)    // selecciona
         ->get()
         ->first();
 
         //dd($this->name = $detalle->empleado);
-
+        //$this->idEmpleado = $detalle->idEmpleado;
         $this->comprobante = $detalle->comprobante;
 
         // $this-> detalle = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
@@ -126,14 +128,14 @@ class AssistanceController extends Component
         $rules = [
             'fecha' => 'required',
             'empleadoid' => 'required|not_in:Elegir',
-            'estadoA' => 'required|not_in:Elegir',
+            //'estadoA' => 'required|not_in:Elegir',
             'comprobante' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
             'fecha.required' => 'La fecha es requerida',
             'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
-            'estadoA.required' => 'seleccione estado de asistencia',
-            'estadoA.not_in' => 'Selecione tipo de permiso diferente a elegir',
+            // 'estadoA.required' => 'seleccione estado de asistencia',
+            // 'estadoA.not_in' => 'Selecione tipo de permiso diferente a elegir',
             'comprobante.mimes' => 'Solo se permite imagen'
         ];
 
@@ -143,7 +145,7 @@ class AssistanceController extends Component
             'fecha'=>$this->fecha,
             'motivo'=>$this->motivo,
             'empleado_id' => $this->empleadoid,
-            'estadoA'=>$this->estadoA
+            //'estadoA'=>$this->estadoA
         ]);
 
         //$customFileName;
@@ -182,7 +184,7 @@ class AssistanceController extends Component
         $this->motivo = $assistance->motivo;
         $this->empleadoid = $assistance->empleado_id;
         $this->comprobante = $assistance->null;
-        $this->estadoA = $assistance->estadoA;
+        //$this->estadoA = $assistance->estadoA;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -208,7 +210,7 @@ class AssistanceController extends Component
         $assistance -> update([
             'fecha'=>$this->fecha,
             'motivo'=>$this->motivo,
-            'estadoA'=>$this->estadoA,
+            //'estadoA'=>$this->estadoA,
             'empleado_id' => $this->empleadoid
         ]);
 
@@ -248,7 +250,7 @@ class AssistanceController extends Component
     public function resetUI(){
         $this->fecha='';
         $this->motivo='';
-        $this->estadoA='Elegir';
+        //$this->estadoA='Elegir';
         $this->empleadoid = 'Elegir';
         $this->image=null;
         $this->search='';

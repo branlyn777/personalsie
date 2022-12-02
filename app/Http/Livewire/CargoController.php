@@ -89,7 +89,7 @@ class CargoController extends Component
 
         return view('livewire.cargo.component', [
             'cargos' => $data, // se envia cargos
-            'areas' => AreaTrabajo::orderBy('nameArea', 'asc')->get(),
+            'areas' => AreaTrabajo::where('estadoA', 'Activo')->orderBy('nameArea', 'asc')->get(),
             ])
         ->extends('layouts.theme.app')
         ->section('content');

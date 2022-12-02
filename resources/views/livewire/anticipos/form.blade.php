@@ -5,7 +5,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Empledos</label>
-            <select wire:model="empleadoid" class="form-control">
+            <select wire:model.lazy="empleadoid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($empleados as $a)
                     <option value="{{$a->id}}">{{$a->name}} {{$a->lastname}}</option>
@@ -25,13 +25,13 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Fecha</label>
             <input type="date" wire:model.lazy="fecha" class="form-control">
             @error('fecha') <span class="text-danger er">{{ $message }}</span> @enderror
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-sm-12 col-md-6">
         <div class="form-group">

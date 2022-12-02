@@ -98,7 +98,7 @@
 
                                     <button href="javascript:void(0)"
                                         wire:click="DetalleEmpleado({{$employee->idEmpleado}})"
-                                        class="btn btn-dark" title="DetalleEmpleado" type="button" class="btn btn-success">
+                                        class="btn btn-dark" title="Detalle" type="button" class="btn btn-success">
                                         <i class="fas fa-list"></i>
                                     </button>
 

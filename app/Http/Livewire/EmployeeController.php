@@ -51,6 +51,7 @@ class EmployeeController extends Component
 
     // Datos de Usuario Empleado
     public $empleadoid, $userid, $selected_EU_id;
+    public $idUserEmploy;
 
     public function paginationView()
     {
@@ -128,7 +129,7 @@ class EmployeeController extends Component
             'sucursales' => Sucursal::orderBy('name', 'asc')->get(),    // sucursales
             'usuarios' => User::orderBy('name', 'asc')->get(),
             'empleados' => Employee::orderBy('name', 'asc')->get(),
-            'areas' => AreaTrabajo::all()
+            'areas' => AreaTrabajo::where('estadoA', 'Activo')->orderBy('nameArea', 'asc')->get(),
         ])
         ->extends('layouts.theme.app')
         ->section('content');
@@ -427,7 +428,7 @@ class EmployeeController extends Component
             'fecha_fin' => null,
         ]);
 
-        UserEmployee::create([
+        $this->idUsuEmp = UserEmployee::create([
             'user_id' =>$user->id,
             'employee_id' =>$this-> idEmpleado
         ]);
@@ -438,40 +439,38 @@ class EmployeeController extends Component
         $this->emit('modal-hide-formUser', 'show modal!');
     }
 
-    // Vista de datos a editar
+    // Editar Datos de Usuario Empleado
     public function UsuEmploy($idEmpleado)
     {
-        //dd(' Prueba de funcionamiento');
+        //$idEmpleado->delete();
+
         $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
         ->select('employees.id as idEmpleado',
             'employees.name',
             'employees.lastname',
-            'employees.phone',
             'usu.email',
-            'usu.phone as cel',
             'usu.id as idUsuario',
             )
         ->where('employees.id',$idEmpleado)    // selecciona al empleado
         ->get()
         ->first();
-
-        $this->idEmpleado = $detalle->idEmpleado;
+        
+        //dd($detalle);
+        
         $this->name = $detalle->name;
         $this->lastname = $detalle->lastname;
-        // $this->phone = $detalle->phone;
-        //$this->email = $detalle->email;
-        // $this->phoneu = $detalle->cel;
-        //$this->idUsuario = $detalle->idUsuario;
 
-        $this->emit('show-modal-UsuEmp', 'show modal!');
+        //UserEmployee::find($idEmpleado)->delete();
         
+        $this->emit('show-modal-UsuEmp', 'show modal!');
+                
         // Registra datos de empleado Usuario
         $usuEmp = new UserEmployeeController;
         $usuEmp->selected_EU_id=$this->selected_EU_id;
-        $usuEmp->empleadoid= $this->idEmpleado;
         $usuEmp->userid = $this->userid;
+        $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
         $usuEmp->Store();
-
+        
         $this->resetUS();
         $this->emit('UsuEmp-added','Usuario Actualizado');
     }

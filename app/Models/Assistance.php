@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Assistance extends Model
 {
     use HasFactory;
-    protected $fillable = ['empleado_id', 'fecha', 'motivo', 'comprobante', 'estadoA'];
+    protected $fillable = ['empleado_id', 'fecha', 'motivo', 'comprobante'];
 
     public function getImagenAttribute(){
         if($this-> comprobante != null)

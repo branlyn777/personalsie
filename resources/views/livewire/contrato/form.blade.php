@@ -4,7 +4,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Empleado</label>
-            <select wire:model="employeeid" class="form-control">
+            <select wire:model.lazy="employeeid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($empleados as $empleado)
                 <option value="{{$empleado->id}}">{{$empleado->name}}</option>
@@ -57,7 +57,7 @@
     {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Funciones</label>
-            <select wire:model="funcionid" class="form-control">
+            <select wire:model.lazy="funcionid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($funciones as $funcion)
                 <option value="{{$funcion->id}}">{{$funcion->name}}</option>
@@ -71,7 +71,7 @@
         <div class="col-sm-12 col-md-5">
             <div class="form-group">
                 <label>Estado de Vigencia</label>
-                <select id="seleccion" wire:model="estadoV" class="form-control">
+                <select id="seleccion" wire:model.lazy="estadoV" class="form-control">
                     <option value="Elegir" disabled>Elegir</option>
                     <option value="Vigente" selected>Vigente</option>
                     <option value="No Vigente" selected>No Vigente</option>
@@ -84,7 +84,7 @@
         {{-- <div class="col-sm-12 col-md-5">
             <div class="form-group">
                 <label>Estado de Contrato</label>
-                <select id="seleccion" wire:model="estadoC" class="form-control">
+                <select id="seleccion" wire:model.lazy="estadoC" class="form-control">
                     <option value="Elegir" disabled>Elegir</option>
                     <option value="Activo" selected>Activo</option>
                     <option value="Inactivo" selected>Inactivo</option>

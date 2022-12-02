@@ -29,11 +29,11 @@
             <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
                 data-target="#theModal"">Agregar</a>
 
-            <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
+            {{-- <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
                 <option value="Todos">Todos</option>
                 <option value="Permiso">Permiso</option>
                 <option value="Licencia">Licencia</option>
-            </select>
+            </select> --}}
         </div>
 
     </div>
@@ -43,11 +43,11 @@
             <thead> 
                 <tr class="text-center">
                     <th style="width: 50px;">#</th>
-                    <th style="width: 400px;">EMPLEADO</th>
+                    <th style="width: 250px;">EMPLEADO</th>
                     <th style="width: 150px;">FECHA</th>
                     <th>MOTIVO</th>
                     <th style="width: 180px;">COMPROVANTE</th>
-                    <th style="width: 120px;">ESTADO</th>
+                    {{-- <th style="width: 120px;">ESTADO</th> --}}
                     <th style="width: 120px;">ACTIONS</th>        
                 </tr>
             </thead>
@@ -67,11 +67,11 @@
                         </span>
                     </td>
                     
-                    <td>
+                    {{-- <td>
                         <span class="badge {{$a->estadoA == 'Permiso' ? 'badge-success' : 'badge-info'}} 
                             text-uppercase"> {{$a->estadoA}}
                         </span>
-                    </td>
+                    </td> --}}
 
                     <td>
                         <a href="javascript:void(0)"
