@@ -138,8 +138,7 @@ class EmployeeController extends Component
     // ver selecion de cargos
     public function updatedareaid($area_id)
     {
-        $this->cargos = Cargo::where('area_id',$area_id)->get();
-
+        $this->cargos = Cargo::orWhere('area_id',$area_id)->where('estado', 'Activo')->get();
     }
 
     // verificar empleado
@@ -272,22 +271,22 @@ class EmployeeController extends Component
             'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg'
         ];
         $messages =  [
-            'ci.required' => 'numero de cedula de identidad requerida',
-            'ci.unique' => 'ya existe el numero de documento en el sistema',
-            'name.required' => 'el nombre de empleado es requerida',
+            'ci.required' => 'Numero de cedula de identidad requerida',
+            'ci.unique' => 'Ya existe el numero de documento en el sistema',
+            'name.required' => 'Nombre de empleado es requerida',
             'name.regex' => 'Solo se permite letras',
-            'lastname.required' => 'los apellidos del empleado son requerida',
+            'lastname.required' => 'Los apellidos del empleado son requerida',
             'lastname.regex' => 'Solo se permite letras',
-            'genero.required' => 'seleccione el genero del empleado',
-            'genero.not_in' => 'selecciona genero',
-            'dateNac.required' => 'la fecha de nacimiento es requerido',
+            'genero.required' => 'Seleccione el genero del empleado',
+            'genero.not_in' => 'Selecciona genero',
+            'dateNac.required' => 'Fecha de nacimiento es requerido',
             //'address.required' => 'la direccion es requerida',
-            'phone.required' => 'el numero de telefono es requerido',
+            'phone.required' => 'Numero de telefono es requerido',
             'phone.digits_between' => 'Solo se permite 8 numeros',
             //'estadoCivil.required' => 'seleccione estado civil del empleado',
             //'estadoCivil.not_in' => 'selecciona estado civil',
-            'areaid.not_in' => 'elije un nombre de area diferente de elegir',
-            'cargoid.not_in' => 'elije un nombre del cargo diferente de elegir',
+            'areaid.not_in' => 'Elije un nombre de area diferente de elegir',
+            'cargoid.not_in' => 'Elije un nombre del cargo diferente de elegir',
             //'image.required' => 'la image es requerida seleccione una'
             //'image.max' => 'La imagen no debe ser superior a 2048 kilobytes.',
             'image.mimes' => 'Solo se permite imagen'
@@ -296,20 +295,20 @@ class EmployeeController extends Component
         $this->validate($rules, $messages);
 
         $employ = Employee::create([
-            'ci' =>$this->ci, 
-            'name'=>$this->name,
-            'lastname'=>$this->lastname,
-            'genero'=>$this->genero,
-            'dateNac'=>$this->dateNac,
-            'address'=>$this->address,
-            'phone'=>$this->phone,
-            'estadoCivil'=>$this->estadoCivil,
+            'ci' => strtoupper($this->ci), 
+            'name'=> strtoupper($this->name),
+            'lastname'=> strtoupper($this->lastname),
+            'genero'=> $this->genero,
+            'dateNac'=> $this->dateNac,
+            'address'=> strtoupper($this->address),
+            'phone'=> $this->phone,
+            'estadoCivil'=> $this->estadoCivil,
             'area_trabajo_id' => $this->areaid,
             'cargo_id' => $this->cargoid,
             'estado' => 'Activo'
             //'contrato_id' => $this->contratoid,
-            //'fechaInicio'=>$this->fechaInicio,
-            //'image'=>  $customFileName,
+            //'fechaInicio'=> $this->fechaInicio,
+            //'image'=> $customFileName,
         ]);
 
         $this->idEmpleado = $employ->id;
@@ -390,7 +389,7 @@ class EmployeeController extends Component
 
         // $collection = collect(['@sie.com']);
         $user = User::create([
-            'name' => $this->name,
+            'name' => strtoupper($this->name),
             'email' => $this->email,
             'phone' => $this->phone,
             'status' => 'ACTIVE',
@@ -559,12 +558,12 @@ class EmployeeController extends Component
 
         $employee = Employee::find($this->selected_id);
         $employee->update([
-            'ci' => $this->ci,
-            'name' => $this->name,
-            'lastname' => $this->lastname,
+            'ci' => strtoupper($this->ci),
+            'name' => strtoupper($this->name),
+            'lastname' => strtoupper($this->lastname),
             'genero' => $this->genero,
             'dateNac' => $this->dateNac,
-            'address' => $this->address,
+            'address' => strtoupper($this->address),
             'phone' => $this->phone,
             'estadoCivil'=>$this->estadoCivil,
             'area_trabajo_id' => $this->areaid,

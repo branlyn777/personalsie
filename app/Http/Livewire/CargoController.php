@@ -98,11 +98,16 @@ class CargoController extends Component
     // verificar dato para eliminar
     public function verificar($idcargo)
     {
-        $consulta = Employee::join('cargos as cg', 'cg.id', 'employees.cargo_id')
-        ->select('employees.*')
-        ->where('employees.id', $idcargo)
+        $consulta = Cargo::join('employees as emp', 'emp.cargo_id', 'cargos.id')
+        ->select('cargos.*')
+        ->where('cargos.id', $idcargo)
         ->get();
 
+        $consulta = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
+        ->select('cargos.*')
+        ->where('cargos.id', $idcargo)
+        ->get();
+        
         if($consulta->count() > 0)
         {
             return "no";
@@ -131,7 +136,7 @@ class CargoController extends Component
 
         $funcion = new FuncionesController;
         $funcion->selected_fun_id=$this->selected_fun_id;
-        $funcion->nameFuncion= $this->nameFuncion1;
+        $funcion->nameFuncion= strtoupper($this->nameFuncion1);
         $funcion->cargoid = $this->idcargo = $detalle->idcargo;
         $funcion->Store();
         $this->resetFUN();
@@ -183,7 +188,7 @@ class CargoController extends Component
     {
         $funcion = new FuncionesController;
         $funcion->selected_id=$this->idFunselect;
-        $funcion->nameFuncion= $this->funame;
+        $funcion->nameFuncion= strtoupper($this->funame);
         //$funcion->cargoid =  $this->$idcargo;
         $funcion->Update();
         //$this->resetFUN();
@@ -223,9 +228,9 @@ class CargoController extends Component
         $this->validate($rules, $messages);
 
         $cargo = Cargo::create([
-            'name'=>$this->name,
+            'name'=> strtoupper($this->name),
             'area_id' => $this->areaid,
-            'estado'=>'Activo'
+            'estado'=> 'Activo'
         ]);
 
         $this->resetUI();
@@ -267,7 +272,7 @@ class CargoController extends Component
 
         $cargo = Cargo::find($this->selected_id);
         $cargo -> update([
-            'name' => $this->name,
+            'name' => strtoupper($this->name),
             'area_id' => $this->areaid,
             'estado'=>$this->estado
         ]);

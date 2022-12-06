@@ -42,7 +42,7 @@ class AnticipoController extends Component
         if(strlen($this->search) > 0)
         {
             $data = Anticipo::join('employees as at', 'at.id', 'anticipos.empleado_id')
-            ->select('anticipos.*', 'at.name as empleado','anticipos.id as idAnticipo',
+            ->select('anticipos.*', 'at.name as empleado','at.lastname as lastname','anticipos.id as idAnticipo',
                 DB::raw('0 as verificar'))
             ->where('at.name', 'like', '%' . $this->search . '%')       
             ->orderBy('at.name', 'asc')
@@ -57,7 +57,7 @@ class AnticipoController extends Component
         else
         {
             $data = Anticipo::join('employees as at', 'at.id', 'anticipos.empleado_id')
-            ->select('anticipos.*', 'at.name as empleado', 'anticipos.id as idAnticipo',
+            ->select('anticipos.*', 'at.name as empleado','at.lastname as lastname','anticipos.id as idAnticipo',
                 DB::raw('0 as verificar'))
             ->orderBy('at.name', 'asc')
             ->paginate($this->pagination);
@@ -111,9 +111,9 @@ class AnticipoController extends Component
 
         $anticipo = Anticipo::create([
             'empleado_id' => $this->empleadoid,
-            'anticipo'=>$this->anticipo,
-            'fecha'=>$this->fechaActual,
-            'motivo'=>$this->motivo,
+            'anticipo'=> $this->anticipo,
+            'fecha'=> $this->fechaActual,
+            'motivo'=> strtoupper($this->motivo),
         ]);
 
         $this->resetUI();
@@ -149,9 +149,9 @@ class AnticipoController extends Component
         $assistance = Anticipo::find($this->selected_id);
         $assistance -> update([
             'empleado_id' => $this->empleadoid,
-            'anticipo'=>$this->anticipo,
-            //'fecha'=>$this->fecha,
-            'motivo'=>$this->motivo,
+            'anticipo'=> $this->anticipo,
+            //'fecha'=> $this->fecha,
+            'motivo'=> strtoupper($this->motivo),
         ]);
 
         $this->resetUI();

@@ -65,7 +65,7 @@
                     @foreach($contratos as $datos)
                     <tr class="text-center">
                         <td><h6>{{ ($contratos->currentpage()-1) * $contratos->perpage() + $loop->index + 1 }}</h6></td>
-                        <td><h6>{{$datos->name}}</h6></td>
+                        <td><h6>{{$datos->name}} {{$datos->lastname}}</h6></td>
                         <td><h6>{{\Carbon\Carbon::parse($datos->fechaInicio)->format('Y-m-d')}}</h6></td>
                         <td><h6>{{\Carbon\Carbon::parse($datos->fechaFin)->format('Y-m-d')}}</h6></td>
                         <td><h6>{{$datos->descripcion}}</h6></td>
@@ -94,7 +94,7 @@
                                 </a>
 
                                 <a href="{{ url('Contratos/pdf' . '/' . $datos->idContrato)}}"  
-                                    class="btn btn-dark mtmobile" title="Imprimir">
+                                    class="btn btn-primary mtmobile" title="Imprimir">
                                     <i class="fas fa-print"></i>
                                 </a>
 

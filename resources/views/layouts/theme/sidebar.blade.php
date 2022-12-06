@@ -679,6 +679,19 @@
 							<div class="collapse" id="Employees">
 								<ul class="nav nav-collapse">
 									<li>
+										<a href="{{ url('areas_de_trabajos') }}">
+											<i class="fa fas fa-minus"></i>
+											Areas de Trabajo
+										</a>
+									</li>
+									@can('Reportes_Tigo_Index')
+									  <li>
+										<a href="{{ url('cargos') }}">
+											<i class="fa fas fa-minus"></i>
+											Cargos</a>
+									  </li>
+								  @endcan
+									<li>
 										<a href="{{ url('employees') }}">
 											<i class="fa fas fa-minus"></i>
 											Registro</a>
@@ -690,18 +703,8 @@
 											Contrato</a>
 									  </li>
 									  @endcan
-									<li>
-											<a href="{{ url('areas_de_trabajos') }}">
-												<i class="fa fas fa-minus"></i>
-												Areas de Trabajo</a>
-									  </li>
-									  @can('Reportes_Tigo_Index')
-									  <li>
-										<a href="{{ url('cargos') }}">
-											<i class="fa fas fa-minus"></i>
-											Cargos</a>
-									  </li>
-								  @endcan
+									
+									  
 								  {{-- <li>
 									<a href="{{ url('funciones') }}">
 										<i class="fa fas fa-minus"></i>
@@ -749,7 +752,7 @@
 								<li>
 									<a href="{{ url('assistances') }}">
 										<i class="fa fas fa-minus"></i>
-										Permisos ó  Licencias</a>
+										Permisos o licencias</a>
 								</li>
 
 								<li>
@@ -779,7 +782,7 @@
 									<li>
 										<a href="{{ url('anticipos') }}">
 											<i class="fa fas fa-minus"></i>
-											Adelantos o Anticipos</a>
+											Adelantos</a>
 									</li>
 									<li>
 											<a href="{{ url('descuentos') }}">

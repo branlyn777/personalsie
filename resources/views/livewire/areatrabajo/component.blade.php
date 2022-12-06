@@ -71,7 +71,7 @@
                             </a>
                             
                             <a onclick="Confirmar1({{$area->idarea}},'{{$area->verificar}}')" 
-                                class="btn btn-dark" style="color:#fff" title="Destroy">
+                                class="btn btn-danger" style="color:#fff" title="Destroy">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>

@@ -45,7 +45,7 @@ class AssistanceController extends Component
         if(strlen($this->search) > 0)
         {
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id') // se uno amabas tablas
-            ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
+            ->select('assistances.*','at.name as empleado', 'at.lastname as lastname', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
             ->where('at.name', 'like', '%' . $this->search . '%')   
             ->orderBy('assistances.fecha', 'asc')
             ->paginate($this->pagination);
@@ -58,7 +58,7 @@ class AssistanceController extends Component
         }
         else{
             $data = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
-            ->select('assistances.*','at.name as empleado', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
+            ->select('assistances.*','at.name as empleado', 'at.lastname as lastname', 'assistances.id as idAsistencia', DB::raw('0 as verificar'))
             // ->where('assistances.estadoA',$this->selected)
             // ->where(function($querys){
             //     $querys->where('at.name', 'like', '%' . $this->search . '%');
@@ -112,13 +112,6 @@ class AssistanceController extends Component
         //dd($this->name = $detalle->empleado);
         //$this->idEmpleado = $detalle->idEmpleado;
         $this->comprobante = $detalle->comprobante;
-
-        // $this-> detalle = Assistance::join('employees as at', 'at.id', 'assistances.empleado_id')
-        // ->select('assistances.id as idAsistencia',
-        //      'assistances.comprobante',
-        //      'at.name')
-        // ->where('assistances.id', $idAsistencia)    // selecciona
-        // ->get();
     
         $this->emit('show-modal-img', 'open modal');
     }
@@ -142,10 +135,10 @@ class AssistanceController extends Component
         $this->validate($rules, $messages);
 
         $assistance = Assistance::create([
-            'fecha'=>$this->fecha,
-            'motivo'=>$this->motivo,
+            'fecha'=> $this->fecha,
+            'motivo'=> strtoupper($this->motivo),
             'empleado_id' => $this->empleadoid,
-            //'estadoA'=>$this->estadoA
+            //'estadoA'=> $this->estadoA
         ]);
 
         //$customFileName;
@@ -208,8 +201,8 @@ class AssistanceController extends Component
 
         $assistance = Assistance::find($this->selected_id);
         $assistance -> update([
-            'fecha'=>$this->fecha,
-            'motivo'=>$this->motivo,
+            'fecha'=> $this->fecha,
+            'motivo'=> strtoupper($this->motivo),
             //'estadoA'=>$this->estadoA,
             'empleado_id' => $this->empleadoid
         ]);

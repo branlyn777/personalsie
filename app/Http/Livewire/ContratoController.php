@@ -46,7 +46,7 @@ class ContratoController extends Component
         {
             $data = Contrato::join('employees as at', 'at.id', 'contratos.Employee_id')
             //->join('function_areas as fun', 'fun.id', 'contratos.funcion_id')
-            ->select('contratos.*','at.name as name','contratos.id as idContrato', DB::raw('0 as verificar')) // ,'fun.name as funcion'
+            ->select('contratos.*','at.name as name','at.lastname as lastname','contratos.id as idContrato', DB::raw('0 as verificar')) // ,'fun.name as funcion'
             ->orderBy('id','desc')
             ->where('at.name', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
@@ -64,7 +64,7 @@ class ContratoController extends Component
             /* Seleccionar los datos de la base de datos y paginarlos. */
             $data = Contrato::join('employees as at', 'at.id', 'contratos.employee_id')
             //->join('function_areas as fun', 'fun.id', 'contratos.funcion_id') ,'fun.name as funcion'
-            ->select('contratos.*','at.name as name',
+            ->select('contratos.*','at.name as name', 'at.lastname as lastname',
                 DB::raw('0 as year'), DB::raw('0 as mouth'), DB::raw('0 as day'),'contratos.id as idContrato',DB::raw('0 as verificar'))
             ->where('contratos.estadoV', $this->selected)
             ->where(function($querys){
@@ -238,14 +238,14 @@ class ContratoController extends Component
         $this->validate($rules, $messages);
 
         $contrato = Contrato::create([
-            'employee_id'=>$this->employeeid,
-            'fechaInicio'=>$this->fechaInicio,
-            'fechaFin'=>$this->fechaFin,
-            'descripcion'=>$this->descripcion,
-            'salario'=>$this->salario,
+            'employee_id'=> $this->employeeid,
+            'fechaInicio'=> $this->fechaInicio,
+            'fechaFin'=> $this->fechaFin,
+            'descripcion'=> strtoupper($this->descripcion),
+            'salario'=> $this->salario,
             //'funcion_id'=>$this->funcionid,
             //'estadoC'=>'Activo',
-            'estadoV'=>'Vigente'
+            'estadoV'=> 'Vigente'
         ]);
 
         $this->resetUI();
@@ -274,14 +274,14 @@ class ContratoController extends Component
 
         $contrato = Contrato::find($this->selected_id);
         $contrato -> update([
-            'employee_id'=>$this->employeeid,
-            'fechaInicio'=>$this->fechaInicio,
-            'fechaFin'=>$this->fechaFin,
-            'descripcion'=>$this->descripcion,
-            'salario'=>$this->salario,
-            //'funcion_id'=>$this->funcionid,
-            //'estadoC'=>$this->estadoC,
-            'estadoV'=>$this->estadoV
+            'employee_id'=> $this->employeeid,
+            'fechaInicio'=> $this->fechaInicio,
+            'fechaFin'=> $this->fechaFin,
+            'descripcion'=> strtoupper($this->descripcion),
+            'salario'=> $this->salario,
+            //'funcion_id'=> $this->funcionid,
+            //'estadoC'=> $this->estadoC,
+            'estadoV'=> $this->estadoV
         ]);
 
         $this->resetUI();

@@ -101,7 +101,7 @@ class FuncionesController extends Component
         $this->validate($rules, $messages);
 
         $funciones = Funciones::create([
-            'nameFuncion'=>$this->nameFuncion,
+            'nameFuncion'=> strtoupper($this->nameFuncion),
             'cargo_id' => $this->cargoid// = Session::get('cargo_id'),
         ]);
 
