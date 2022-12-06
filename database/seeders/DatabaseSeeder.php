@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AreaTrabajoSeeder::class);
         $this->call(CargoSeeder::class);
         $this->call(EmployeeSeeder::class);
-        // $this->call(AssistanceSeeder::class);
+        $this->call(AssistanceSeeder::class);
         $this->call(ShiftSeeder::class);
         // $this->call(AnticipoSeeder::class);
       

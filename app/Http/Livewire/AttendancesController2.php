@@ -40,43 +40,35 @@ class AttendancesController2 extends Component
         ->join("shifts as s","s.ci","e.ci")
         ->select("attendances.fecha as fecha_asistencia","attendances.entrada as entrada_asistencia","attendances.salida as salida_asistencia",
         "e.name as nombreemployees","e.id as idemployees","s.monday as hora_entreda"
-        ,DB::raw('0 as dia'),DB::raw('0 as retraso'))
+        ,DB::raw('0 as dia'),DB::raw('0 as retraso'), DB::raw('0 as Salida_Normal'))
         ->where("e.estado","Activo")
         ->get();
 
         foreach($lista_asistencias as $s)
         {
-            $hora_entreda = new \Carbon\Carbon("2022-12-01 " . $s->entrada_asistencia);
-            $hora_entreda_contrado = new \Carbon\Carbon("2022-12-01 " . $s->hora_entreda);
+
+            $hora_entreda = new \Carbon\Carbon($s->fecha_asistencia  . $s->entrada_asistencia);
+            $hora_entreda_contrado = new \Carbon\Carbon($s->fecha_asistencia . $s->hora_entreda);
+            // hora salida si marco o no
+            $Salida_Normal = $s->salida_asistencia;
+
+            if($Salida_Normal != 0)
+            {
+                $s->Salida_Normal = "Salida Normal ";
+            }
+            else
+            {
+                $s->Salida_Normal = "No marco salida";
+            }
 
 
 
             // $s->retraso = $this->obtener_diferencia_horas( $hora_entreda, $hora_entreda_contrado);
-
-            
-            /* $dateTimeObject1 = date_create($s->entrada_asistencia); 
-            $dateTimeObject2 = date_create($s->salida_asistencia); 
-              
-            $difference = date_diff($dateTimeObject1, $dateTimeObject2); 
-            echo ("The difference in hours is:");
-            echo $difference->h;
-            echo "\n";
-            $minutes = $difference->days * 24 * 60;
-            $minutes += $difference->h * 60;
-            $minutes += $difference->i;
-            echo("The difference in minutes is:");
-            echo $minutes.' minutes';
-             */
-
-            $s->retraso = $hora_entreda->diffInHours($hora_entreda_contrado) . ":" . $hora_entreda->diffInMinutes($hora_entreda_contrado);
-
             $s->dia = $this->fecha_dia(Carbon::parse($s->fecha_asistencia)->format('D'));
+            $s->retraso = $hora_entreda->diffInMinutes($hora_entreda_contrado);
+            
 
         }
-        /* dd(  $difference); */
-
-
-
         return view('livewire.attendances.attendances2',[
             'lista_asistencias' => $lista_asistencias,
         ])
@@ -87,7 +79,7 @@ class AttendancesController2 extends Component
 
     public function obtener_diferencia_horas($hora_inicio, $hora_fin)
     {
-
+      
     }
 
     //convertir dias de ingles a español

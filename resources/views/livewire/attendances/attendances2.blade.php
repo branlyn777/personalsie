@@ -5,14 +5,14 @@
         </div>
     </div>
         
-        {{-- <div class="row">
+        <div class="row">
     
-            <div class="col-12 col-sm-6 col-md-4">
+            <div class="col-12 col-sm-4 col-md-3 ">
                 <h6>Elige el Empleado</h6>
                 <div class="form-group">
                     <select wire:model="userId" class="form-control">
                         <option value="0">Todos</option>
-                        @foreach($employees as $employee)
+                        @foreach($lista_asistencias as $employee)
                             <option value="{{$employee->id}}">{{$employee->name}}</option>
                         @endforeach
                     </select>
@@ -20,25 +20,25 @@
             </div>
     
 
-            <div class="col-12 col-sm-6 col-md-4 text-center">
-                <div class="col-sm-3">
+            <div class="col-12 col-sm-4 col-md-3">
+                
                     <h6>Fecha Desde</h6>
                     <div class="form-group" >
                          <input @if ($reportType != 1)   @endif type="date" wire:model="dateFrom"
                             class="form-control flatpickr" placeholder="Click para elegir"> 
                     </div>
-                </div>
+                
             </div>
     
 
-            <div class="col-12 col-sm-12 col-md-4 text-right">
-                <div class="col-sm-3 ">
+            <div class="col-12 col-sm-4 col-md-3">
+               
                             <h6>Fecha Hasta</h6>
                             <div class="form-group">
                                 <input @if ($reportType != 1)  @endif type="date" wire:model="dateTo"
                                     class="form-control flatpickr" placeholder="Click para elegir"> 
                             </div>
-                        </div>
+                
             </div>
 
 
@@ -48,7 +48,7 @@
 
                 </div>
             </div>
-        </div> --}}
+        </div>
 
   
 
@@ -89,10 +89,12 @@
                             {{ ($a->nombreemployees) }}
                         </td>
                         <td class="text-center">
-                            {{ Carbon\Carbon::parse($a->retraso)->format(' H:i:s') }}
+                            {{ Carbon\Carbon::parse($a->retraso)->format(' i:s:H') }}
                         </td>
-
-                        
+                        <td class="text-center">
+                            {{$a->Salida_Normal}}
+                               
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
