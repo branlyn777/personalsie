@@ -7,7 +7,7 @@
             <select wire:model.lazy="employeeid" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 @foreach($empleados as $empleado)
-                <option value="{{$empleado->id}}">{{$empleado->name}}</option>
+                <option value="{{$empleado->id}}">{{$empleado->name}} {{$empleado->lastname}}</option>
                 @endforeach
             </select>
             @error('employeeid') <span class="text-danger er"> {{ $message }}</span> @enderror

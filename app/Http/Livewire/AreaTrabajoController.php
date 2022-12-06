@@ -136,9 +136,9 @@ class AreaTrabajoController extends Component
        
         $area = AreaTrabajo::create([
             //'cargo_id' => $this->cargoid,
-            'nameArea'=>$this->nameArea, 
-            'descriptionArea'=>$this->descriptionArea,
-            'estadoA'=>'Activo'
+            'nameArea'=> strtoupper($this->nameArea), 
+            'descriptionArea'=> strtoupper($this->descriptionArea),
+            'estadoA'=> 'Activo'
         ]);
 
         $this->resetUI();
@@ -165,8 +165,8 @@ class AreaTrabajoController extends Component
         $area = AreaTrabajo::find($this->selected_id);
         $area -> update([
             //'cargo_id' => $this->cargoid,
-            'nameArea' => $this->nameArea,
-            'descriptionArea' => $this->descriptionArea,
+            'nameArea' => strtoupper($this->nameArea),
+            'descriptionArea' => strtoupper($this->descriptionArea),
             'estadoA'=>$this->estadoA
         ]);
 

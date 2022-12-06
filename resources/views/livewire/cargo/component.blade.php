@@ -86,7 +86,7 @@
                             </a>
 
                             <a onclick="Confirmar1({{$cargo->idcargo}},'{{$cargo->verificar}}')" 
-                                class="btn btn-dark mtmobile" style="color:#fff" title="Eliminar">
+                                class="btn btn-danger mtmobile" style="color:#fff" title="Eliminar">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>

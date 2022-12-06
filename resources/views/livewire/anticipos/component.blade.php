@@ -48,7 +48,7 @@
                 @foreach($anticipos as $a)
                 <tr class="text-center">
                     <td><h6>{{ ($anticipos->currentpage()-1) * $anticipos->perpage() + $loop->index + 1 }}</h6></td>
-                    <td><h6>{{$a->empleado}}</h6></td>
+                    <td><h6>{{$a->empleado}} {{$a->lastname}}</h6></td>
                     {{-- <td><h6 class="text-center">{{$a->salario}}</h6></td> --}}
                     <td><h6>{{$a->anticipo}} Bs</h6></td>
 

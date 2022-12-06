@@ -55,7 +55,7 @@
                 @foreach($asistencias as $a)
                 <tr class="text-center">
                     <td><h6>{{ ($asistencias->currentpage()-1) * $asistencias->perpage() + $loop->index + 1 }}</h6></td>
-                    <td><h6>{{ $a->empleado }}</h6></td>
+                    <td><h6>{{$a->empleado}} {{$a->lastname}}</h6></td>
                     <td><h6>{{$a->fecha}}</h6></td>
                     <td><h6>{{$a->motivo}}</h6></td>
                     
