@@ -13,6 +13,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 //use Intervention\Image\Facades\Image;
 
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AssistanceController extends Component
 {
@@ -22,7 +23,7 @@ class AssistanceController extends Component
     public $empleadoid, $fecha, $motivo, $comprobante, $selected_id;
     public $pageTitle, $componentName, $search;
     private $pagination = 5;
-    //public $selected;
+    public $Mes;
 
     public function mount(){
         $this -> pageTitle = 'Listado';
@@ -32,6 +33,8 @@ class AssistanceController extends Component
 
         // seleccionar empleado
         $this->empleadoid = 'Elegir';
+        $this->Mes = 'Mes';
+        // Carbon::parse(Carbon::now())->format('m')
     }
 
     public function paginationView()

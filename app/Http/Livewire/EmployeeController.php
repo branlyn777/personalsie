@@ -443,40 +443,44 @@ class EmployeeController extends Component
     public function UsuEmploy($idEmpleado)
     {
         //$idEmpleado->delete();
+        try {
+            $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
+            ->select('employees.id as idEmpleado',
+                'employees.name',
+                'employees.lastname',
+                'usu.email',
+                'usu.id as idUsuario',
+                )
+            ->where('employees.id',$idEmpleado)    // selecciona al empleado
+            ->get()
+            ->first();
+            
+            //dd($detalle);
+            
+            $this->name = $detalle->name;
+            $this->lastname = $detalle->lastname;
+            $this->email = $detalle->email;
 
-        $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
-        ->select('employees.id as idEmpleado',
-            'employees.name',
-            'employees.lastname',
-            'usu.email',
-            'usu.id as idUsuario',
-            )
-        ->where('employees.id',$idEmpleado)    // selecciona al empleado
-        ->get()
-        ->first();
-        
-        //dd($detalle);
-        
-        $this->name = $detalle->name;
-        $this->lastname = $detalle->lastname;
-        $this->email = $detalle->email;
+            //UserEmployee::find($idEmpleado)->delete();
+            
+            $this->emit('show-modal-UsuEmp', 'show modal!');
+            
+            // $detalle = UserEmployee::find($idEmpleado);
 
-        //UserEmployee::find($idEmpleado)->delete();
+            // $this->user_id = $detalle->userEmployee->user_id;
+            // Registra datos de empleado Usuario
+            $usuEmp = new UserEmployeeController;
+            $usuEmp->selected_EU_id=$this->selected_EU_id;
+            $usuEmp->userid = $this->userid;
+            $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
+            $usuEmp->Store();
+            
+            $this->resetUS();
+            $this->emit('UsuEmp-added','Usuario Actualizado');
+        } catch (\Exception $e) {
+            $this->addError('error', 'Dramatic error you will die.');
+        }
         
-        $this->emit('show-modal-UsuEmp', 'show modal!');
-        
-        // $detalle = UserEmployee::find($idEmpleado);
-
-        // $this->user_id = $detalle->userEmployee->user_id;
-        // Registra datos de empleado Usuario
-        $usuEmp = new UserEmployeeController;
-        $usuEmp->selected_EU_id=$this->selected_EU_id;
-        $usuEmp->userid = $this->userid;
-        $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
-        $usuEmp->Store();
-        
-        $this->resetUS();
-        $this->emit('UsuEmp-added','Usuario Actualizado');
     }
 
     // Reset de Usuario

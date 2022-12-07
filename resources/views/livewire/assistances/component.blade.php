@@ -26,12 +26,12 @@
         <div class="col-12 col-sm-6 col-md-4 text-center">
             <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
                 <option value="Mes" disabled>Mes</option>
-                <option value="Enero">Enero</option>
-                <option value="Febrero">Febrero</option>
-                <option value="Marzo">Marzo</option>
             </select>
 
-            <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff">Generar Reporte</a>
+            {{-- <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff">Generar Reporte</a> --}}
+
+            <a href="{{ url('ReportePermisos/pdf' . '/' . $idAsistencia)}}"  
+                class="btn btn-primary mtmobile">Generar PDF</a>
         </div>
 
         <div class="col-12 col-sm-12 col-md-4 text-right">

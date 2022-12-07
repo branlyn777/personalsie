@@ -354,4 +354,8 @@ Route::middleware(['auth'])->group(function () {
     // otro exportacion de contrato
     Route::get('Contratos/pdf/{idContrato}', [ExportContratosController::class, 'PrintContratoPdf']);
 
+    // Reporte de Permisos y Adelantos de Empleados
+    Route::get('ReportePermisos/pdf/{idAsistencia}', [AssistanceController::class, 'ReportePermisosPDF']);
+    //Route::get('ReporteAdelantos/pdf/{idAdelanto}/{fecha}', [AnticipoController::class, 'ReporteAdelantosPDF']);
+
 });
