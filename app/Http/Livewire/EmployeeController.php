@@ -273,6 +273,7 @@ class EmployeeController extends Component
         $messages =  [
             'ci.required' => 'Numero de cedula de identidad requerida',
             'ci.unique' => 'Ya existe el numero de documento en el sistema',
+            //'ci.digits_between' => 'Solo se permite entre 8 a 12 numeros',
             'name.required' => 'Nombre de empleado es requerida',
             'name.regex' => 'Solo se permite letras',
             'lastname.required' => 'Los apellidos del empleado son requerida',
@@ -442,36 +443,44 @@ class EmployeeController extends Component
     public function UsuEmploy($idEmpleado)
     {
         //$idEmpleado->delete();
+        try {
+            $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
+            ->select('employees.id as idEmpleado',
+                'employees.name',
+                'employees.lastname',
+                'usu.email',
+                'usu.id as idUsuario',
+                )
+            ->where('employees.id',$idEmpleado)    // selecciona al empleado
+            ->get()
+            ->first();
+            
+            //dd($detalle);
+            
+            $this->name = $detalle->name;
+            $this->lastname = $detalle->lastname;
+            $this->email = $detalle->email;
 
-        $detalle = Employee::join('users as usu', 'usu.phone', 'employees.phone')
-        ->select('employees.id as idEmpleado',
-            'employees.name',
-            'employees.lastname',
-            'usu.email',
-            'usu.id as idUsuario',
-            )
-        ->where('employees.id',$idEmpleado)    // selecciona al empleado
-        ->get()
-        ->first();
-        
-        //dd($detalle);
-        
-        $this->name = $detalle->name;
-        $this->lastname = $detalle->lastname;
+            //UserEmployee::find($idEmpleado)->delete();
+            
+            $this->emit('show-modal-UsuEmp', 'show modal!');
+            
+            // $detalle = UserEmployee::find($idEmpleado);
 
-        //UserEmployee::find($idEmpleado)->delete();
+            // $this->user_id = $detalle->userEmployee->user_id;
+            // Registra datos de empleado Usuario
+            $usuEmp = new UserEmployeeController;
+            $usuEmp->selected_EU_id=$this->selected_EU_id;
+            $usuEmp->userid = $this->userid;
+            $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
+            $usuEmp->Store();
+            
+            $this->resetUS();
+            $this->emit('UsuEmp-added','Usuario Actualizado');
+        } catch (\Exception $e) {
+            $this->addError('error', 'Dramatic error you will die.');
+        }
         
-        $this->emit('show-modal-UsuEmp', 'show modal!');
-                
-        // Registra datos de empleado Usuario
-        $usuEmp = new UserEmployeeController;
-        $usuEmp->selected_EU_id=$this->selected_EU_id;
-        $usuEmp->userid = $this->userid;
-        $usuEmp->empleadoid= $this->idEmpleado = $detalle->idEmpleado;
-        $usuEmp->Store();
-        
-        $this->resetUS();
-        $this->emit('UsuEmp-added','Usuario Actualizado');
     }
 
     // Reset de Usuario
@@ -504,7 +513,7 @@ class EmployeeController extends Component
         $this->estadoCivil = $employee->estadoCivil;
         $this->areaid = $employee->area_trabajo_id;
         $this->cargoid = $employee->cargo_id;
-        $this->image = $employee->null;
+        $this->image = $employee->image;
         $this->estado = $employee->estado;
         $this->selected_id = $employee->id;
 

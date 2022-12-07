@@ -23,7 +23,16 @@
             </div>
         </div>
     
-        <div class="col-12 col-sm-6 col-md-4 text-center"></div>
+        <div class="col-12 col-sm-6 col-md-4 text-center">
+            <select wire:model='selected' style="color:black; border-color: blue; text-align: left; background: #fff" class="btn col-lg-4 col-4">
+                <option value="Mes" disabled>Mes</option>
+                <option value="Enero">Enero</option>
+                <option value="Febrero">Febrero</option>
+                <option value="Marzo">Marzo</option>
+            </select>
+
+            <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff">Generar Reporte</a>
+        </div>
 
         <div class="col-12 col-sm-12 col-md-4 text-right">
             <a href="javascript:void(0)" class=" btn btn-primary" style="color: #fff" data-toggle="modal"
@@ -67,13 +76,13 @@
                     <td>
                         <a href="javascript:void(0)"
                         wire:click="Edit({{$a->idAnticipo}})"
-                        class="btn btn-dark mtmobile" title="Edit">
+                        class="btn btn-dark mtmobile" title="Editar">
                         <i class="fas fa-edit"></i>
                         </a>
 
                         {{-- <a href="javascript:void(0)"
                             onclick="Confirm({{$a->idAnticipo}},'{{$a->verificar}}')"
-                            class="btn btn-dark mtmobile" title="Destroy">
+                            class="btn btn-dark mtmobile" title="Eliminar">
                             <i class="fas fa-trash"></i>
                         </a> --}}
                     </td>

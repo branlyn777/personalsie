@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Funciones extends Model
 {
     use HasFactory;
-    protected $fillable = ['nameFuncion','cargo_id'];
+    protected $fillable = ['nameFuncion','descripcion','cargo_id'];
 
     public function cargo()
     {

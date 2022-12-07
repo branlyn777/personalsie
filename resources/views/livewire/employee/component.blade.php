@@ -86,13 +86,13 @@
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <button href="javascript:void(0)" wire:click="Edit({{ $employee->idEmpleado }})"
-                                        class="btn btn-dark mtmobile" title="Edit" type="button" class="btn btn-danger">
+                                        class="btn btn-dark mtmobile" title="Editar" type="button" class="btn btn-danger">
                                         <i class="fas fa-edit"></i>
                                     </button>
 
                                     <button href="javascript:void(0)"
                                         onclick="Confirm({{$employee->idEmpleado}},'{{$employee->verificar}}')"
-                                        class="btn btn-dark" title="Destroy" type="button" class="btn btn-warning">
+                                        class="btn btn-dark" title="Eliminar" type="button" class="btn btn-warning">
                                         <i class="fas fa-trash"></i>
                                     </button>
 
