@@ -119,4 +119,62 @@ class AttendancesController2 extends Component
                 return "no se encontro resultado";
         }
     }
+    public function archivo()
+    {
+        $this->verfiarchivo=1;
+    }
+
+    //fallo de sistema agregar manualmente
+    public function fallo()
+    {
+       //validar la fecha dentro del empleado
+       $fechap=Attendance::select('attendances.*')
+       ->where('attendances.employee_id', $this->empleadoid)
+       ->where('fecha','=', $this->fechaf)
+       ->get();
+       $fechav=$fechap->first();
+       //validar para el msg de error
+        if($fechav==null){
+            $this->prueba=1;
+        }
+        else{
+            $this->prueba=null;
+        }
+        
+        //required_if verifica 
+        $rules = [
+            'empleadoid' => 'required|not_in:Elegir',
+            'fechaf' => "required",
+            'prueba' => "required_if:prueba,null"
+        
+        ];
+        $messages =  [
+            'empleadoid.required' => 'Elija un Empleado',
+            'empleadoid.not_in' => 'Elije un nombre de empleado diferente de elegir',
+            'prueba.required_if' => 'Elija una fecha no asignada',
+            'fechaf.required' => 'Este espacio es requerida'
+        ];
+        $this->validate($rules,$messages);
+       // dd($this->entradaf);
+        $anticipo = Attendance::create([
+            'fecha' => $this->fechaf,
+            'entrada' => $this->entradaf.':00',
+            'salida'=>$this->salidaf.':00',
+            'employee_id'=>$this->empleadoid
+        ]);
+
+        $this->resetUI();
+        $this->emit('asist-fallo','Actualizar Fallo');
+    }
+
+    // vaciar formulario
+    public function resetUI(){
+        
+        $this->empleadoid = 'Elegir';
+        $this->fechaf = '';
+        $this->entradaf='';
+        $this->salidaf='';
+        $this->resetValidation(); // resetValidation para quitar los smg Rojos
+    }
+
 }

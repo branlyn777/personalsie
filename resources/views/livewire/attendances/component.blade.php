@@ -101,7 +101,6 @@
                         <a class="btn btn-danger" style="color: white" data-toggle="modal"
                         data-target="#theModal"
                         target="_blank">Asistencia Por Fallo Biometrico</a>
-
                     </div>
     
                     <br>
