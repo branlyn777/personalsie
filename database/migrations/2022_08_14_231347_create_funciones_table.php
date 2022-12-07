@@ -17,6 +17,7 @@ class CreateFuncionesTable extends Migration
             $table->id();
 
             $table->string('nameFuncion',255)->nullable();
+            $table->string('descripcion',255)->nullable();
             
             $table->unsignedBigInteger('cargo_id');
             $table->foreign('cargo_id')->references('id')->on('cargos');

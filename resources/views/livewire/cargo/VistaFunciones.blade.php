@@ -5,7 +5,15 @@
                 <h5 class="modal-title text-white">
                     <b>{{$pageTitleF}}</b>
                 </h5>
-                <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
+
+                {{-- @foreach($cargos as $cargo) --}}
+                    <a href="javascript:void(0)" wire:click="NuevaFuncion({{$idcargo}})" 
+                        class=" btn btn-info p-1" style="color: #fff">
+                        <i class="fas fa-plus-circle"> Agregar</i>
+                    </a>
+                {{-- @endforeach   --}}
+
+                {{-- <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6> --}}
             </div>
             <div class="modal-body">
 

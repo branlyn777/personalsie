@@ -8,12 +8,13 @@ use App\Models\Cargo;
 use Livewire\WithPagination;
 
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\This;
 
 class FuncionesController extends Component
 {
     use WithPagination;
 
-    public $nameFuncion, $selected_id; //, $cargoid
+    public $nameFuncion, $descripcion, $selected_id; //, $cargoid
     public $pageTitle, $componentName, $search;
     private $pagination = 5;
 
@@ -102,6 +103,7 @@ class FuncionesController extends Component
 
         $funciones = Funciones::create([
             'nameFuncion'=> strtoupper($this->nameFuncion),
+            'descripcion' => strtoupper($this->descripcion),
             'cargo_id' => $this->cargoid// = Session::get('cargo_id'),
         ]);
 
@@ -115,6 +117,7 @@ class FuncionesController extends Component
     public function Edit(Funciones $funciones){
         $this->selected_id = $funciones->id;
         $this->nameFuncion = $funciones->nameFuncion;
+        $this->descripcion = $funciones->descripcion;
         //$this->cargoid = $funciones->cargo_id;
 
         $this->emit('show-modal', 'show modal!');
@@ -136,6 +139,7 @@ class FuncionesController extends Component
         $funciones = Funciones::find($this->selected_id);
         $funciones -> update([
             'nameFuncion'=>$this->nameFuncion,
+            'descripcion'=>$this->descripcion
             //'cargo_id' => $this->cargoid,
         ]);
 
@@ -147,6 +151,7 @@ class FuncionesController extends Component
     public function resetUI(){
         $this->cargoid = 'Elegir';
         $this->nameFuncion ='';
+        $this->descripcion = '';
         $this->search ='';
         $this->selected_id =0;
         $this->resetValidation(); // resetValidation para quitar los smg Rojos

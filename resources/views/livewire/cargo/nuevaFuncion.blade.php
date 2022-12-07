@@ -11,7 +11,6 @@
 
                 <div class="row">
                     
-                    
                         {{-- Crear Nueva funcion --}}
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
@@ -21,11 +20,19 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-12 col-md-6"> {{--style="margin-top: 5px; margin-left: 1px"--}}
                             <div class="form-group">
                                 <h6>Funcion</h6>
-                                <textarea type="text" wire:model.lazy="nameFuncion1" class="form-control"></textarea>
+                                <input type="text" wire:model.lazy="nameFuncion1" class="form-control">
                                 @error('nameFuncion1')<span class="text-danger er">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12"> {{--style="margin-top: -88px; margin-left: 390px"--}}
+                            <div class="form-group">
+                                <h6>Descripcion</h6>
+                                <textarea type="text" wire:model.lazy="descripcion" class="form-control"></textarea>
+                                @error('descripcion')<span class="text-danger er">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     

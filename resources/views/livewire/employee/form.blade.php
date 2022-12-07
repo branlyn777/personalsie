@@ -162,6 +162,13 @@
                         </div>
                     </div>
 
+                    @if ($selected_id > 1)
+                        <div class="card-price">
+                            <img src="{{ asset('storage/employees/' .$image)}}"
+                            alt="Sin Imagen" height="90" width="100" class="img-fluid rounded-start">
+                        </div>
+                    @endif
+
                 </div>
             </div>
 

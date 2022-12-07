@@ -89,7 +89,7 @@
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                 <a href="javascript:void(0)" 
                                     wire:click="Edit({{$datos->idContrato}})"
-                                    class="btn btn-dark mtmobile" title="Edit">
+                                    class="btn btn-dark mtmobile" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
 

@@ -24,7 +24,7 @@ class CargoController extends Component
     public $selected;
 
     // Datos de Funcion
-    public $idFuncion, $nameFuncion1, $cargoid, $selected_fun_id , $detalle; //,
+    public $idFuncion, $nameFuncion1, $descripcion, $cargoid, $selected_fun_id , $detalle; //,
     public $pageTitleF, $componentNameF, $pageTitleMod;
     public $funame, $idFunselect;
 
@@ -118,50 +118,73 @@ class CargoController extends Component
         }
     }
 
+    // Ver Funciones de cargo
+    public function VistaFuncion($idcargo)
+    {
+        //$this->ver($idcargo);
+        $this-> detalle = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
+        ->select('cargos.id as idcargo','fun.id as idfuncion', 'cargos.name', 'fun.cargo_id', 'fun.nameFuncion')
+        ->where('cargos.id', $idcargo)    // selecciona al empleado
+        ->get();
+
+        $this->emit('show-modal-VFuncion', 'show modal!');
+        $this->NuevaFuncion($idcargo);
+        
+    }
+
+    // public function ver($idcargo)
+    // {
+    //     $this->emit('show-modal-VFuncion', 'show modal!');
+
+       
+
+    //     //->first();
+       
+    //     //$this->emit('show-modal-NFuncion', 'show modal!');
+    // }
+
     // Registrar Nueva Funcion
     public function NuevaFuncion($idcargo)
     {
-        //$this->emit('fun-added', 'Funcion Registrada');
+      
+        //$this->emit('show-modal-VFuncion', 'show modal!');
+        //$this->emit('modal-hide-VFuncion', 'show modal!');
+        //$this->emit('show-modal-NFuncion', 'show modal!');
+        //$this->emit('modal-hide-NFuncion', 'show modal!');
+
         $detalle = Cargo::join('area_trabajos as at', 'at.id', 'cargos.area_id')
         ->select('cargos.id as idcargo', 'cargos.name')
         ->where('cargos.id', $idcargo) // selecciona el Cargo
         ->get()
         ->first();
 
+        // dd($detalle);
+
         $this->name = $detalle->name;
 
         //dd($this->idcargo = $detalle->idcargo);
         //$this->emit('modal-hide', 'show modal!');
-        $this->emit('show-modal-NFuncion', 'show modal!');
+        //$this->emit('show-modal-NFuncion', 'show modal!');
 
         $funcion = new FuncionesController;
         $funcion->selected_fun_id=$this->selected_fun_id;
         $funcion->nameFuncion= strtoupper($this->nameFuncion1);
+        $funcion->descripcion= strtoupper($this->descripcion);
         $funcion->cargoid = $this->idcargo = $detalle->idcargo;
         $funcion->Store();
         $this->resetFUN();
 
         $this->emit('fun-added', 'Funcion Registrada');
-        $this->emit('modal-hide-NFuncion', 'show modal!');
+        // $this->emit('modal-hide-NFuncion', 'show modal!');
+        // $this->emit('show-modal-VFuncion', 'show modal!');
     }
 
     public function resetFUN()
     {
         $this->nameFuncion1= '';
+        $this->descripcion = '';
         //$this->cargoid = 'Elegir';
         $this->resetValidation(); // resetValidation para quitar los smg Rojos
-    }
-
-    // Ver Funciones de cargo
-    public function VistaFuncion($idcargo)
-    {
-        $this-> detalle = Cargo::join('funciones as fun', 'fun.cargo_id', 'cargos.id')
-        ->select('cargos.id as idcargo','fun.id as idfuncion', 'cargos.name', 'fun.cargo_id', 'fun.nameFuncion')
-        ->where('cargos.id', $idcargo)    // selecciona al empleado
-        ->get();
-        //->first();
-
-        $this->emit('show-modal-VFuncion', 'show modal!');
     }
 
     // Ver Datos a Editar de la Funcion

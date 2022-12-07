@@ -273,6 +273,7 @@ class EmployeeController extends Component
         $messages =  [
             'ci.required' => 'Numero de cedula de identidad requerida',
             'ci.unique' => 'Ya existe el numero de documento en el sistema',
+            //'ci.digits_between' => 'Solo se permite entre 8 a 12 numeros',
             'name.required' => 'Nombre de empleado es requerida',
             'name.regex' => 'Solo se permite letras',
             'lastname.required' => 'Los apellidos del empleado son requerida',
@@ -458,11 +459,15 @@ class EmployeeController extends Component
         
         $this->name = $detalle->name;
         $this->lastname = $detalle->lastname;
+        $this->email = $detalle->email;
 
         //UserEmployee::find($idEmpleado)->delete();
         
         $this->emit('show-modal-UsuEmp', 'show modal!');
-                
+        
+        // $detalle = UserEmployee::find($idEmpleado);
+
+        // $this->user_id = $detalle->userEmployee->user_id;
         // Registra datos de empleado Usuario
         $usuEmp = new UserEmployeeController;
         $usuEmp->selected_EU_id=$this->selected_EU_id;
@@ -504,7 +509,7 @@ class EmployeeController extends Component
         $this->estadoCivil = $employee->estadoCivil;
         $this->areaid = $employee->area_trabajo_id;
         $this->cargoid = $employee->cargo_id;
-        $this->image = $employee->null;
+        $this->image = $employee->image;
         $this->estado = $employee->estado;
         $this->selected_id = $employee->id;
 

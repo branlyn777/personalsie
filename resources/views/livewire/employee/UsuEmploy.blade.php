@@ -22,14 +22,14 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Email</label>
-                            <h4>{{$email}}</h4> --}}
+                            <h4>{{$email}}</h4>
                             {{-- <input type="text" wire:model.lazy="nameu" class="form-control">
                             @error('nameu')<span class="text-danger er">{{ $message }}</span>@enderror --}}
-                        {{-- </div>
-                    </div> --}}
+                        </div>
+                    </div>
                 
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
