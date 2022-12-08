@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary" style="background: #414141">
                 <h5 class="modal-title text-white">
-                    <b>{{$componentNameF}}</b>{{--$selected_id > 0 ? 'EDITAR':'CREAR'--}}
+                    <b>{{$componentNameF}}</b>
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>

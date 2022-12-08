@@ -18,11 +18,19 @@
                     </div>
                 </div>
                 
-                <div class="col-sm-12 col-md-12">
+                <div class="col-sm-12 col-md-6">
                     <div class="form-group">
                         <h6>Funcion</h6>
                         <textarea type="text" wire:model.lazy="funame" class="form-control"></textarea>
                         @error('funame')<span class="text-danger er">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <h6>Descripcion</h6>
+                        <textarea type="text" wire:model.lazy="descripcion" class="form-control"></textarea>
+                        @error('descripcion')<span class="text-danger er">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
