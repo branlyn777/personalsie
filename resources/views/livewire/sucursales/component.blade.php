@@ -3,7 +3,7 @@
         <div class="widget widget-chart-one">
             <div class="widget-heading">
                 <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
+                     <b>{{ $componentName }} | {{ $pageTitle }}</b>
                 </h4>
                 <ul class="tabs tab-pills">
 
@@ -53,7 +53,8 @@
                                             class="btn btn-warning mtmobile" title="Editar">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="javascript:void(0)" onclick="Confirm('{{ $item->id }}','{{ $item->name }}',
+                                        <a href="javascript:void(0)"
+                                            onclick="Confirm('{{ $item->id }}','{{ $item->name }}',
                                             '{{ $item->cajas->count() }}','{{ $item->usuarios->count() }}')"
                                             class="btn btn-warning" title="Borrar">
                                             <i class="fas fa-trash"></i>
