@@ -157,7 +157,7 @@
 
     function Confirmar1(id, verificar)
     {
-        if(verificar == 'no')
+        if(verificar == '1')
         {
             Swal(
                 'Error',

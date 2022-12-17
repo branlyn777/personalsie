@@ -7,9 +7,9 @@
                 </h5>
 
                 {{-- @foreach($cargos as $cargo) --}}
-                    <a href="javascript:void(0)" wire:click="NuevaFuncion({{$idcargo}})" 
+                    <a href="javascript:void(0)" wire:click="AbrirNuevaFuncion()" 
                         class=" btn btn-info p-1" style="color: #fff">
-                        <i class="fas fa-plus-circle"> Agregar</i>
+                        {{--<i class="fas fa-plus-circle">--}} Agregar</i>
                     </a>
                 {{-- @endforeach   --}}
 
@@ -22,6 +22,7 @@
                         <table class="table table-bordered table-bordered-bd-ligth striped mt-1" >
                             <thead class="text-white" style="background: #ee761c">
                                 <tr>
+                                    {{-- <th style="width: 50%;">#</th> --}}
                                     <th style="width: 50%;">FUNCION</th>
                                     <th style="width: 2%; text-align: center;">ACTIONS</th>
                                 </tr>
@@ -30,6 +31,7 @@
                                 @if ($detalle != null)
                                     @foreach($detalle as $det)
                                         <tr>
+                                            {{-- <td><h6>{{ $nro++ }}</h6></td> --}}
                                             <td><h6>{{$det->nameFuncion}}</h6></td>
             
                                             <td class="text-center">
