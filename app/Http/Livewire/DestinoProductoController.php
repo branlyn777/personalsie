@@ -542,5 +542,20 @@ dd($e->getMessage());
         return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');
     }
 
+    
+    public function limpiarstock(){
+
+        if ($this->selected_id != 'General') {
+    
+            $fut= ProductosDestino::where('destino_id',$this->selected_id)->where('stock',200)->get();
+    
+            foreach ($fut as $vals) {
+      
+                    $vals->update(['stock'=>0]);
+               
+            }
+        }
+    }
+
 
 }
